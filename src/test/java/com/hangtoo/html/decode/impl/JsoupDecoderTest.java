@@ -1,10 +1,8 @@
 package com.hangtoo.html.decode.impl;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 import java.io.IOException;
-
-import org.junit.Test;
 
 public class JsoupDecoderTest {
 

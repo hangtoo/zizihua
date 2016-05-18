@@ -1,14 +1,16 @@
 package com.hangtoo.html.decode.impl;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.hangtoo.util.FileUtil;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hangtoo.util.FileUtil;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 
@@ -20,9 +22,9 @@ import com.hangtoo.util.FileUtil;
  * 返回值为 key=thevalue
  */
 public class TempleteDecoder {
-	private static final Logger logger = LoggerFactory.getLogger(TempleteDecoder.class);
-	
-	private static String template;
+    private static final Logger logger = LoggerFactory.getLogger(TempleteDecoder.class);
+
+    private static String template;
 	
 	public static String getTemplate() {
 		return template;
@@ -36,15 +38,18 @@ public class TempleteDecoder {
 		String filedata=FileUtil.readFile(filename);
 		TempleteDecoder.template =new StringBuilder(">").append(filedata).append("<").toString();
 	}
-	
-	class Keyvalue{
-        char csrc;
-        char ctemp;
-        int s=-1,e=-1,oldri=-1,oldtj=-1;
-        int tags=-1,tage=-1;
-        String key=null,value=null;
-        boolean getkey=false,getvalue=false;
-        
+
+    @Getter
+    @Setter
+	static class Keyvalue{
+        static int oldISrc=-1,oldITemp=-1;//上次解析的位置，包括待解析串及模板串
+        static char cSrc,cTemp;//正在解析的字符及模板字符
+
+        static int iKeyStart=-1,iKeyEnd=-1;//key的开始位置，key结束位置,比如{date1}
+        static int iValueStart=-1,iValueEnd=-1;//标签的开始位置，标签的结束位置，比如>2016-01-02<
+        static String key=null,value=null;//获得的key，获得的value
+        static boolean isGetKey=false,isGetValue=false;//是否已经获得当前key和value
+
         @Override
         public String toString(){
         	JSONArray json = new JSONArray(this);
@@ -70,109 +75,92 @@ public class TempleteDecoder {
         if ((src != null) && (src.length() > 0)) {
         	
         	src=new StringBuilder(">").append(src).append("<").toString();
-        	
-        	logger.debug(src); 
-        	
-            char cSrc;
-            char cTemp;
-            int s=-1,e=-1,oldISrc=-1,oldITemp=-1;
-            int tags=-1,tage=-1;
-            String key=null,value=null;
-            boolean isGetKey=false,isGetValue=false;
+        	logger.debug(src);
+
             for (int iSrc=0,iTemp = 0; iSrc <= src.length() - 1&&iTemp<=template.length() - 1; ) {  
             	//logger.debug("ri="+ri+";tj="+tj+";");
             	
-            	if(oldISrc==iSrc&&oldITemp==iTemp){
+            	if(Keyvalue.oldISrc==iSrc&&Keyvalue.oldITemp==iTemp){
             		logger.debug(src.substring(0,iSrc));
             		logger.info("==============decoder error===============");
             		logger.debug(template.substring(0,iTemp));
             		break;
             	}else{
-            		oldISrc=iSrc;
-            		oldITemp=iTemp;
+            		Keyvalue.oldISrc=iSrc;
+                    Keyvalue.oldITemp=iTemp;
             	}
-            	
-            	cSrc = src.charAt(iSrc);
-            	cTemp=template.charAt(iTemp);
-            	
-            	if(cSrc=='\n'||cSrc=='\t'||cSrc==' '||cSrc=='\r'){
+
+                Keyvalue.cSrc = src.charAt(iSrc);
+                Keyvalue.cTemp=template.charAt(iTemp);
+
+                //跳过回车符，制表符，换行符，空格等
+            	if(Keyvalue.cSrc=='\n'||Keyvalue.cSrc=='\t'||Keyvalue.cSrc==' '||Keyvalue.cSrc=='\r'){
             		iSrc++;
             		continue;
             	}
-            	
-            	if(cTemp=='\n'||cTemp=='\t'||cTemp==' '||cTemp=='\r'){
+            	if(Keyvalue.cTemp=='\n'||Keyvalue.cTemp=='\t'||Keyvalue.cTemp==' '||Keyvalue.cTemp=='\r'){
             		iTemp++;
             		continue;
             	}
-            	
-            	if(cTemp=='*'){
+            	//模板为*表示可以匹配任何字符，同步往前
+            	if(Keyvalue.cTemp=='*'){
                     iSrc++;
             		iTemp++;
             		continue;
             	}
-            	
-            	if(cSrc==cTemp){//如果相同,则继续往前
-            		
-                    switch (cSrc) {
+                //如果相同,则同步往前
+            	if(Keyvalue.cSrc==Keyvalue.cTemp){
+                    switch (Keyvalue.cSrc) {
                     case '>':
-                    	tags=iSrc;
+                        Keyvalue.iValueStart=iSrc;
                         break;  
                     case '<':
-                    	tage=iSrc;
+                        Keyvalue.iValueEnd=iSrc;
                     	break;
                     }
-                    
                     iSrc++;
             		iTemp++;
-                    
             	}else{
-            		
-            		switch(cTemp){
+            		switch(Keyvalue.cTemp){
             		case '{':
-            			s=iTemp;
+                        Keyvalue.iKeyStart=iTemp;
             			break;
             		case '}':
-            			e=iTemp;
-            			key=template.substring(s+1,e);
-            			e=-1;
-            			isGetKey=true;
+                        Keyvalue.iKeyEnd=iTemp;
+                        Keyvalue.key=template.substring(Keyvalue.iKeyStart+1,Keyvalue.iKeyEnd);
+                        Keyvalue.iKeyEnd=-1;
+                        Keyvalue.isGetKey=true;
             			iTemp++;
             			break;
             		}
-            		
-        			if(!isGetKey){
+            		//先走模板，找key
+        			if(!Keyvalue.isGetKey){
         				iTemp++;
         			}
-        			
-    				if(!isGetValue&&cSrc!='<'){
+        			//再走待解析字符串，找value
+    				if(!Keyvalue.isGetValue&&Keyvalue.cSrc!='<'){
     					iSrc++;
     				}
             	}
-            	
-            	
-    			if(s!=-1&tags!=-1&&tage!=-1&&tage>tags){
-    				value=src.substring(tags+1,tage);
-    				isGetValue=true;
-    				tags=-1;
-    				tage=-1;
-        			s=-1;
-    			}
-    			
-    			logger.debug(">tags="+tags+";<tage="+tage+";getkey="+isGetKey+";getvalue="+isGetValue+";key="+key+";value="+value+";ri="+iSrc+";tj="+iTemp+";r="+cSrc+";t="+cTemp);
-    			
-            	if(isGetKey&&isGetValue){
-            		result.put(key, value);
-            		isGetKey=false;
-            		isGetValue=false;
-            	}
-            	
 
+                //在找到key及value的开始字符，并且找到了value的结束字符，且结束字符位置要晚于开始字符位置
+    			if(Keyvalue.iKeyStart!=-1&Keyvalue.iValueStart!=-1&&Keyvalue.iValueEnd!=-1&&Keyvalue.iValueEnd>Keyvalue.iValueStart){
+                    Keyvalue.value=src.substring(Keyvalue.iValueStart+1,Keyvalue.iValueEnd);
+                    Keyvalue.isGetValue=true;
+                    Keyvalue.iValueStart=-1;
+                    Keyvalue.iValueEnd=-1;
+                    Keyvalue.iKeyStart=-1;
+    			}
+    			logger.debug(">iValueStart="+Keyvalue.iValueStart+";<iValueEnd="+Keyvalue.iValueEnd+";getkey="+Keyvalue.isGetKey+";getvalue="+Keyvalue.isGetValue+";key="+Keyvalue.key+";value="+Keyvalue.value
+                        +";iSrc="+iSrc+";iTemp="+iTemp+";r="+Keyvalue.cSrc+";t="+Keyvalue.cTemp);
+            	if(Keyvalue.isGetKey&&Keyvalue.isGetValue){
+            		result.put(Keyvalue.key, Keyvalue.value);
+                    Keyvalue.isGetKey=false;
+                    Keyvalue.isGetValue=false;
+            	}
             }
-            
         }
-		
-		
-		
+
 		return result;
 	}
 	

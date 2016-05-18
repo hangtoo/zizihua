@@ -1,12 +1,11 @@
 package com.hangtoo.common.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.hangtoo.common.IHttpGetPostData;
 import org.apache.http.NameValuePair;
 import org.junit.Test;
 
-import com.hangtoo.common.IHttpGetPostData;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HttpGetPostDataTest {
 
