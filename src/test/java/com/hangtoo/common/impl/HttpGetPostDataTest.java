@@ -12,7 +12,7 @@ public class HttpGetPostDataTest {
 	@Test
 	public void testGetData() {
 		
-		IHttpGetPostData httpGetPostData=HttpGetPostData.getInstance();
+		IHttpGetPostData httpGetPostData=HttpClientGetPostData.getInstance();
 		try {
 			String url="http://www.baidu.com";
 			String ret=httpGetPostData.getData(url);
@@ -25,7 +25,7 @@ public class HttpGetPostDataTest {
 
 	@Test
 	public void testPostData() {
-		IHttpGetPostData httpGetPostData=HttpGetPostData.getInstance();
+		IHttpGetPostData httpGetPostData=HttpClientGetPostData.getInstance();
 		try {
 			String url="http://www.baidu.com";
 			List<NameValuePair> formParams=new ArrayList<NameValuePair>();

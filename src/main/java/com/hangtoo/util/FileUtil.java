@@ -111,7 +111,7 @@ public class FileUtil {
 		File fileSource = new File(strSourceFileName);
 		// 如果源文件不存或源文件是文件夹
 		if (!fileSource.exists() || !fileSource.isFile()) {
-			logger.debug("源文件[" + strSourceFileName + "],不存在或是文件夹!");
+			logger.debug("源文件[" + strSourceFileName + "],可能不存在或是文件夹!");
 			
 			InputStream inputStream = FileUtil.class.getResourceAsStream(strSourceFileName);
 			byte b[]=null;

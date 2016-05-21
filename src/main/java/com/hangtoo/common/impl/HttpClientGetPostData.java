@@ -17,16 +17,16 @@ import org.slf4j.LoggerFactory;
 
 import com.hangtoo.common.IHttpGetPostData;
 
-public class HttpGetPostData implements IHttpGetPostData {
-	private static final Logger logger = LoggerFactory.getLogger(HttpGetPostData.class);
+public class HttpClientGetPostData implements IHttpGetPostData {
+	private static final Logger logger = LoggerFactory.getLogger(HttpClientGetPostData.class);
 
 	private static IHttpGetPostData instance = null;
 	
-	private HttpGetPostData(){
+	private HttpClientGetPostData(){
 	}
 	public static IHttpGetPostData getInstance() {
 		if(instance==null){
-			instance=new HttpGetPostData();
+			instance=new HttpClientGetPostData();
 		}
 		return instance;
 	}
