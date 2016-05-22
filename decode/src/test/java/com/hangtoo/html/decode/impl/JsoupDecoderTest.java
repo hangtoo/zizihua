@@ -6,11 +6,13 @@ import java.util.Map;
 import org.jsoup.Jsoup;
 import org.junit.Test;
 
+import com.hangtoo.html.decode.HtmlDecoder;
+
 public class JsoupDecoderTest {
 
 	@Test
 	public void testGetData() {
-		JsoupTableDecoder jsoupDecoder=new JsoupTableDecoder();
+		HtmlDecoder jsoupDecoder=new JsoupTableDecoder();
 		try {
 			String url="http://www.szse.cn/szseWeb/FrontController.szse?ACTIONID=7&AJAX=AJAX-TRUE&CATALOGID=1803&TABKEY=tab1&txtQueryDate=2016-05-20&REPORT_ACTION=search";
 			String src=Jsoup.connect(url).get().html();
