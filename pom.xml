@@ -13,8 +13,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		
+
 		<!-- Common libs -->
+		<spring_version>4.1.6.RELEASE</spring_version>
 		<json_version>20160212</json_version>
 		<slf4j_version>1.7.21</slf4j_version>
 		<httpclient_version>4.5.2</httpclient_version>
@@ -23,14 +24,45 @@
 		<jsoup_version>1.8.3</jsoup_version>
 		<lombok_version>1.16.6</lombok_version>
 		<junit_version>4.11</junit_version>
+		<mybatis_version>3.3.1</mybatis_version>
+		<beanutils_version>1.9.2</beanutils_version>
+		<tomcat_embed_version>7.0.55</tomcat_embed_version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-			    <groupId>commons-codec</groupId>
-			    <artifactId>commons-codec</artifactId>
-			    <version>${codec_version}</version>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring_version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring_version}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.springframework</groupId>
+			    <artifactId>spring-webmvc</artifactId>
+				<version>${spring_version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.springframework</groupId>
+			    <artifactId>spring-tx</artifactId>
+			    <version>${spring_version}</version>
+			</dependency>
+			
+<dependency>
+    <groupId>commons-beanutils</groupId>
+    <artifactId>commons-beanutils</artifactId>
+    <version>${beanutils_version}</version>
+</dependency>
+			
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${codec_version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
@@ -52,6 +84,13 @@
 				<artifactId>json</artifactId>
 				<version>${json_version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis_version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
@@ -62,29 +101,41 @@
 				<artifactId>jsoup</artifactId>
 				<version>${jsoup_version}</version>
 			</dependency>
-	        <dependency>
-	            <groupId>org.projectlombok</groupId>
-	            <artifactId>lombok</artifactId>
-	            <version>${lombok_version}</version>
-	        </dependency>
 			<dependency>
-				<groupId>com.hangtoo</groupId>
-				<artifactId>zizihua-common</artifactId>
-				<version>${project.parent.version}</version>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok_version}</version>
 			</dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>${tomcat_embed_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-logging-juli</artifactId>
+                <version>${tomcat_embed_version}</version>
+            </dependency>
+            
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>${junit_version}</version>
 				<scope>test</scope>
 			</dependency>
-
+			<dependency>
+				<groupId>com.hangtoo</groupId>
+				<artifactId>zizihua-common</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<modules>
-		<module>decode</module>
-		<module>common</module>
+		<module>zizihua-decode</module>
+		<module>zizihua-common</module>
+		<module>zizihua-stock</module>
+		<module>zizihua-base</module>
 	</modules>
 
 </project>
