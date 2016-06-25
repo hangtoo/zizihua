@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task"  
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!-- Annotation Config -->	
+	<context:annotation-config/>
+	
+	<!-- 引入属性文件 -->
+	<context:property-placeholder location="classpath:config.properties" />
+	
+	<!-- 扫描Service -->
+	<context:component-scan base-package="com.jeecg.service" />
+	<context:component-scan base-package="scott.service.*" />
+	
+
+	<!-- task任务扫描注解 -->
+	<!-- 定时器配置 
+    task:executor/@pool-size：可以指定执行线程池的初始大小、最大大小 
+    task:executor/@queue-capacity：等待执行的任务队列的容量 
+    task:executor/@rejection-policy：当等待队已满时的策略，分为丢弃、由任务执行器直接运行等方式 
+   -->
+<!--     <task:scheduler id="scheduler" pool-size="10" />  
+    <task:executor id="executor" keep-alive="3600" pool-size="100-200" queue-capacity="500" rejection-policy="CALLER_RUNS" /> 
+    <task:annotation-driven executor="executor" scheduler="scheduler" /> -->
+    
+    <task:annotation-driven/>
+<!--     
+	<bean id="job" class="scott.job.shuhe.Job"></bean>
+    <task:scheduled-tasks>  
+	               这里表示的是每隔五秒执行一次 
+        <task:scheduled ref="job" method="taskCycle" cron="*/5 * * * * ?" />
+		<task:scheduled ref="job" method="taskCycle" cron="0 0/5 * * * ?" /> 
+		  这里表示的是每天1点15执行一次  
+        <task:scheduled ref="job" method="taskCycle" cron="0 15 1 * * ?" />
+        <task:scheduled ref="job" method="openorclose" cron="0 15 5 * * ?" />
+    </task:scheduled-tasks> 
+ -->	
+
+	<!-- ***************配置数据源************** -->
+	<!-- 数据源  -->
+	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc_url}" />
+		<property name="username" value="${jdbc_username}" />
+		<property name="password" value="${jdbc_password}" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="0" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+		<!-- 连接池最大空闲 -->
+		<property name="maxIdle" value="20" />
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="0" />
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+		<!-- 
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="33" />
+		 -->
+		<property name="validationQuery" value="${validationQuery}" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
+		<!-- 打开removeAbandoned功能 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 1800秒，也就是30分钟 -->
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="true" /> 
+		<!-- 监控数据库 -->
+		<!-- 
+		<property name="filters" value="stat" />
+		 -->
+		<property name="filters" value="mergeStat" />
+		<property name="useGlobalDataSourceStat" value="false" />
+	</bean>
+	
+	<!-- ***************事务配置************** -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!-- 扫描 MyBatis Sql -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			 <list>
+			  	<value>classpath:com/jeecg/mapper/*Mapper.xml</value>
+			  	<value>classpath:scott/mapper/*/*Mapper.xml</value>
+			 </list>
+		</property>
+	</bean>
+	
+	<!-- 扫描mapper.java  -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">    
+	    <property name="basePackage" value="com.jeecg.dao,scott.dao.*" />
+	    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+	</bean>
+  
+	<!-- Spring 工具类 -->
+	<bean id="springContextUtil" class="com.base.util.SpringContextUtil" />
+	
+	<!-- 配置druid监控spring jdbc -->
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	</bean>
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.jeecg.service.*</value>
+				<value>scott.service.*</value>
+			</list>
+		</property>
+	</bean>
+	<aop:config>
+		<aop:advisor advice-ref="druid-stat-interceptor"
+			pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
+	
+	<!-- 公共信息，也可以用dubbo.properties配置  -->
+<!-- <dubbo:application name="annotation-consumer" />
+	<dubbo:registry address="zookeeper://127.0.0.1:2181" check="false"/>
+ -->	
+
+	<!-- 扫描注解包路径，多个包用逗号分隔，不填pacakge表示扫描当前ApplicationContext中所有的类  -->
+<!-- <dubbo:annotation package="com.jeecg.controller" />
+	<dubbo:protocol name="dubbo" serialization="fastjson"/>
+	<dubbo:protocol name="rest" port="8888" contextpath="services" server="tomcat"/>
+ -->
+	
+	
+</beans>
+

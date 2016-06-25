@@ -22,7 +22,7 @@ public interface SysMenuMapper<T> extends BaseDao<T> {
 	 * 获取顶级菜单
 	 * @return
 	 */
-	public List<T> getRootMenu(java.util.Map map);
+	public List<T> getRootMenu(java.util.Map<String, Integer> map);
 	
 	/**
 	 * 获取子菜单

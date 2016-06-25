@@ -207,7 +207,6 @@ public class MainAction extends BaseAction {
 		HtmlUtil.writerJson(response, result);
 	}
 	 
-	
 	/**
 	 * 修改密码
 	 * @param url
@@ -280,7 +279,6 @@ public class MainAction extends BaseAction {
 		return util.getTreeNode();
 	}
 	
-	
 	/**
 	 * 构建树形数据
 	 * @return
@@ -289,7 +287,7 @@ public class MainAction extends BaseAction {
 		//能够访问的url列表
 		List<String> accessUrls  = new ArrayList<String>();
 		//菜单对应的按钮
-		Map<String,List> menuBtnMap = new HashMap<String,List>(); 
+		Map<String,List<String>> menuBtnMap = new HashMap<String,List<String>>(); 
 		for(SysMenu menu: childMenus){
 			//判断URL是否为空
 			if(StringUtils.isNotBlank(menu.getUrl())){

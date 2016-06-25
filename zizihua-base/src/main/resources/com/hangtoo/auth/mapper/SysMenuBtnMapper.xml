@@ -16,8 +16,7 @@
 <sql id="Base_Column_List" >
 	 id,menuid,btnName,btnType,actionUrls
 </sql>
-   
-   
+
 <!-- 查询条件 -->
 <sql id="Example_Where_Clause">
 where 1=1

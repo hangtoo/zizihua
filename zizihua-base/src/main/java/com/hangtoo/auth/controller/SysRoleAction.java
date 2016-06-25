@@ -129,15 +129,11 @@ public class SysRoleAction extends BaseAction{
 		HtmlUtil.writerJson(response, context);
 	}
 	
-	
-	
 	@RequestMapping("/delete")
 	public void delete(Integer[] id,HttpServletResponse response) throws Exception{
 		sysRoleService.delete(id);
 		sendSuccessMessage(response, "删除成功");
 	}
-	
-	
 	
 	@RequestMapping("/loadRoleList")
 	public void loadRoleList(HttpServletResponse response) throws Exception{

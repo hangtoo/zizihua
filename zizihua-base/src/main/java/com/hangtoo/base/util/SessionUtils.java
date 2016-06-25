@@ -179,7 +179,7 @@ public final class SessionUtils {
 	  * @param request
 	  * @param btnMap
 	  */
-	 public static void setMemuBtnMap(HttpServletRequest request,@SuppressWarnings("rawtypes") Map<String,List> btnMap){ //判断登录用户是否超级管理员
+	 public static void setMemuBtnMap(HttpServletRequest request,Map<String,List<String>> btnMap){ //判断登录用户是否超级管理员
 		 setAttr(request, SESSION_MENUBTN_MAP, btnMap);
 	 }
 	 

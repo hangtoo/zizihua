@@ -8,9 +8,11 @@
 		<groupId>com.hangtoo</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
 	<artifactId>zizihua-decode</artifactId>
 	<name>${project.artifactId}</name>
 	<url>http://maven.apache.org</url>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -32,14 +34,10 @@
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.hangtoo</groupId>
 			<artifactId>zizihua-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

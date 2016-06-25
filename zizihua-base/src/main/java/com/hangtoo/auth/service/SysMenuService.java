@@ -148,9 +148,6 @@ public class SysMenuService<T> extends BaseService<T> {
 			sysMenuBtnService.deleteByMenuid((Integer)id);
 		}
 	}
-
-	
-	
 	
 	public SysMenuMapper<T> getDao() {
 		return mapper;
