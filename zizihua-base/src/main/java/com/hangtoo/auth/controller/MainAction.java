@@ -45,13 +45,13 @@ public class MainAction extends BaseAction {
 	private String message = null;
 	// Servrice start
 	@Autowired(required=false) 
-	private SysMenuService<SysMenu> sysMenuService; 
+	private SysMenuService sysMenuService; 
 	
 	@Autowired(required=false) 
-	private SysUserService<SysUser> sysUserService; 
+	private SysUserService sysUserService; 
 	
 	@Autowired(required=false) 
-	private SysMenuBtnService<SysMenuBtn> sysMenuBtnService;
+	private SysMenuBtnService sysMenuBtnService;
 	
 /*	@Reference(version="1.0.0",check=false)
 	private DemoService demoService;*/

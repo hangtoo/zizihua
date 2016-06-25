@@ -7,8 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,17 +28,15 @@ import com.hangtoo.base.web.BaseAction;
 @RequestMapping("/sysRole") 
 public class SysRoleAction extends BaseAction{
 	
-	private final static Logger log= Logger.getLogger(SysRoleAction.class);
+	// Servrice start
+	@Autowired(required=false) 
+	private SysRoleService sysRoleService; 
 	
 	// Servrice start
 	@Autowired(required=false) 
-	private SysRoleService<SysRole> sysRoleService; 
-	
-	// Servrice start
+	private SysMenuService sysMenuService; 
 	@Autowired(required=false) 
-	private SysMenuService<SysMenu> sysMenuService; 
-	@Autowired(required=false) 
-	private SysRoleRelService<SysRoleRel> sysRoleRelService;
+	private SysRoleRelService sysRoleRelService;
 	/**
 	 * 
 	 * @param url
@@ -88,7 +85,6 @@ public class SysRoleAction extends BaseAction{
 		sendSuccessMessage(response, "保存成功~");
 	}
 	
-	
 	@RequestMapping("/getId")
 	public void getId(Integer id,HttpServletResponse response) throws Exception{
 		Map<String,Object>  context = new HashMap<String,Object> ();
@@ -121,7 +117,7 @@ public class SysRoleAction extends BaseAction{
 		}
 
 		//将对象转成Map
-		Map data = BeanUtils.describe(bean);
+		Map<String, Object> data = PropertyUtils.describe(bean);
 		data.put("menuIds", menuIds);
 		data.put("btnIds", btnIds);
 		context.put(SUCCESS, true);
@@ -130,7 +126,7 @@ public class SysRoleAction extends BaseAction{
 	}
 	
 	@RequestMapping("/delete")
-	public void delete(Integer[] id,HttpServletResponse response) throws Exception{
+	public void delete(Object[] id,HttpServletResponse response) throws Exception{
 		sysRoleService.delete(id);
 		sendSuccessMessage(response, "删除成功");
 	}

@@ -32,10 +32,10 @@ public class SysMenuAction extends BaseAction{
 	
 	// Servrice start
 	@Autowired(required=false) //自动注入，不需要生成set方法了，required=false表示没有实现类，也不会报错。
-	private SysMenuService<SysMenu> sysMenuService; 
+	private SysMenuService sysMenuService; 
 	
 	@Autowired
-	private SysMenuBtnService<SysMenuBtn> sysMenuBtnService;
+	private SysMenuBtnService sysMenuBtnService;
 	
 	/**
 	 * ilook 首页
@@ -125,7 +125,7 @@ public class SysMenuAction extends BaseAction{
 	}
 	
 	@RequestMapping("/delete")
-	public void delete(Integer[] id,HttpServletResponse response) throws Exception{
+	public void delete(Object[] id,HttpServletResponse response) throws Exception{
 		if(id != null && id.length > 0){
 			sysMenuService.delete(id);
 			sendSuccessMessage(response, "删除成功");

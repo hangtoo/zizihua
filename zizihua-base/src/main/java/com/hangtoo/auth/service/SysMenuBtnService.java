@@ -2,38 +2,27 @@ package com.hangtoo.auth.service;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hangtoo.auth.entity.SysMenuBtn;
 import com.hangtoo.auth.mapper.SysMenuBtnMapper;
 import com.hangtoo.base.service.BaseService;
 
-/**
- * 
- * <br>
- * <b>功能：</b>SysMenuBtnService<br>
- * <b>作者：</b>JEECG<br>
- * <b>日期：</b> Dec 9, 2013 <br>
- * <b>版权所有：<b>版权所有(C) 2013，www.jeecg.org<br>
- */
 @Service("sysMenuBtnService")
 @Transactional
-public class SysMenuBtnService<T> extends BaseService<T> {
-	private final static Logger log= Logger.getLogger(SysMenuBtnService.class);
+public class SysMenuBtnService extends BaseService<SysMenuBtn> {
 	
-	public List<T> queryByAll(){
+	public List<SysMenuBtn> queryByAll(){
 		return getDao().queryByAll();
 	}
 	
-	
-	
-	public List<T> queryByMenuid(Integer menuid){
+	public List<SysMenuBtn> queryByMenuid(Integer menuid){
 		return getDao().queryByMenuid(menuid);
 	}
 	
-	public List<T> queryByMenuUrl(String url){
+	public List<SysMenuBtn> queryByMenuUrl(String url){
 		return getDao().queryByMenuUrl(url);
 	}
 	
@@ -41,15 +30,15 @@ public class SysMenuBtnService<T> extends BaseService<T> {
 		getDao().deleteByMenuid(menuid);
 	}
 	
-	public List<T> getMenuBtnByUser(Integer userid){
+	public List<SysMenuBtn> getMenuBtnByUser(Integer userid){
 		return getDao().getMenuBtnByUser(userid);
 	}
 
 	@Autowired
-    private SysMenuBtnMapper<T> mapper;
+    private SysMenuBtnMapper<SysMenuBtn> mapper;
 
 		
-	public SysMenuBtnMapper<T> getDao() {
+	public SysMenuBtnMapper<SysMenuBtn> getDao() {
 		return mapper;
 	}
 

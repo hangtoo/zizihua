@@ -32,11 +32,11 @@ public class SysUserAction extends BaseAction{
 	
 	// Servrice start
 	@Autowired(required=false) //自动注入，不需要生成set方法了，required=false表示没有实现类，也不会报错。
-	private SysUserService<SysUser> sysUserService; 
+	private SysUserService sysUserService; 
 	
 	// Servrice start
 	@Autowired(required=false) 
-	private SysRoleService<SysRole> sysRoleService; 
+	private SysRoleService sysRoleService; 
 	/**
 	 * ilook 首页
 	 * @param url
@@ -147,7 +147,7 @@ public class SysUserAction extends BaseAction{
 	}
 	
 	@RequestMapping("/delete")
-	public void delete(Integer[] id,HttpServletResponse response) throws Exception{
+	public void delete(Object[] id,HttpServletResponse response) throws Exception{
 		sysUserService.delete(id);
 		sendSuccessMessage(response, "删除成功");
 	}

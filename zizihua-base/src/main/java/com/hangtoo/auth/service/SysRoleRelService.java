@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,19 +13,9 @@ import com.hangtoo.auth.entity.SysRoleRel;
 import com.hangtoo.auth.mapper.SysRoleRelMapper;
 import com.hangtoo.base.service.BaseService;
 
-/**
- * 
- * <br>
- * <b>功能：</b>SysRoleRelService<br>
- * <b>作者：</b>JEECG<br>
- * <b>日期：</b> Dec 9, 2013 <br>
- * <b>版权所有：<b>版权所有(C) 2013，www.jeecg.org<br>
- */
 @Service("sysRoleRelService")
 @Transactional
-public class SysRoleRelService<T> extends BaseService<T> {
-	private final static Logger log= Logger.getLogger(SysRoleRelService.class);
-	
+public class SysRoleRelService extends BaseService<SysRoleRel> {
 	
 	public List<SysRoleRel> queryByRoleId(Integer roleId,Integer relType){
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -74,15 +63,11 @@ public class SysRoleRelService<T> extends BaseService<T> {
 		param.put("relType", relType);
 		getDao().deleteByRoleId(param);
 	}
-	
-	
-	
 
 	@Autowired
-    private SysRoleRelMapper<T> mapper;
-
+    private SysRoleRelMapper<SysRoleRel> mapper;
 		
-	public SysRoleRelMapper<T> getDao() {
+	public SysRoleRelMapper<SysRoleRel> getDao() {
 		return mapper;
 	}
 
