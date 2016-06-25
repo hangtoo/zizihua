@@ -2,6 +2,8 @@ package com.hangtoo.auth.mapper;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.hangtoo.base.dao.BaseDao;
 
 /**
@@ -9,6 +11,7 @@ import com.hangtoo.base.dao.BaseDao;
  * @author Administrator
  *
  */
+@Component
 public interface SysMenuMapper<T> extends BaseDao<T> {
 	
 	/**

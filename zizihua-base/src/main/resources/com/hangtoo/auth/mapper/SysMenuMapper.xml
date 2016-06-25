@@ -2,9 +2,10 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jeecg.dao.SysMenuDao" > 
+<mapper namespace="com.hangtoo.auth.mapper.SysMenuMapper" > 
+
 <!-- Result Map-->
-<resultMap id="BaseResultMap" type="com.jeecg.entity.SysMenu" >
+<resultMap id="BaseResultMap" type="com.hangtoo.auth.entity.SysMenu" >
 	<result column="id" property="id"/>
 	<result column="name" property="name"/>
 	<result column="url" property="url"/>
@@ -17,7 +18,7 @@
 </resultMap>
 
 <!-- 扩展字段 -->
-<resultMap id="ExtResultMap" extends="BaseResultMap" type="com.jeecg.entity.SysMenu" >
+<resultMap id="ExtResultMap" extends="BaseResultMap" type="com.hangtoo.auth.entity.SysMenu" >
 	<result column="subCount" property="subCount"/>
 </resultMap>
 

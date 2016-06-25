@@ -19,24 +19,22 @@
 	
 	<!-- 引入属性文件 -->
 	<context:property-placeholder location="classpath:config.properties" />
-	
-	<!-- 扫描Service -->
-	<context:component-scan base-package="com.jeecg.service" />
-	<context:component-scan base-package="scott.service.*" />
-	
 
 	<!-- task任务扫描注解 -->
 	<!-- 定时器配置 
     task:executor/@pool-size：可以指定执行线程池的初始大小、最大大小 
     task:executor/@queue-capacity：等待执行的任务队列的容量 
     task:executor/@rejection-policy：当等待队已满时的策略，分为丢弃、由任务执行器直接运行等方式 
-   -->
-<!--     <task:scheduler id="scheduler" pool-size="10" />  
+   	-->
+	
+	<!--     
+	<task:scheduler id="scheduler" pool-size="10" />  
     <task:executor id="executor" keep-alive="3600" pool-size="100-200" queue-capacity="500" rejection-policy="CALLER_RUNS" /> 
-    <task:annotation-driven executor="executor" scheduler="scheduler" /> -->
+    <task:annotation-driven executor="executor" scheduler="scheduler" />
+     -->
     
     <task:annotation-driven/>
-<!--     
+	<!--     
 	<bean id="job" class="scott.job.shuhe.Job"></bean>
     <task:scheduled-tasks>  
 	               这里表示的是每隔五秒执行一次 
@@ -46,7 +44,7 @@
         <task:scheduled ref="job" method="taskCycle" cron="0 15 1 * * ?" />
         <task:scheduled ref="job" method="openorclose" cron="0 15 5 * * ?" />
     </task:scheduled-tasks> 
- -->	
+ 	-->	
 
 	<!-- ***************配置数据源************** -->
 	<!-- 数据源  -->
@@ -102,20 +100,19 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations">
 			 <list>
-			  	<value>classpath:com/jeecg/mapper/*Mapper.xml</value>
-			  	<value>classpath:scott/mapper/*/*Mapper.xml</value>
+			  	<value>classpath:com/hangtoo/auth/mapper/*Mapper.xml</value>
 			 </list>
 		</property>
 	</bean>
 	
 	<!-- 扫描mapper.java  -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">    
-	    <property name="basePackage" value="com.jeecg.dao,scott.dao.*" />
+	    <property name="basePackage" value="com.hangtoo.auth.mapper" />
 	    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 	</bean>
-  
-	<!-- Spring 工具类 -->
-	<bean id="springContextUtil" class="com.base.util.SpringContextUtil" />
+	
+	<!-- 扫描Service -->
+	<context:component-scan base-package="com.hangtoo.auth.service" />
 	
 	<!-- 配置druid监控spring jdbc -->
 	<bean id="druid-stat-interceptor"
@@ -125,8 +122,7 @@
 		scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>com.jeecg.service.*</value>
-				<value>scott.service.*</value>
+				<value>com.hangtoo.auth.service.*</value>
 			</list>
 		</property>
 	</bean>
@@ -136,16 +132,17 @@
 	</aop:config>
 	
 	<!-- 公共信息，也可以用dubbo.properties配置  -->
-<!-- <dubbo:application name="annotation-consumer" />
+	<!-- 
+	<dubbo:application name="annotation-consumer" />
 	<dubbo:registry address="zookeeper://127.0.0.1:2181" check="false"/>
- -->	
+ 	-->	
 
 	<!-- 扫描注解包路径，多个包用逗号分隔，不填pacakge表示扫描当前ApplicationContext中所有的类  -->
-<!-- <dubbo:annotation package="com.jeecg.controller" />
+	<!-- 
+	<dubbo:annotation package="com.jeecg.controller" />
 	<dubbo:protocol name="dubbo" serialization="fastjson"/>
 	<dubbo:protocol name="rest" port="8888" contextpath="services" server="tomcat"/>
- -->
-	
+	 -->
 	
 </beans>
 

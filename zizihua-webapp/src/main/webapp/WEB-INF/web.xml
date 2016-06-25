@@ -85,31 +85,6 @@
 		<url-pattern>*.shtml</url-pattern>
 	</servlet-mapping>
 
-	<!-- ImageServlet -->
-	<servlet>
-		<servlet-name>ImageServlet</servlet-name>
-		<servlet-class>com.jeecg.servlet.ImageServlet</servlet-class>
-		<init-param>
-			<param-name>width</param-name>
-			<param-value>65</param-value>
-		</init-param>
-		<init-param>
-			<param-name>height</param-name>
-			<param-value>23</param-value>
-		</init-param>
-		<init-param>
-			<param-name>codeCount</param-name>
-			<param-value>4</param-value>
-		</init-param>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>ImageServlet</servlet-name>
-		<url-pattern>/ImageServlet</url-pattern>
-	</servlet-mapping>
-	<!-- ImageServlet -->
-
-
 	<welcome-file-list>
 		<welcome-file>view/login.jsp</welcome-file>
 		<welcome-file>index.html</welcome-file>

@@ -15,19 +15,25 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Common libs -->
-		<spring_version>4.1.6.RELEASE</spring_version>
-		<mybatis-spring_version>1.2.2</mybatis-spring_version>
+		<commons_lang3_version>3.4</commons_lang3_version>
+		<commons_codec_version>1.10</commons_codec_version>
+		<commons_beanutils_version>1.9.2</commons_beanutils_version>
+		
 		<json_version>20160212</json_version>
+		<jsoup_version>1.8.3</jsoup_version>
 		<slf4j_version>1.7.21</slf4j_version>
 		<httpclient_version>4.5.2</httpclient_version>
-		<lang3_version>3.4</lang3_version>
-		<codec_version>1.10</codec_version>
-		<jsoup_version>1.8.3</jsoup_version>
 		<lombok_version>1.16.6</lombok_version>
-		<junit_version>4.11</junit_version>
+		<aspectjweaver_version>1.8.9</aspectjweaver_version>
+		
+		<mysql_connector_version>5.1.39</mysql_connector_version>
+		<druid_version>1.0.20</druid_version>
 		<mybatis_version>3.2.8</mybatis_version>
-		<beanutils_version>1.9.2</beanutils_version>
+		<mybatis-spring_version>1.2.2</mybatis-spring_version>
+		<spring_version>4.1.6.RELEASE</spring_version>
 		<tomcat_embed_version>7.0.55</tomcat_embed_version>
+		
+		<junit_version>4.11</junit_version>
 	</properties>
 
 	<dependencyManagement>
@@ -55,15 +61,21 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring_version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>commons-beanutils</groupId>
 				<artifactId>commons-beanutils</artifactId>
-				<version>${beanutils_version}</version>
+				<version>${commons_beanutils_version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
-				<version>${codec_version}</version>
+				<version>${commons_codec_version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
@@ -101,13 +113,32 @@
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
-				<version>${lang3_version}</version>
+				<version>${commons_lang3_version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jsoup</groupId>
 				<artifactId>jsoup</artifactId>
 				<version>${jsoup_version}</version>
 			</dependency>
+			
+			<dependency>
+			    <groupId>com.alibaba</groupId>
+			    <artifactId>druid</artifactId>
+			    <version>${druid_version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql_connector_version}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.aspectj</groupId>
+			    <artifactId>aspectjweaver</artifactId>
+			    <version>${aspectjweaver_version}</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>

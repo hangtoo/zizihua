@@ -9,9 +9,7 @@
 
 
 	<!-- 扫描classpath的包下的所有类，该包路径下的类可以不需要配置bean了 -->
-	<context:component-scan base-package="com.jeecg.controller" />
-	<context:component-scan base-package="scott.controller.*" />
-	<context:component-scan base-package="com.shuhe.controller" />
+	<context:component-scan base-package="com.hangtoo.auth.controller" />
 	<!-- Configures the @Controller programming model -->
 	<mvc:annotation-driven />
 
@@ -19,8 +17,8 @@
 	<mvc:interceptors>
 		<!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de -->
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-		<bean class="com.base.interceptor.AuthInterceptor" />
-		<bean class="com.base.interceptor.ExceptionInterceptor" />
+		<bean class="com.hangtoo.base.interceptor.AuthInterceptor" />
+		<bean class="com.hangtoo.base.interceptor.ExceptionInterceptor" />
 	</mvc:interceptors>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
