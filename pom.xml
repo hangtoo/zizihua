@@ -25,19 +25,27 @@
 		<httpclient_version>4.5.2</httpclient_version>
 		<lombok_version>1.16.6</lombok_version>
 		<aspectjweaver_version>1.8.9</aspectjweaver_version>
-		
+		<velocity_version>1.7</velocity_version>
+		<dom4j_version>1.6.1</dom4j_version>
 		<mysql_connector_version>5.1.39</mysql_connector_version>
 		<druid_version>1.0.20</druid_version>
 		<mybatis_version>3.2.8</mybatis_version>
 		<mybatis-spring_version>1.2.2</mybatis-spring_version>
 		<spring_version>4.1.6.RELEASE</spring_version>
+		<!-- 
 		<tomcat_embed_version>7.0.55</tomcat_embed_version>
-		
+		 -->
+		<tomcat_embed_version>8.0.36</tomcat_embed_version>
 		<junit_version>4.11</junit_version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+			    <groupId>dom4j</groupId>
+			    <artifactId>dom4j</artifactId>
+			    <version>${dom4j_version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
@@ -96,6 +104,12 @@
 				<groupId>org.json</groupId>
 				<artifactId>json</artifactId>
 				<version>${json_version}</version>
+			</dependency>
+
+			<dependency>
+			    <groupId>org.apache.velocity</groupId>
+			    <artifactId>velocity</artifactId>
+			    <version>${velocity_version}</version>
 			</dependency>
 
 			<dependency>

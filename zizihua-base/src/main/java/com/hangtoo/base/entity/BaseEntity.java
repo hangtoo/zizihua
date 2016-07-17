@@ -4,7 +4,7 @@ package com.hangtoo.base.entity;
 /**
  * @author www.jeecg.org
  */
-public class BaseEntity {
+public abstract class BaseEntity {
 	
 	 /**
 	  * 状态枚举
@@ -53,5 +53,4 @@ public class BaseEntity {
 				return null;
 			}
 		}
-	
 }

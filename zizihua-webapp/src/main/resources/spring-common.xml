@@ -101,18 +101,22 @@
 		<property name="mapperLocations">
 			 <list>
 			  	<value>classpath:com/hangtoo/auth/mapper/*Mapper.xml</value>
+			  	<value>classpath:scott/mapper/demo/*Mapper.xml</value>
+			  	<value>classpath:hangtoo/mapper/stock/*Mapper.xml</value>
 			 </list>
 		</property>
 	</bean>
 	
 	<!-- 扫描mapper.java  -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">    
-	    <property name="basePackage" value="com.hangtoo.auth.mapper" />
+	    <property name="basePackage" value="com.hangtoo.auth.mapper,scott.dao.*,hangtoo.dao.*" />
 	    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 	</bean>
 	
 	<!-- 扫描Service -->
 	<context:component-scan base-package="com.hangtoo.auth.service" />
+	<context:component-scan base-package="scott.service.*" />
+	<context:component-scan base-package="hangtoo.service.*" />
 	
 	<!-- 配置druid监控spring jdbc -->
 	<bean id="druid-stat-interceptor"
@@ -123,6 +127,8 @@
 		<property name="patterns">
 			<list>
 				<value>com.hangtoo.auth.service.*</value>
+				<value>scott.service.*</value>
+				<value>hangtoo.service.*</value>
 			</list>
 		</property>
 	</bean>

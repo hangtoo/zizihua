@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hangtoo.dao.stock.TStockDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="hangtoo.entity.stock.TStock" >
+<!-- 	<result column="id" property="id"/>
+	<result column="p_createtime" property="p_createtime"/>
+	<result column="p_modifytime" property="p_modifytime"/>
+	<result column="p_creator" property="p_creator"/>
+	<result column="p_modifier" property="p_modifier"/>
+	<result column="p_remark" property="p_remark"/>
+	<result column="p_deleted" property="p_deleted"/>
+	<result column="p_name" property="p_name"/>
+	<result column="p_data" property="p_data"/>
+	<result column="p_date" property="p_date"/>
+	<result column="p_add" property="p_add"/>
+	<result column="p_rate" property="p_rate"/>
+	<result column="p_highdata" property="p_highdata"/>
+	<result column="p_highdate" property="p_highdate"/>
+ -->
+	<id column="id" property="id" jdbcType="CHAR" />
+
+</resultMap>
+       
+<!-- t_stock table all fields -->
+<sql id="Base_Column_List" >
+	 id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_data,p_date,p_add,p_rate,p_highdata,p_highdate
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="id != null and id != ''" >
+	    and id =  #{id}
+	</if>
+	<if test="p_createtime != null and p_createtime != ''" >
+	    and p_createtime =  #{p_createtime}
+	</if>
+	<if test="p_modifytime != null and p_modifytime != ''" >
+	    and p_modifytime =  #{p_modifytime}
+	</if>
+	<if test="p_creator != null and p_creator != ''" >
+	    and p_creator =  #{p_creator}
+	</if>
+	<if test="p_modifier != null and p_modifier != ''" >
+	    and p_modifier =  #{p_modifier}
+	</if>
+	<if test="p_remark != null and p_remark != ''" >
+	    and p_remark =  #{p_remark}
+	</if>
+	<if test="p_deleted != null and p_deleted != ''" >
+	    and p_deleted =  #{p_deleted}
+	</if>
+	<if test="p_name != null and p_name != ''" >
+	    and p_name =  #{p_name}
+	</if>
+	<if test="p_data != null and p_data != ''" >
+	    and p_data =  #{p_data}
+	</if>
+	<if test="p_date != null and p_date != ''" >
+	    and p_date =  #{p_date}
+	</if>
+	<if test="p_add != null and p_add != ''" >
+	    and p_add =  #{p_add}
+	</if>
+	<if test="p_rate != null and p_rate != ''" >
+	    and p_rate =  #{p_rate}
+	</if>
+	<if test="p_highdata != null and p_highdata != ''" >
+	    and p_highdata =  #{p_highdata}
+	</if>
+	<if test="p_highdate != null and p_highdate != ''" >
+	    and p_highdate =  #{p_highdate}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+  insert into t_stock(id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_data,p_date,p_add,p_rate,p_highdata,p_highdate)
+ values(#{id},#{p_createtime},#{p_modifytime},#{p_creator},#{p_modifier},#{p_remark},#{p_deleted},#{p_name},#{p_data},#{p_date},#{p_add},#{p_rate},#{p_highdata},#{p_highdate})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update t_stock set p_createtime=#{p_createtime},p_modifytime=#{p_modifytime},p_creator=#{p_creator},p_modifier=#{p_modifier},p_remark=#{p_remark},p_deleted=#{p_deleted},p_name=#{p_name},p_data=#{p_data},p_date=#{p_date},p_add=#{p_add},p_rate=#{p_rate},p_highdata=#{p_highdata},p_highdate=#{p_highdate} where id=#{id}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update t_stock set 
+	<trim  suffixOverrides="," >
+	<if test="p_createtime != null  ">
+		p_createtime=#{p_createtime},
+	</if>
+	<if test="p_modifytime != null  ">
+		p_modifytime=#{p_modifytime},
+	</if>
+	<if test="p_creator != null  ">
+		p_creator=#{p_creator},
+	</if>
+	<if test="p_modifier != null  ">
+		p_modifier=#{p_modifier},
+	</if>
+	<if test="p_remark != null  ">
+		p_remark=#{p_remark},
+	</if>
+	<if test="p_deleted != null  ">
+		p_deleted=#{p_deleted},
+	</if>
+	<if test="p_name != null  ">
+		p_name=#{p_name},
+	</if>
+	<if test="p_data != null  ">
+		p_data=#{p_data},
+	</if>
+	<if test="p_date != null  ">
+		p_date=#{p_date},
+	</if>
+	<if test="p_add != null  ">
+		p_add=#{p_add},
+	</if>
+	<if test="p_rate != null  ">
+		p_rate=#{p_rate},
+	</if>
+	<if test="p_highdata != null  ">
+		p_highdata=#{p_highdata},
+	</if>
+	<if test="p_highdate != null  ">
+		p_highdate=#{p_highdate},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from t_stock where id = #{id}
+</delete>
+ 
+<!-- 根据id查询 深证成指 -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from t_stock where id = #{id}
+</select>
+
+<!-- 深证成指 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from t_stock 
+	<include refid="Example_Where_Clause"/>
+</select>
+  	
+<!-- 查询深证成指列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from t_stock 
+	<include refid="Example_Where_Clause"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+  	
+</mapper>   
