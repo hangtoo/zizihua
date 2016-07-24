@@ -102,7 +102,7 @@
 			 <list>
 			  	<value>classpath:com/hangtoo/auth/mapper/*Mapper.xml</value>
 			  	<value>classpath:scott/mapper/demo/*Mapper.xml</value>
-			  	<value>classpath:hangtoo/mapper/stock/*Mapper.xml</value>
+			  	<value>classpath:hangtoo/mapper/*/*Mapper.xml</value>
 			 </list>
 		</property>
 	</bean>

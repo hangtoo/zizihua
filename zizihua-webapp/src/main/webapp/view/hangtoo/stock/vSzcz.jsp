@@ -27,7 +27,7 @@
      	<form id="editForm" class="ui-form" method="post">  
      		 <input class="hidden" name="id">
      		 <div class="ui-edit">
-		     	   <div class="ftitle">股指数据</div>
+		     	   <div class="ftitle">深证成指</div>
 					<div class="fitem">
 						<label>创建时间</label>
 						<input name="p_createtime" type="text" maxlength="" class="easyui-datetimebox" data-options="" missingMessage="请填写创建时间">
@@ -83,6 +83,6 @@
   			</div>
      	</form>
   	 </div>
-  	 <script type="text/javascript" src="<%=basePath%>/view/hangtoo/stock/page-tStock.js"></script>
+  	 <script type="text/javascript" src="<%=basePath%>/view/hangtoo/stock/page-vSzcz.js"></script>
   </body>
 </html>

@@ -125,7 +125,7 @@ public class SysMenuAction extends BaseAction{
 	}
 	
 	@RequestMapping("/delete")
-	public void delete(Object[] id,HttpServletResponse response) throws Exception{
+	public void delete(Integer[] id,HttpServletResponse response) throws Exception{
 		if(id != null && id.length > 0){
 			sysMenuService.delete(id);
 			sendSuccessMessage(response, "删除成功");

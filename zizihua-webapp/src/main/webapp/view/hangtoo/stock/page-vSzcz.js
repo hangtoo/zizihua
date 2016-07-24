@@ -1,5 +1,5 @@
-$package('jeecg.tStock');
-jeecg.tStock = function(){
+$package('jeecg.vSzcz');
+jeecg.vSzcz = function(){
 	var _box = null;
 	var _this = {
 		config:{
@@ -14,7 +14,7 @@ jeecg.tStock = function(){
 				}
 			},
   			dataGrid:{
-  				title:'股指数据',
+  				title:'深证成指',
 	   			url:'dataList.do',
 	   			columns:[[
 					{field:'id',checkbox:true},
@@ -95,5 +95,5 @@ jeecg.tStock = function(){
 }();
 
 $(function(){
-	jeecg.tStock.init();
+	jeecg.vSzcz.init();
 });

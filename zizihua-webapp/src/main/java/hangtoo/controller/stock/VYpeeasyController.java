@@ -18,26 +18,26 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hangtoo.base.util.HtmlUtil;
 import com.hangtoo.base.web.BaseAction;
 
-import hangtoo.entity.stock.TStock;
-import hangtoo.page.stock.TStockPage;
-import hangtoo.service.stock.TStockService;
+import hangtoo.entity.stock.VYpeeasy;
+import hangtoo.page.stock.VYpeeasyPage;
+import hangtoo.service.stock.VYpeeasyService;
  
 /**
  * 
  * <br>
- * <b>功能：</b>TStockController<br>
+ * <b>功能：</b>VYpeeasyController<br>
  * <b>作者：</b>hlf<br>
- * <b>日期：</b> Sun Jul 24 06:48:27 CST 2016 <br>
+ * <b>日期：</b> Sun Jul 24 10:00:21 CST 2016 <br>
  * <b>版权所有： 2014，hangtoo.com<br>
  */ 
 @Controller
-@RequestMapping("/tStock") 
-public class TStockController extends BaseAction{
+@RequestMapping("/vYpeeasy") 
+public class VYpeeasyController extends BaseAction{
 	
-	private final static Logger log= Logger.getLogger(TStockController.class);
+	private final static Logger log= Logger.getLogger(VYpeeasyController.class);
 	
 	@Autowired
-	private TStockService tStockService; 
+	private VYpeeasyService vYpeeasyService; 
 	
 	
 	/**
@@ -48,9 +48,9 @@ public class TStockController extends BaseAction{
 	 * @throws Exception 
 	 */
 	@RequestMapping("/list") 
-	public ModelAndView  list(TStockPage page,HttpServletRequest request) throws Exception{
+	public ModelAndView  list(VYpeeasyPage page,HttpServletRequest request) throws Exception{
 		Map<String,Object>  context = getRootMap();
-		return forword("hangtoo/stock/tStock",context); 
+		return forword("hangtoo/stock/vYpeeasy",context); 
 	}
 	
 	
@@ -62,8 +62,8 @@ public class TStockController extends BaseAction{
 	 * @throws Exception 
 	 */
 	@RequestMapping("/dataList") 
-	public void  datalist(TStockPage page,HttpServletResponse response) throws Exception{
-		List<TStock> dataList = tStockService.queryByList(page);
+	public void  datalist(VYpeeasyPage page,HttpServletResponse response) throws Exception{
+		List<VYpeeasy> dataList = vYpeeasyService.queryByList(page);
 		//设置页面数据
 		Map<String,Object> jsonMap = new HashMap<String,Object>();
 		jsonMap.put("total",page.getPager().getRowCount());
@@ -79,12 +79,12 @@ public class TStockController extends BaseAction{
 	 * @throws Exception 
 	 */
 	@RequestMapping("/save")
-	public void save(TStock entity,Integer[] typeIds,HttpServletResponse response) throws Exception{
+	public void save(VYpeeasy entity,Integer[] typeIds,HttpServletResponse response) throws Exception{
 		Map<String,Object>  context = new HashMap<String,Object>();
 		if(entity.getId()==null||StringUtils.isBlank(entity.getId().toString())){
-			tStockService.add(entity);
+			vYpeeasyService.add(entity);
 		}else{
-			tStockService.update(entity);
+			vYpeeasyService.update(entity);
 		}
 		sendSuccessMessage(response, "保存成功~");
 	}
@@ -93,7 +93,7 @@ public class TStockController extends BaseAction{
 	@RequestMapping("/getId")
 	public void getId(String id,HttpServletResponse response) throws Exception{
 		Map<String,Object>  context = new HashMap();
-		TStock entity  = tStockService.queryById(id);
+		VYpeeasy entity  = vYpeeasyService.queryById(id);
 		if(entity  == null){
 			sendFailureMessage(response, "没有找到对应的记录!");
 			return;
@@ -107,7 +107,7 @@ public class TStockController extends BaseAction{
 	
 	@RequestMapping("/delete")
 	public void delete(String[] id,HttpServletResponse response) throws Exception{
-		tStockService.delete(id);
+		vYpeeasyService.delete(id);
 		sendSuccessMessage(response, "删除成功");
 	}
 

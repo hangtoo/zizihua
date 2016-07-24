@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="hangtoo.dao.stock.TStockDao" > 
+<mapper namespace="hangtoo.dao.stock.VSzczDao" > 
 <!-- Result Map-->
-<resultMap id="BaseResultMap" type="hangtoo.entity.stock.TStock" >
+<resultMap id="BaseResultMap" type="hangtoo.entity.stock.VSzcz" >
 <!-- 	<result column="id" property="id"/>
 	<result column="p_createtime" property="p_createtime"/>
 	<result column="p_modifytime" property="p_modifytime"/>
@@ -24,7 +24,7 @@
 
 </resultMap>
        
-<!-- t_stock table all fields -->
+<!-- v_szcz table all fields -->
 <sql id="Base_Column_List" >
 	 id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_data,p_date,p_add,p_rate,p_highdata,p_highdate
 </sql>
@@ -82,18 +82,18 @@ where 1=1
 
 <!-- 插入记录 -->
 <insert id="add" parameterType="Object" >
-  insert into t_stock(id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_data,p_date,p_add,p_rate,p_highdata,p_highdate)
+  insert into v_szcz(id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_data,p_date,p_add,p_rate,p_highdata,p_highdate)
  values(#{id},#{p_createtime},#{p_modifytime},#{p_creator},#{p_modifier},#{p_remark},#{p_deleted},#{p_name},#{p_data},#{p_date},#{p_add},#{p_rate},#{p_highdata},#{p_highdate})
 </insert>
 
 <!-- 根据id，修改记录-->  
  <update id="update" parameterType="Object" >
-  update t_stock set p_createtime=#{p_createtime},p_modifytime=#{p_modifytime},p_creator=#{p_creator},p_modifier=#{p_modifier},p_remark=#{p_remark},p_deleted=#{p_deleted},p_name=#{p_name},p_data=#{p_data},p_date=#{p_date},p_add=#{p_add},p_rate=#{p_rate},p_highdata=#{p_highdata},p_highdate=#{p_highdate} where id=#{id}
+  update v_szcz set p_createtime=#{p_createtime},p_modifytime=#{p_modifytime},p_creator=#{p_creator},p_modifier=#{p_modifier},p_remark=#{p_remark},p_deleted=#{p_deleted},p_name=#{p_name},p_data=#{p_data},p_date=#{p_date},p_add=#{p_add},p_rate=#{p_rate},p_highdata=#{p_highdata},p_highdate=#{p_highdate} where id=#{id}
  </update>
  
  <!-- 修改记录，只修改只不为空的字段 -->
 <update id="updateBySelective" parameterType="Object" >
-	update t_stock set 
+	update v_szcz set 
 	<trim  suffixOverrides="," >
 	<if test="p_createtime != null  ">
 		p_createtime=#{p_createtime},
@@ -139,26 +139,26 @@ where 1=1
 
 <!-- 删除记录 -->
 <delete id="delete" parameterType="Object">
-	delete 	 from t_stock where id = #{id}
+	delete 	 from v_szcz where id = #{id}
 </delete>
  
-<!-- 根据id查询 股指数据 -->
+<!-- 根据id查询 深证成指 -->
 <select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
 	select <include refid="Base_Column_List" /> 
-	 from t_stock where id = #{id}
+	 from v_szcz where id = #{id}
 </select>
 
-<!-- 股指数据 列表总数-->
+<!-- 深证成指 列表总数-->
 <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
-	select count(1) from t_stock 
+	select count(1) from v_szcz 
 	<include refid="Example_Where_Clause"/>
 </select>
   	
-<!-- 查询股指数据列表 -->
+<!-- 查询深证成指列表 -->
 <select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
 	select 
 	<include refid="Base_Column_List"/>
-	from t_stock 
+	from v_szcz 
 	<include refid="Example_Where_Clause"/>
 	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
       ${pager.orderCondition}
