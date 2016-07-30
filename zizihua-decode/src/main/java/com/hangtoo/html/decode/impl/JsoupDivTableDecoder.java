@@ -9,10 +9,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.hangtoo.html.decode.HtmlDecoder;
+import com.hangtoo.html.decode.IHtmlDecoder;
 import com.hangtoo.util.Constants;
 
-public class JsoupDivTableDecoder implements HtmlDecoder{
+public class JsoupDivTableDecoder implements IHtmlDecoder{
 	public Map<Integer,String> getData(String html,String tableID) throws IOException{
 		Map<Integer,String> ret=new HashMap<Integer,String>();
 		Document doc = Jsoup.parse(html);

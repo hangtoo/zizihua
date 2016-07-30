@@ -27,24 +27,16 @@
     task:executor/@rejection-policy：当等待队已满时的策略，分为丢弃、由任务执行器直接运行等方式 
    	-->
 	
-	<!--     
 	<task:scheduler id="scheduler" pool-size="10" />  
     <task:executor id="executor" keep-alive="3600" pool-size="100-200" queue-capacity="500" rejection-policy="CALLER_RUNS" /> 
     <task:annotation-driven executor="executor" scheduler="scheduler" />
-     -->
-    
-    <task:annotation-driven/>
-	<!--     
-	<bean id="job" class="scott.job.shuhe.Job"></bean>
+
+	<bean id="job" class="hangtoo.job.stock.Job"></bean>
     <task:scheduled-tasks>  
-	               这里表示的是每隔五秒执行一次 
-        <task:scheduled ref="job" method="taskCycle" cron="*/5 * * * * ?" />
-		<task:scheduled ref="job" method="taskCycle" cron="0 0/5 * * * ?" /> 
-		  这里表示的是每天1点15执行一次  
-        <task:scheduled ref="job" method="taskCycle" cron="0 15 1 * * ?" />
-        <task:scheduled ref="job" method="openorclose" cron="0 15 5 * * ?" />
+		<!-- 这里表示的是每天20点15执行一次   -->
+        <task:scheduled ref="job" method="taskCycle" cron="0 15 20 * * ?" />
+        <task:scheduled ref="job" method="taskCycle" cron="0/1 * * * * ?" />
     </task:scheduled-tasks> 
- 	-->	
 
 	<!-- ***************配置数据源************** -->
 	<!-- 数据源  -->
