@@ -1,6 +1,7 @@
 package com.hangtoo.base.util;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +16,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 	public static String pattern_t = "HH:mm:ss";
 	
 	public static String pattern_full = "yyyy-MM-dd HH:mm:ss";
+	public static String pattern_full_divide = "yyyy/MM/dd HH:mm:ss";
 	
 	public static String pattern_yyyyMM="yyyyMM";
 
@@ -52,6 +54,26 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 		return result;
 	}
 	
+    /**
+     * 日期加N天
+     * @param Sring 时间
+     * @return 加后的日期
+     */
+	public static Date addDay(Date date, int m, int d) {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+			Calendar cd = Calendar.getInstance();
+			cd.setTime(date);
+			cd.add(Calendar.DATE, d);// 添加一天
+			cd.add(Calendar.MONTH, m);//添加一个月
+
+			return cd.getTime();
+
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 	public static String convertDateToShortString(Date date){
         String datestring = "";
@@ -87,5 +109,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 		}
 		
 		return week;
+	}
+	
+	public static void main(String[] args) {
+		/** 此处修改成你的 表名 和 中文注释 ***/
+		try {
+			System.out.println(DateUtils.addDay(DateUtils.now(),0,-1));
+			System.out.println(DateUtils.parseDate("2016/8/2 20:49:41", DateUtils.pattern_full_divide));
+			System.out.println(DateUtils.parseDate("2016-01-01", DateUtils.pattern_d));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

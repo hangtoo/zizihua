@@ -153,6 +153,10 @@ where 1=1
 	select count(1) from t_stock 
 	<include refid="Example_Where_Clause"/>
 </select>
+
+<select id="getLastDate" resultType="java.lang.String"  parameterType="Object">
+	select max(p_date) from t_stock
+</select>
   	
 <!-- 查询股指数据列表 -->
 <select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">

@@ -19,7 +19,9 @@ public class TStockService extends BaseService<TStock> {
 	private final static Logger log= Logger.getLogger(TStockService.class);
 	
 
-	
+	public String getLastDate(){
+		return getDao().getLastDate();
+	}
 
 	@Autowired
     private TStockDao dao;

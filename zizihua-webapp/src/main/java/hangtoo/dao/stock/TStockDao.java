@@ -12,5 +12,5 @@ import hangtoo.entity.stock.TStock;
  */ 
 public interface TStockDao extends BaseDao<TStock> {
 	
-	
+	public String getLastDate();
 }

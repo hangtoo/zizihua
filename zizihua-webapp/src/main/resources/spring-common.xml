@@ -35,7 +35,7 @@
     <task:scheduled-tasks>  
 		<!-- 这里表示的是每天20点15执行一次   -->
         <task:scheduled ref="job" method="taskCycle" cron="0 15 20 * * ?" />
-        <task:scheduled ref="job" method="taskCycle" cron="0/1 * * * * ?" />
+        <!-- <task:scheduled ref="job" method="taskCycle" cron="0/1 * * * * ?" /> -->
     </task:scheduled-tasks> 
 
 	<!-- ***************配置数据源************** -->
