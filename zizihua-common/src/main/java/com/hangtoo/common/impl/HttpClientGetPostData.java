@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +34,13 @@ public class HttpClientGetPostData implements IHttpGetPostData {
 
 	@Override
 	public String getData(String url) throws IOException {
-		CloseableHttpClient httpclient =HttpClients.createDefault();
+		CloseableHttpClient httpclient =HttpClients.createSystem();
+
 		HttpGet httpget = new HttpGet(url);
+		httpget.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; QQDownload 1.7; .NET CLR 1.1.4322; CIBA; .NET CLR 2.0.50727)");
+		httpget.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);//连接超时
+		httpget.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 5000);//读取超时
+		
 		CloseableHttpResponse response = null;
 		
 		try {
