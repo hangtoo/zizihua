@@ -16,7 +16,9 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 	public static String pattern_t = "HH:mm:ss";
 	
 	public static String pattern_full = "yyyy-MM-dd HH:mm:ss";
-	public static String pattern_full_divide = "yyyy/MM/dd HH:mm:ss";
+	public static String pattern_full_S = "yyyy-MM-dd HH:mm:ss.S";
+	public static String pattern_full_divide= "yyyy/MM/dd HH:mm:ss";
+	public static String pattern_full_divide_S= "yyyy/MM/dd HH:mm:ss.S";
 	
 	public static String pattern_yyyyMM="yyyyMM";
 
@@ -116,6 +118,9 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 		try {
 			System.out.println(DateUtils.addDay(DateUtils.now(),0,-1));
 			System.out.println(DateUtils.parseDate("2016/8/2 20:49:41", DateUtils.pattern_full_divide));
+			System.out.println(DateUtils.parseDate("2016-03-25 00:00:00.0", DateUtils.pattern_full_S));
+			
+			
 			System.out.println(DateUtils.parseDate("2016-01-01", DateUtils.pattern_d));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

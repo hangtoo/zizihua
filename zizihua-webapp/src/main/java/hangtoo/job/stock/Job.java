@@ -44,7 +44,8 @@ public class Job {
 			String sday=tStockService.getLastDate();
 			if(!StringUtils.isNullOrEmpty(sday)){
 				try {
-					day=DateUtils.parseDate(sday, DateUtils.pattern_full_divide);
+					day=DateUtils.parseDate(sday, DateUtils.pattern_full_S);
+					day=DateUtils.addDay(day,0,1);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -110,29 +111,34 @@ public class Job {
 			for(Map<String,String> ele:data){
 				entity=new TStock();
 				entity.setP_date(day);
-				entity.setP_name(ele.get("指标名称"));
+				
+				tmp=ele.get("指标名称");
+				if(tmp==null||tmp.equals("")){
+					continue;
+				}
+				entity.setP_name(tmp);
 				tmp=ele.get("比上日增减");
-				if(tmp!=null){
+				if(tmp!=null&&!tmp.equals("")){
 					tmp=formatData(tmp);
 					entity.setP_add(new BigDecimal(tmp));
 				}
 				tmp=ele.get("本日数值");
-				if(tmp!=null){
+				if(tmp!=null&&!tmp.equals("")){
 					tmp=formatData(tmp);
 					entity.setP_data(new BigDecimal(tmp));
 				}
 				tmp=ele.get("最高值日期");
-				if(tmp!=null){
+				if(tmp!=null&&!tmp.equals("")){
 					tmp=formatData(tmp);
 					entity.setP_highdate(DateUtils.parseDate(tmp, DateUtils.pattern_d));
 				}
 				tmp=ele.get("本年最高");
-				if(tmp!=null){
+				if(tmp!=null&&!tmp.equals("")){
 					tmp=formatData(tmp);
 					entity.setP_highdata(new BigDecimal(tmp));
 				}
 				tmp=ele.get("幅度%");
-				if(tmp!=null){
+				if(tmp!=null&&!tmp.equals("")){
 					tmp=formatData(tmp);
 					entity.setP_rate(new BigDecimal(tmp));
 				}
