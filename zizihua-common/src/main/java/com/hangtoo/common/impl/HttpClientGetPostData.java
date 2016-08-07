@@ -37,9 +37,9 @@ public class HttpClientGetPostData implements IHttpGetPostData {
 		CloseableHttpClient httpclient =HttpClients.createSystem();
 
 		HttpGet httpget = new HttpGet(url);
-		httpget.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; QQDownload 1.7; .NET CLR 1.1.4322; CIBA; .NET CLR 2.0.50727)");
-		httpget.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);//连接超时
-		httpget.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 5000);//读取超时
+		httpget.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36");
+		//httpget.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 55000);//连接超时
+		//httpget.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 55000);//读取超时
 		
 		CloseableHttpResponse response = null;
 		

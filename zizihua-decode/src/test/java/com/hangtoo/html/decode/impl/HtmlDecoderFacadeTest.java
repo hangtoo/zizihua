@@ -15,7 +15,7 @@ public class HtmlDecoderFacadeTest {
 	public void testGetTableData() {
 		IHtmlDecoderFacade htmlDecoderFacade=new HtmlDecoderFacade();
 		try {
-			String url="http://www.szse.cn/szseWeb/FrontController.szse?ACTIONID=7&AJAX=AJAX-TRUE&CATALOGID=1803&TABKEY=tab1&txtQueryDate=2016-05-20&REPORT_ACTION=search";
+			String url="http://www.szse.cn/szseWeb/FrontController.szse?ACTIONID=7&AJAX=AJAX-TRUE&CATALOGID=1803&TABKEY=tab1&txtQueryDate=2016-03-30&REPORT_ACTION=search";
 			String tableID="REPORTID_tab1";
 			List<Map<String,String>> data=htmlDecoderFacade.getTableData(url,tableID,EnumHeaderStyle.TOP);
 			System.out.println(JSONUtil.toJSONString(data,true));

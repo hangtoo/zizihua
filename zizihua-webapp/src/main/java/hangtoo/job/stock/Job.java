@@ -54,7 +54,7 @@ public class Job {
 			
 			for(;day.before(now)||day.equals(now);day=DateUtils.addDay(day,0,1)){
 
-				log.info(day);
+				System.out.println(day);
 				week=DateUtils.getWeekday(day);
 				if(week>5){//周末跳过
 					continue;
@@ -78,11 +78,11 @@ public class Job {
 				while(true){
 					try{
 						this.batchSave(day);
-						Thread.sleep(15000);
+						Thread.sleep(60*1000);
 						break;
 					}catch(Exception e){
 						try {
-							Thread.sleep(50000);
+							Thread.sleep(180*1000);
 						} catch (InterruptedException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
