@@ -1,4 +1,4 @@
-package com.hangtoo.base.util;
+package com.hangtoo.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

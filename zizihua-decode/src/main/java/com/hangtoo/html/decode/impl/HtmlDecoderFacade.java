@@ -26,9 +26,9 @@ public class HtmlDecoderFacade implements IHtmlDecoderFacade {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (StringUtils.isEmpty(src)) {
+/*		if (StringUtils.isEmpty(src)) {
 			src = Jsoup.connect(url).get().html();
-		}
+		}*/
 		Map<Integer, String> data = jsoupDecoder.getData(src, tableID);
 
 		return data;

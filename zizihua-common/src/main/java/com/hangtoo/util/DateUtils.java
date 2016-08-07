@@ -1,4 +1,4 @@
-package com.hangtoo.base.util;
+package com.hangtoo.util;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -56,6 +56,19 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 		return result;
 	}
 	
+	/**
+	 * 将所给日期转换为时间(yyyy-MM-dd HH:mm:ss)字符串
+	 * 
+	 * @param source
+	 *            要转换的日期对象
+	 * @return 时间字符串
+	 */
+	public static String DateToFull(Date source) {
+		String result = "";
+		result = fullDateFormat.format(source);
+		return result;
+	}
+	
     /**
      * 日期加N天
      * @param Sring 时间
@@ -76,7 +89,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 			return null;
 		}
 	}
-	
+	@Deprecated
 	public static String convertDateToShortString(Date date){
         String datestring = "";
         int year = 0,month = 0,day = 0;

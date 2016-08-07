@@ -8,11 +8,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.http.client.utils.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONString;
+
+import com.hangtoo.util.DateUtils;
 
 /** */
 /**
@@ -116,13 +117,11 @@ public class JSONUtil {
 			return new JSONStringObject(value.toString());
 		}
 		if (value instanceof Timestamp) {
-			String str = DateUtils.formatDate((Timestamp) value,
-					"yyyy-MM-dd HH:mm:ss");
+			String str = DateUtils.DateToFull((Timestamp) value);
 			return new JSONStringObject(JSONObject.quote(str));
 		}
 		if (value instanceof Date) {
-			String str = DateUtils.formatDate((Date) value,
-					"yyyy-MM-dd HH:mm:ss");
+			String str = DateUtils.DateToFull((Date) value);
 			return new JSONStringObject(JSONObject.quote(str));
 		}
 		if (value instanceof String)
