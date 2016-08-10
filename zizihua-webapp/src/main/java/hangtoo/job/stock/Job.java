@@ -27,7 +27,7 @@ public class Job {
 	@Autowired
 	private TStockService tStockService; 
 	IHtmlDecoderFacade htmlDecoderFacade=new HtmlDecoderFacade();
-	String url="http://www.szse.cn/szseWeb/FrontController.szse?ACTIONID=7&AJAX=AJAX-TRUE&CATALOGID=1803&TABKEY=tab1&txtQueryDate=#QUERYDATE#&REPORT_ACTION=search";
+	String urltemplate="http://www.szse.cn/szseWeb/FrontController.szse?ACTIONID=7&AJAX=AJAX-TRUE&CATALOGID=1803&TABKEY=tab1&txtQueryDate=#QUERYDATE#&REPORT_ACTION=search";
 	String tableID="REPORTID_tab1";
 	Date now;
 	
@@ -103,7 +103,7 @@ public class Job {
 
 			String shortdate=DateUtils.DateToShort(day);
 			
-			url=url.replaceAll("#QUERYDATE#",shortdate);
+			String url=urltemplate.replaceAll("#QUERYDATE#",shortdate);
 			List<Map<String,String>> data=htmlDecoderFacade.getTableData(url,tableID,EnumHeaderStyle.TOP);
 			
 			TStock entity;
