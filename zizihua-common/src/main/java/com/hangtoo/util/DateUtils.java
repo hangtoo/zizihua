@@ -135,6 +135,9 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 			
 			
 			System.out.println(DateUtils.parseDate("2016-01-01", DateUtils.pattern_d));
+			
+			System.out.println(DateToFull(new Date(1471038696811l)));
+			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

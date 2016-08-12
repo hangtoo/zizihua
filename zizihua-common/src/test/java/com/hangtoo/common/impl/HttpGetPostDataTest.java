@@ -1,11 +1,14 @@
 package com.hangtoo.common.impl;
 
-import com.hangtoo.common.IHttpGetPostData;
-import org.apache.http.NameValuePair;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.junit.Test;
+
+import com.hangtoo.common.IHttpGetPostData;
+import com.hangtoo.util.DateUtils;
 
 public class HttpGetPostDataTest {
 
@@ -30,6 +33,12 @@ public class HttpGetPostDataTest {
 			String url="http://www.baidu.com";
 			List<NameValuePair> formParams=new ArrayList<NameValuePair>();
 			String ret=httpGetPostData.postData(url,formParams);
+			
+			
+			url="http://www.sge.com.cn/sgeclient/sgeData/public/json/delaydata.json";
+			formParams.add(new BasicNameValuePair("timestamp",""+DateUtils.addDay(DateUtils.now(),0,-1).getTime()));
+			ret=httpGetPostData.postData(url,formParams);
+			
 			System.out.println(ret);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
