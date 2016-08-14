@@ -31,10 +31,12 @@
     <task:executor id="executor" keep-alive="3600" pool-size="100-200" queue-capacity="500" rejection-policy="CALLER_RUNS" /> 
     <task:annotation-driven executor="executor" scheduler="scheduler" />
 
-	<bean id="job" class="hangtoo.job.stock.Job"></bean>
+	<bean id="stockjob" class="hangtoo.job.stock.Job"></bean>
+	<bean id="goldjob" class="hangtoo.job.gold.Job"></bean>
     <task:scheduled-tasks>  
 		<!-- 这里表示的是每天20点15执行一次   -->
-        <task:scheduled ref="job" method="taskCycle" cron="0 21 5 * * ?" />
+        <task:scheduled ref="stockjob" method="taskCycle" cron="0 21 5 * * ?" />
+        <task:scheduled ref="goldjob" method="taskCycle" cron="0 47 16 * * ?" />
         <!-- <task:scheduled ref="job" method="taskCycle" cron="0/1 * * * * ?" /> -->
     </task:scheduled-tasks> 
 

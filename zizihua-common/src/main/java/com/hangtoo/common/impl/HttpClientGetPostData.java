@@ -1,6 +1,8 @@
 package com.hangtoo.common.impl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -11,7 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +42,17 @@ public class HttpClientGetPostData implements IHttpGetPostData {
 		httpget.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36");
 		//httpget.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 120*1000);//连接超时
 		//httpget.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 120*1000);//读取超时
-		
+		//httpget.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET,"UTF-8");
+
 		CloseableHttpResponse response = null;
 		
 		try {
 			response = httpclient.execute(httpget);
-
+			//httpclient.getParams().setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
 			HttpEntity entity = response.getEntity();
+			entity.getContentEncoding();
+			BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));  
+
 			int statusCode=response.getStatusLine().getStatusCode();
 			if(statusCode!=200){
 				logger.warn("getData from '{}' return {}",url,statusCode);
@@ -55,10 +61,10 @@ public class HttpClientGetPostData implements IHttpGetPostData {
 			if (entity != null) {
 	            // 打印响应内容长度    
 	            logger.debug("Response content length:  {}",entity.getContentLength());
-	            String ret=EntityUtils.toString(entity);
+	            String ret=EntityUtils.toString(entity,"UTF-8");
 	            // 打印响应内容    
 	            logger.debug("Response content:  {}",ret);
-	            return ret;
+	            return ret.toString();
 	        }
 		} catch (Exception e) {
 			httpget.abort();

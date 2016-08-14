@@ -18,8 +18,9 @@ import hangtoo.dao.gold.TGoldDao;
 public class TGoldService extends BaseService<TGold> {
 	private final static Logger log= Logger.getLogger(TGoldService.class);
 	
-
-	
+	public String getLastDate(){
+		return getDao().getLastDate();
+	}
 
 	@Autowired
     private TGoldDao dao;

@@ -262,6 +262,8 @@ CREATE TABLE `t_gold` (
   `p_data` decimal(20,2) DEFAULT NULL COMMENT '加权平均价',
   `p_volume` decimal(20,2) DEFAULT NULL COMMENT '成交量',
   `p_amount` decimal(20,2) DEFAULT NULL COMMENT '成交金额',
+  `p_openinterest` decimal(20,2) DEFAULT NULL COMMENT '持仓量',
+  `p_settlement` decimal(20,2) DEFAULT NULL COMMENT '交收量',
   `p_date` datetime DEFAULT NULL COMMENT '日期',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

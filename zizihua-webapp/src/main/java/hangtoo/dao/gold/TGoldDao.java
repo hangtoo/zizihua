@@ -12,5 +12,5 @@ import hangtoo.entity.gold.TGold;
  */ 
 public interface TGoldDao extends BaseDao<TGold> {
 	
-	
+	public String getLastDate();
 }

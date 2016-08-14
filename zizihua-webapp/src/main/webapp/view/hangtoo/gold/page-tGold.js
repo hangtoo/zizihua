@@ -98,6 +98,16 @@ jeecg.tGold = function(){
 								return row.p_amount;
 							}
 						},
+					{field:'p_openinterest',title:'持仓量',align:'center',sortable:true,
+							formatter:function(value,row,index){
+								return row.p_openinterest;
+							}
+						},
+					{field:'p_settlement',title:'交收量',align:'center',sortable:true,
+							formatter:function(value,row,index){
+								return row.p_settlement;
+							}
+						},
 					{field:'p_date',title:'日期',align:'center',sortable:true,
 							formatter:function(value,row,index){
 								return row.p_date;

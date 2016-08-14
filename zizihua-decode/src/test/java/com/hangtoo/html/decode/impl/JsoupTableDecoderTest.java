@@ -27,5 +27,23 @@ public class JsoupTableDecoderTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testGetData1() {
+		IHtmlDecoder jsoupDecoder=new JsoupTableDecoder();
+		try {
+			String url="http://www.sge.com.cn/xqzx/mrxq/539598.shtml";
+			String src=Jsoup.connect(url).get().html();
+			String tableID="page_con";
+			
+			Map<Integer,String> data=jsoupDecoder.getData(src,tableID);
+			for(Map.Entry<Integer,String> entry:data.entrySet()){
+				System.out.println(entry.getKey()+":"+entry.getValue());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

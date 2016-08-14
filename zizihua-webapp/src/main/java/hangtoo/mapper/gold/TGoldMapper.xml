@@ -22,6 +22,8 @@
 	<result column="p_data" property="p_data"/>
 	<result column="p_volume" property="p_volume"/>
 	<result column="p_amount" property="p_amount"/>
+	<result column="p_openinterest" property="p_openinterest"/>
+	<result column="p_settlement" property="p_settlement"/>
 	<result column="p_date" property="p_date"/>
  -->
 	<id column="id" property="id" jdbcType="CHAR" />
@@ -30,7 +32,7 @@
        
 <!-- t_gold table all fields -->
 <sql id="Base_Column_List" >
-	 id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_opendata,p_highdata,p_lowdata,p_closedata,p_add,p_rate,p_data,p_volume,p_amount,p_date
+	 id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_opendata,p_highdata,p_lowdata,p_closedata,p_add,p_rate,p_data,p_volume,p_amount,p_openinterest,p_settlement,p_date
 </sql>
    
    
@@ -89,6 +91,12 @@ where 1=1
 	<if test="p_amount != null and p_amount != ''" >
 	    and p_amount =  #{p_amount}
 	</if>
+	<if test="p_openinterest != null and p_openinterest != ''" >
+	    and p_openinterest =  #{p_openinterest}
+	</if>
+	<if test="p_settlement != null and p_settlement != ''" >
+	    and p_settlement =  #{p_settlement}
+	</if>
 	<if test="p_date != null and p_date != ''" >
 	    and p_date =  #{p_date}
 	</if>
@@ -98,13 +106,13 @@ where 1=1
 
 <!-- 插入记录 -->
 <insert id="add" parameterType="Object" >
-  insert into t_gold(id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_opendata,p_highdata,p_lowdata,p_closedata,p_add,p_rate,p_data,p_volume,p_amount,p_date)
- values(#{id},#{p_createtime},#{p_modifytime},#{p_creator},#{p_modifier},#{p_remark},#{p_deleted},#{p_name},#{p_opendata},#{p_highdata},#{p_lowdata},#{p_closedata},#{p_add},#{p_rate},#{p_data},#{p_volume},#{p_amount},#{p_date})
+  insert into t_gold(id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_opendata,p_highdata,p_lowdata,p_closedata,p_add,p_rate,p_data,p_volume,p_amount,p_openinterest,p_settlement,p_date)
+ values(#{id},#{p_createtime},#{p_modifytime},#{p_creator},#{p_modifier},#{p_remark},#{p_deleted},#{p_name},#{p_opendata},#{p_highdata},#{p_lowdata},#{p_closedata},#{p_add},#{p_rate},#{p_data},#{p_volume},#{p_amount},#{p_openinterest},#{p_settlement},#{p_date})
 </insert>
 
 <!-- 根据id，修改记录-->  
  <update id="update" parameterType="Object" >
-  update t_gold set p_createtime=#{p_createtime},p_modifytime=#{p_modifytime},p_creator=#{p_creator},p_modifier=#{p_modifier},p_remark=#{p_remark},p_deleted=#{p_deleted},p_name=#{p_name},p_opendata=#{p_opendata},p_highdata=#{p_highdata},p_lowdata=#{p_lowdata},p_closedata=#{p_closedata},p_add=#{p_add},p_rate=#{p_rate},p_data=#{p_data},p_volume=#{p_volume},p_amount=#{p_amount},p_date=#{p_date} where id=#{id}
+  update t_gold set p_createtime=#{p_createtime},p_modifytime=#{p_modifytime},p_creator=#{p_creator},p_modifier=#{p_modifier},p_remark=#{p_remark},p_deleted=#{p_deleted},p_name=#{p_name},p_opendata=#{p_opendata},p_highdata=#{p_highdata},p_lowdata=#{p_lowdata},p_closedata=#{p_closedata},p_add=#{p_add},p_rate=#{p_rate},p_data=#{p_data},p_volume=#{p_volume},p_amount=#{p_amount},p_openinterest=#{p_openinterest},p_settlement=#{p_settlement},p_date=#{p_date} where id=#{id}
  </update>
  
  <!-- 修改记录，只修改只不为空的字段 -->
@@ -159,6 +167,12 @@ where 1=1
 	<if test="p_amount != null  ">
 		p_amount=#{p_amount},
 	</if>
+	<if test="p_openinterest != null  ">
+		p_openinterest=#{p_openinterest},
+	</if>
+	<if test="p_settlement != null  ">
+		p_settlement=#{p_settlement},
+	</if>
 	<if test="p_date != null  ">
 		p_date=#{p_date},
 	</if>
@@ -180,6 +194,10 @@ where 1=1
 <select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
 	select count(1) from t_gold 
 	<include refid="Example_Where_Clause"/>
+</select>
+  	
+<select id="getLastDate" resultType="java.lang.String"  parameterType="Object">
+	select max(p_date) from t_gold
 </select>
   	
 <!-- 查询黄金行情列表 -->

@@ -27,7 +27,7 @@ import hangtoo.service.gold.TGoldService;
  * <br>
  * <b>功能：</b>TGoldController<br>
  * <b>作者：</b>hlf<br>
- * <b>日期：</b> Sun Aug 14 11:17:07 CST 2016 <br>
+ * <b>日期：</b> Sun Aug 14 16:34:46 CST 2016 <br>
  * <b>版权所有： 2014，hangtoo.com<br>
  */ 
 @Controller

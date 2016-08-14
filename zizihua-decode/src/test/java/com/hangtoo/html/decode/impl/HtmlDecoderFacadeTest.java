@@ -26,4 +26,18 @@ public class HtmlDecoderFacadeTest {
 		}
 	}
 
+	@Test
+	public void testGetTableData1() {
+		IHtmlDecoderFacade htmlDecoderFacade=new HtmlDecoderFacade();
+		try {
+			String url="http://www.sge.com.cn/xqzx/mrxq/539598.shtml";
+			String tableID="page_con";
+			List<Map<String,String>> data=htmlDecoderFacade.getTableData(url,tableID,EnumHeaderStyle.TOP);
+			System.out.println(JSONUtil.toJSONString(data,true));
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

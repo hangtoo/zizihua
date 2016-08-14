@@ -42,15 +42,7 @@ public class HttpGetPostDataTest {
 			url="http://www.sge.com.cn/sgeclient/TraderMarket/getCentralizedData?date=2016-08-01";
 			formParams.add(new BasicNameValuePair("timestamp",""+DateUtils.now().getTime()));
 			//[{"TRADEDATE":"20160801","PRODCODE":"SHAU","PRODNAME":"上海金","AMPRICE":"288.65","PMPRICE":"287.95"}]
-			
-			
-			//http://www.sge.com.cn/xqzx/mrxq/
-			//获取索引页
-			//getUrlByDate 根据翻页规则获取指定日期的页面 ，每页15行，第1页第1行为最近一个工作日，据此计算指定日期的链接，需要分析该标题来确定链接，如果不是则前后找找，找上一条或上一页
-			//getDatafromUrl 需要适配不同的标题，同一个数据有多个标题
-			//storeData 
-			
-			
+
 			System.out.println(ret);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

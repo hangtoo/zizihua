@@ -93,6 +93,14 @@
 						<input name="p_amount" type="text" maxlength="" class="easyui-numberbox" data-options="precision:2,groupSeparator:','" missingMessage="请填写成交金额">
 					</div>
 					<div class="fitem">
+						<label>持仓量</label>
+						<input name="p_openinterest" type="text" maxlength="" class="easyui-numberbox" data-options="precision:2,groupSeparator:','" missingMessage="请填写持仓量">
+					</div>
+					<div class="fitem">
+						<label>交收量</label>
+						<input name="p_settlement" type="text" maxlength="" class="easyui-numberbox" data-options="precision:2,groupSeparator:','" missingMessage="请填写交收量">
+					</div>
+					<div class="fitem">
 						<label>日期</label>
 						<input name="p_date" type="text" maxlength="" class="easyui-datetimebox" data-options="" missingMessage="请填写日期">
 					</div>

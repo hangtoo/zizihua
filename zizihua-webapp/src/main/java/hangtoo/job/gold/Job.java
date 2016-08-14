@@ -1,4 +1,4 @@
-package hangtoo.job.stock;
+package hangtoo.job.gold;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -13,11 +13,10 @@ import com.hangtoo.html.EnumHeaderStyle;
 import com.hangtoo.html.decode.IHtmlDecoderFacade;
 import com.hangtoo.html.decode.impl.HtmlDecoderFacade;
 import com.hangtoo.util.DateUtils;
-import com.hangtoo.util.LunarDateUtil;
 import com.mysql.jdbc.StringUtils;
 
-import hangtoo.entity.stock.TStock;
-import hangtoo.service.stock.TStockService;
+import hangtoo.entity.gold.TGold;
+import hangtoo.service.gold.TGoldService;
 
 
 public class Job {
@@ -25,11 +24,16 @@ public class Job {
 	private final static Logger log= Logger.getLogger(Job.class);
 	
 	@Autowired
-	private TStockService tStockService; 
+	private TGoldService tGoldService; 
 	IHtmlDecoderFacade htmlDecoderFacade=new HtmlDecoderFacade();
-	String urltemplate="http://www.szse.cn/szseWeb/FrontController.szse?ACTIONID=7&AJAX=AJAX-TRUE&CATALOGID=1803&TABKEY=tab1&txtQueryDate=#QUERYDATE#&REPORT_ACTION=search";
-	String tableID="REPORTID_tab1";
+	String urltemplate="http://www.sge.com.cn/xqzx/mrxq/";
 	Date now;
+	String tableID="page_con";
+	//http://www.sge.com.cn/xqzx/mrxq/
+	//获取索引页
+	//getUrlByDate 根据翻页规则获取指定日期的页面 ，每页15行，第1页第1行为最近一个工作日，据此计算指定日期的链接，需要分析该标题来确定链接，如果不是则前后找找，找上一条或上一页
+	//getDatafromUrl 需要适配不同的标题，同一个数据有多个标题
+	//storeData 
 	
     public void taskCycle(){
     	//每天执行，接口日使用统计，
@@ -38,9 +42,9 @@ public class Job {
     	now=DateUtils.dateNow();
     	
 		synchronized(Job.class){
-			Date day=DateUtils.addDay(now,0,-1);//TODO
+			Date day=DateUtils.addDay(now,0,-3);//TODO
 			
-			String sday=tStockService.getLastDate();
+			String sday=tGoldService.getLastDate();
 			if(!StringUtils.isNullOrEmpty(sday)){
 				try {
 					day=DateUtils.parseDate(sday, DateUtils.pattern_full_S);
@@ -82,52 +86,103 @@ public class Job {
     	return data.replaceAll(",", "");
     }
     
+    private String getUrlByDate(String indexUrl,String day){
+    	return "http://www.sge.com.cn/xqzx/mrxq/539598.shtml";
+    }
+    
     private void batchSave(Date day) throws Exception{
 		try {
 
 			String shortdate=DateUtils.DateToShort(day);
 			
-			String url=urltemplate.replaceAll("#QUERYDATE#",shortdate);
+			String url=getUrlByDate(urltemplate,shortdate);
+			
 			List<Map<String,String>> data=htmlDecoderFacade.getTableData(url,tableID,EnumHeaderStyle.TOP);
 			
-			TStock entity;
+			TGold entity;
 			String tmp=null;
 			for(Map<String,String> ele:data){
-				entity=new TStock();
+				entity=new TGold();
 				entity.setP_date(day);
 				
-				tmp=ele.get("指标名称");
+				tmp=ele.get("合约");
 				if(tmp==null||tmp.equals("")){
 					continue;
 				}
 				entity.setP_name(tmp);
-				tmp=ele.get("比上日增减");
+				
+				tmp=ele.get("开盘价");
 				if(tmp!=null&&!tmp.equals("")){
 					tmp=formatData(tmp);
-					entity.setP_add(new BigDecimal(tmp));
+					entity.setP_opendata(new BigDecimal(tmp));
 				}
-				tmp=ele.get("本日数值");
-				if(tmp!=null&&!tmp.equals("")){
-					tmp=formatData(tmp);
-					entity.setP_data(new BigDecimal(tmp));
-				}
-				tmp=ele.get("最高值日期");
-				if(tmp!=null&&!tmp.equals("")){
-					tmp=formatData(tmp);
-					entity.setP_highdate(DateUtils.parseDate(tmp, DateUtils.pattern_d));
-				}
-				tmp=ele.get("本年最高");
+
+				tmp=ele.get("最高价");
 				if(tmp!=null&&!tmp.equals("")){
 					tmp=formatData(tmp);
 					entity.setP_highdata(new BigDecimal(tmp));
 				}
-				tmp=ele.get("幅度%");
+				
+				tmp=ele.get("最低价");
+				if(tmp!=null&&!tmp.equals("")){
+					tmp=formatData(tmp);
+					entity.setP_lowdata(new BigDecimal(tmp));
+				}
+				
+				tmp=ele.get("收盘价");
+				if(tmp!=null&&!tmp.equals("")){
+					tmp=formatData(tmp);
+					entity.setP_closedata(new BigDecimal(tmp));
+				}
+				
+				tmp=ele.get("涨跌（元）");
+				if(tmp!=null&&!tmp.equals("")){
+					tmp=formatData(tmp);
+					entity.setP_add(new BigDecimal(tmp));
+				}
+				
+				tmp=ele.get("涨跌幅");
 				if(tmp!=null&&!tmp.equals("")){
 					tmp=formatData(tmp);
 					entity.setP_rate(new BigDecimal(tmp));
 				}
+				
+				tmp=ele.get("加权平均价");
+				if(tmp!=null&&!tmp.equals("")){
+					tmp=formatData(tmp);
+					entity.setP_data(new BigDecimal(tmp));
+				}
+				
+				tmp=ele.get("成交量");
+				if(tmp!=null&&!tmp.equals("")){
+					tmp=formatData(tmp);
+					entity.setP_volume(new BigDecimal(tmp));
+				}
+				
+				tmp=ele.get("成交金额");
+				if(tmp!=null&&!tmp.equals("")){
+					tmp=formatData(tmp);
+					entity.setP_amount(new BigDecimal(tmp));
+				}
+				
+				tmp=ele.get("持仓量");
+				if(tmp!=null&&!tmp.equals("")){
+					tmp=formatData(tmp);
+					entity.setP_openinterest(new BigDecimal(tmp));
+				}
+				
+				tmp=ele.get("交收量");
+				if(tmp!=null&&!tmp.equals("")){
+					tmp=formatData(tmp);
+					entity.setP_settlement(new BigDecimal(tmp));
+				}
+				
+				tmp=ele.get("交收方向");
+				if(tmp!=null&&!tmp.equals("")){
+					entity.setP_remark(tmp);
+				}				
 				entity.setP_createtime(now);
-				tStockService.add(entity);
+				tGoldService.add(entity);
 			}
 			
 		} catch (Exception e) {

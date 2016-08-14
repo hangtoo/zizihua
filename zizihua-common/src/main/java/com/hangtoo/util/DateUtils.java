@@ -126,6 +126,30 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 		return week;
 	}
 	
+    public static Boolean isWorkingDay(Date day){
+		int week=DateUtils.getWeekday(day);
+		if(week>5){//周末跳过
+			return false;
+		}
+		
+		if(day.getMonth()==0&&day.getDate()==1){//1.1跳过
+			return false;
+		}
+		if(day.getMonth()==4&&(day.getDate()>=1&&day.getDate()<=3)){//5.1跳过
+			return false;
+		}
+		if(day.getMonth()==9&&(day.getDate()>=1&&day.getDate()<=7)){//10.1跳过
+			return false;
+		}
+		
+		Date d=LunarDateUtil.solarTolunar(day);
+		if(d.getMonth()==0&&(d.getDate()>=1&&d.getDate()<=7)){
+			return false;
+		}
+		return true;
+    }
+	
+	
 	public static void main(String[] args) {
 		/** 此处修改成你的 表名 和 中文注释 ***/
 		try {
