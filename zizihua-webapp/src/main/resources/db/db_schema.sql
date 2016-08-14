@@ -238,5 +238,31 @@ AS
    ORDER BY `p_year` DESC;
 
 
+-----------------------------------------------------
+--
+-- Table structure for table `t_gold`
+--
 
+DROP TABLE IF EXISTS `t_gold`;
+CREATE TABLE `t_gold` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `p_createTime` datetime DEFAULT NULL COMMENT '创建时间',
+  `p_modifyTime` datetime DEFAULT NULL COMMENT '修改时间',
+  `p_creator` varchar(255) DEFAULT NULL COMMENT '创建人',
+  `p_modifier` varchar(255) DEFAULT NULL COMMENT '修改人',
+  `p_remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `p_deleted` bit(1) DEFAULT NULL COMMENT '是否删除',
+  `p_name` varchar(255) DEFAULT NULL COMMENT '合约',
+  `p_opendata` decimal(20,2) DEFAULT NULL COMMENT '开盘价',
+  `p_highdata` decimal(20,2) DEFAULT NULL COMMENT '最高价',
+  `p_lowdata` decimal(20,2) DEFAULT NULL COMMENT '最低价',
+  `p_closedata` decimal(20,2) DEFAULT NULL COMMENT '收盘价',
+  `p_add` decimal(20,2) DEFAULT NULL COMMENT '涨跌（元）',
+  `p_rate` decimal(5,2) DEFAULT NULL COMMENT '涨跌幅',
+  `p_data` decimal(20,2) DEFAULT NULL COMMENT '加权平均价',
+  `p_volume` decimal(20,2) DEFAULT NULL COMMENT '成交量',
+  `p_amount` decimal(20,2) DEFAULT NULL COMMENT '成交金额',
+  `p_date` datetime DEFAULT NULL COMMENT '日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
