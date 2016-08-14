@@ -13,8 +13,17 @@ public class CodeUtil {
 		//createStock();
 		//createStockIndex();
 		//createVypeeasy();
+		//createGold();
 	}
 
+	private static void createGold(){
+		String tableName = "t_gold"; //
+		String codeName = "黄金行情";// 中文注释 当然你用英文也是可以的
+		String entityPackage = "gold";// 实体包
+		String keyType = FtlDef.KEY_TYPE_01;// 主键生成方式 01:UUID 02:自增
+		CodeGenerateFactory.codeGenerate(tableName, codeName, entityPackage, keyType, true);
+	}
+	
 	private static void createVSzcz(){
 		String tableName = "v_szcz"; //
 		String codeName = "深证成指";// 中文注释 当然你用英文也是可以的

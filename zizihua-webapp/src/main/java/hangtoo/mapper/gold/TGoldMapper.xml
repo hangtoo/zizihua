@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hangtoo.dao.gold.TGoldDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="hangtoo.entity.gold.TGold" >
+<!-- 	<result column="id" property="id"/>
+	<result column="p_createtime" property="p_createtime"/>
+	<result column="p_modifytime" property="p_modifytime"/>
+	<result column="p_creator" property="p_creator"/>
+	<result column="p_modifier" property="p_modifier"/>
+	<result column="p_remark" property="p_remark"/>
+	<result column="p_deleted" property="p_deleted"/>
+	<result column="p_name" property="p_name"/>
+	<result column="p_opendata" property="p_opendata"/>
+	<result column="p_highdata" property="p_highdata"/>
+	<result column="p_lowdata" property="p_lowdata"/>
+	<result column="p_closedata" property="p_closedata"/>
+	<result column="p_add" property="p_add"/>
+	<result column="p_rate" property="p_rate"/>
+	<result column="p_data" property="p_data"/>
+	<result column="p_volume" property="p_volume"/>
+	<result column="p_amount" property="p_amount"/>
+	<result column="p_date" property="p_date"/>
+ -->
+	<id column="id" property="id" jdbcType="CHAR" />
+
+</resultMap>
+       
+<!-- t_gold table all fields -->
+<sql id="Base_Column_List" >
+	 id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_opendata,p_highdata,p_lowdata,p_closedata,p_add,p_rate,p_data,p_volume,p_amount,p_date
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="id != null and id != ''" >
+	    and id =  #{id}
+	</if>
+	<if test="p_createtime != null and p_createtime != ''" >
+	    and p_createtime =  #{p_createtime}
+	</if>
+	<if test="p_modifytime != null and p_modifytime != ''" >
+	    and p_modifytime =  #{p_modifytime}
+	</if>
+	<if test="p_creator != null and p_creator != ''" >
+	    and p_creator =  #{p_creator}
+	</if>
+	<if test="p_modifier != null and p_modifier != ''" >
+	    and p_modifier =  #{p_modifier}
+	</if>
+	<if test="p_remark != null and p_remark != ''" >
+	    and p_remark =  #{p_remark}
+	</if>
+	<if test="p_deleted != null and p_deleted != ''" >
+	    and p_deleted =  #{p_deleted}
+	</if>
+	<if test="p_name != null and p_name != ''" >
+	    and p_name =  #{p_name}
+	</if>
+	<if test="p_opendata != null and p_opendata != ''" >
+	    and p_opendata =  #{p_opendata}
+	</if>
+	<if test="p_highdata != null and p_highdata != ''" >
+	    and p_highdata =  #{p_highdata}
+	</if>
+	<if test="p_lowdata != null and p_lowdata != ''" >
+	    and p_lowdata =  #{p_lowdata}
+	</if>
+	<if test="p_closedata != null and p_closedata != ''" >
+	    and p_closedata =  #{p_closedata}
+	</if>
+	<if test="p_add != null and p_add != ''" >
+	    and p_add =  #{p_add}
+	</if>
+	<if test="p_rate != null and p_rate != ''" >
+	    and p_rate =  #{p_rate}
+	</if>
+	<if test="p_data != null and p_data != ''" >
+	    and p_data =  #{p_data}
+	</if>
+	<if test="p_volume != null and p_volume != ''" >
+	    and p_volume =  #{p_volume}
+	</if>
+	<if test="p_amount != null and p_amount != ''" >
+	    and p_amount =  #{p_amount}
+	</if>
+	<if test="p_date != null and p_date != ''" >
+	    and p_date =  #{p_date}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+  insert into t_gold(id,p_createtime,p_modifytime,p_creator,p_modifier,p_remark,p_deleted,p_name,p_opendata,p_highdata,p_lowdata,p_closedata,p_add,p_rate,p_data,p_volume,p_amount,p_date)
+ values(#{id},#{p_createtime},#{p_modifytime},#{p_creator},#{p_modifier},#{p_remark},#{p_deleted},#{p_name},#{p_opendata},#{p_highdata},#{p_lowdata},#{p_closedata},#{p_add},#{p_rate},#{p_data},#{p_volume},#{p_amount},#{p_date})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update t_gold set p_createtime=#{p_createtime},p_modifytime=#{p_modifytime},p_creator=#{p_creator},p_modifier=#{p_modifier},p_remark=#{p_remark},p_deleted=#{p_deleted},p_name=#{p_name},p_opendata=#{p_opendata},p_highdata=#{p_highdata},p_lowdata=#{p_lowdata},p_closedata=#{p_closedata},p_add=#{p_add},p_rate=#{p_rate},p_data=#{p_data},p_volume=#{p_volume},p_amount=#{p_amount},p_date=#{p_date} where id=#{id}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update t_gold set 
+	<trim  suffixOverrides="," >
+	<if test="p_createtime != null  ">
+		p_createtime=#{p_createtime},
+	</if>
+	<if test="p_modifytime != null  ">
+		p_modifytime=#{p_modifytime},
+	</if>
+	<if test="p_creator != null  ">
+		p_creator=#{p_creator},
+	</if>
+	<if test="p_modifier != null  ">
+		p_modifier=#{p_modifier},
+	</if>
+	<if test="p_remark != null  ">
+		p_remark=#{p_remark},
+	</if>
+	<if test="p_deleted != null  ">
+		p_deleted=#{p_deleted},
+	</if>
+	<if test="p_name != null  ">
+		p_name=#{p_name},
+	</if>
+	<if test="p_opendata != null  ">
+		p_opendata=#{p_opendata},
+	</if>
+	<if test="p_highdata != null  ">
+		p_highdata=#{p_highdata},
+	</if>
+	<if test="p_lowdata != null  ">
+		p_lowdata=#{p_lowdata},
+	</if>
+	<if test="p_closedata != null  ">
+		p_closedata=#{p_closedata},
+	</if>
+	<if test="p_add != null  ">
+		p_add=#{p_add},
+	</if>
+	<if test="p_rate != null  ">
+		p_rate=#{p_rate},
+	</if>
+	<if test="p_data != null  ">
+		p_data=#{p_data},
+	</if>
+	<if test="p_volume != null  ">
+		p_volume=#{p_volume},
+	</if>
+	<if test="p_amount != null  ">
+		p_amount=#{p_amount},
+	</if>
+	<if test="p_date != null  ">
+		p_date=#{p_date},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from t_gold where id = #{id}
+</delete>
+ 
+<!-- 根据id查询 黄金行情 -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from t_gold where id = #{id}
+</select>
+
+<!-- 黄金行情 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from t_gold 
+	<include refid="Example_Where_Clause"/>
+</select>
+  	
+<!-- 查询黄金行情列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from t_gold 
+	<include refid="Example_Where_Clause"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+  	
+</mapper>   
