@@ -9,8 +9,9 @@
  	 <div class="ui-search-panel" region="north" style="height: 80px;" title="过滤条件" data-options="striped: true,collapsible:false,iconCls:'icon-search',border:false" >  
  	 <form id="searchForm">
         <p class="ui-fields">
-			<label class="ui-label">创建时间:</label><input name="p_createtime" class="easyui-box ui-text" style="width:100px;">
-			<label class="ui-label">修改时间:</label><input name="p_modifytime" class="easyui-box ui-text" style="width:100px;">
+			<label class="ui-label">日期:</label>
+			<input id="p_date" name="p_date" type="text" maxlength="" class="easyui-datebox" 
+			data-options="formatter:getDateTime"  missingMessage="日期" >
 	    </p>
 	    <a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">查询</a>
       </form>  

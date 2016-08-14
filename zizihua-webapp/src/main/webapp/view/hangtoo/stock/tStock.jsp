@@ -9,8 +9,31 @@
  	 <div class="ui-search-panel" region="north" style="height: 80px;" title="过滤条件" data-options="striped: true,collapsible:false,iconCls:'icon-search',border:false" >  
  	 <form id="searchForm">
         <p class="ui-fields">
-			<label class="ui-label">创建时间:</label><input name="p_createtime" class="easyui-box ui-text" style="width:100px;">
-			<label class="ui-label">修改时间:</label><input name="p_modifytime" class="easyui-box ui-text" style="width:100px;">
+			<label class="ui-label">指数名称:</label>
+			<select name="p_name" style="width:100px;">
+				<option value="">所有</option>
+				<option value="深证成指">深证成指</option>
+				<option value="中小板指">中小板指</option>
+				<option value="创业板指">创业板指</option>
+				<option value="深证综指">深证综指</option>
+				<option value="市场总成交金额（元）">市场总成交金额（元）</option>
+				<option value="平均股票价格（元）">平均股票价格（元）</option>
+				<option value="股票成交金额（元）">股票成交金额（元）</option>
+				
+				<option value="股票平均市盈率">股票平均市盈率</option>
+				<option value="股票平均换手率">股票平均换手率</option>
+				<option value="股票流通股本（股）">股票流通股本（股）</option>
+				<option value="股票总股本（股）">股票总股本（股）</option>
+				<option value="股票流通市值（元）">股票流通市值（元）</option>
+				<option value="股票总市值（元）">股票总市值（元）</option>
+				<option value="上市公司数">上市公司数</option>
+				<option value="上市证券数">上市证券数</option>
+			</select>
+			
+			<label class="ui-label">日期:</label>
+			<input id="p_date" name="p_date" type="text" maxlength="" class="easyui-datebox" 
+			data-options="formatter:getDateTime"  missingMessage="日期" >
+			
 	    </p>
 	    <a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">查询</a>
       </form>  

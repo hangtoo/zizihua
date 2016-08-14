@@ -39,6 +39,10 @@ public class HttpGetPostDataTest {
 			formParams.add(new BasicNameValuePair("timestamp",""+DateUtils.addDay(DateUtils.now(),0,-1).getTime()));
 			ret=httpGetPostData.postData(url,formParams);
 			
+			url="http://www.sge.com.cn/sgeclient/TraderMarket/getCentralizedData?date=2016-08-01";
+			formParams.add(new BasicNameValuePair("timestamp",""+DateUtils.now().getTime()));
+			//[{"TRADEDATE":"20160801","PRODCODE":"SHAU","PRODNAME":"上海金","AMPRICE":"288.65","PMPRICE":"287.95"}]
+			
 			System.out.println(ret);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

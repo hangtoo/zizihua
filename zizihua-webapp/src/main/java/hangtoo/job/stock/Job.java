@@ -52,7 +52,7 @@ public class Job {
 				}
 			}
 			
-			for(;day.before(now)||day.equals(now);day=DateUtils.addDay(day,0,1)){
+			for(;day.before(now);day=DateUtils.addDay(day,0,1)){//||day.equals(now)
 
 				System.out.println(day);
 				week=DateUtils.getWeekday(day);

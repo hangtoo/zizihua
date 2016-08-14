@@ -9,8 +9,7 @@
  	 <div class="ui-search-panel" region="north" style="height: 80px;" title="过滤条件" data-options="striped: true,collapsible:false,iconCls:'icon-search',border:false" >  
  	 <form id="searchForm">
         <p class="ui-fields">
-			<label class="ui-label">:</label><input name="p_year" class="easyui-box ui-text" style="width:100px;">
-			<label class="ui-label">数值:</label><input name="p_max" class="easyui-box ui-text" style="width:100px;">
+			<label class="ui-label">年份:</label><input name="p_year" class="easyui-box ui-text" style="width:100px;">
 	    </p>
 	    <a href="#" id="btn-search" class="easyui-linkbutton" iconCls="icon-search">查询</a>
       </form>  
