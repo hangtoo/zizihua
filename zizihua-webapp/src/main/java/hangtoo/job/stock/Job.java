@@ -37,7 +37,6 @@ public class Job {
     	
     	now=DateUtils.dateNow();
     	
-    	int week=0;
 		synchronized(Job.class){
 			Date day=DateUtils.addDay(now,0,-1);//TODO
 			
@@ -55,23 +54,7 @@ public class Job {
 			for(;day.before(now);day=DateUtils.addDay(day,0,1)){//||day.equals(now)
 
 				System.out.println(day);
-				week=DateUtils.getWeekday(day);
-				if(week>5){//周末跳过
-					continue;
-				}
-				
-				if(day.getMonth()==0&&day.getDate()==1){//1.1跳过
-					continue;
-				}
-				if(day.getMonth()==4&&(day.getDate()>=1&&day.getDate()<=3)){//5.1跳过
-					continue;
-				}
-				if(day.getMonth()==9&&(day.getDate()>=1&&day.getDate()<=7)){//10.1跳过
-					continue;
-				}
-				
-				Date d=LunarDateUtil.solarTolunar(day);
-				if(d.getMonth()==0&&(d.getDate()>=1&&d.getDate()<=7)){
+				if(!isWorkingDay(day)){
 					continue;
 				}
 				
@@ -91,7 +74,31 @@ public class Job {
 					}
 				}
 			}
+			
     	}
+    }
+    
+    private Boolean isWorkingDay(Date day){
+		int week=DateUtils.getWeekday(day);
+		if(week>5){//周末跳过
+			return false;
+		}
+		
+		if(day.getMonth()==0&&day.getDate()==1){//1.1跳过
+			return false;
+		}
+		if(day.getMonth()==4&&(day.getDate()>=1&&day.getDate()<=3)){//5.1跳过
+			return false;
+		}
+		if(day.getMonth()==9&&(day.getDate()>=1&&day.getDate()<=7)){//10.1跳过
+			return false;
+		}
+		
+		Date d=LunarDateUtil.solarTolunar(day);
+		if(d.getMonth()==0&&(d.getDate()>=1&&d.getDate()<=7)){
+			return false;
+		}
+		return true;
     }
     
     private String formatData(String data){
