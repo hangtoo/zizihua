@@ -101,7 +101,7 @@ public class Job {
 			Date targetDay=DateUtils.parseDate(day, DateUtils.pattern_d);
 			int nday=e.compareTo(targetDay);//往后翻
 			if(nday>0){
-				int TPAGE=(nday/7*5)/this.pageSize;
+				int TPAGE=(nday*5/7)/this.pageSize;//考虑周末的情况
 				if(TPAGE>0){
 					as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
 					as=getTargetPage(as,day,TPAGE);
@@ -109,13 +109,12 @@ public class Job {
 			}else{
 				nday=targetDay.compareTo(s);//往前翻
 				if(nday>0){
-					int TPAGE=(nday/7*5)/this.pageSize;
+					int TPAGE=(nday*5/7)/this.pageSize;
 					if(TPAGE>0){
 						TPAGE=CURRENTPAGE-TPAGE;
 						as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
 						as=getTargetPage(as,day,TPAGE);
 					}
-					
 				}
 			}
 		}
@@ -127,27 +126,15 @@ public class Job {
     	//"zl_list"
     	try {
 			List<Element> as=htmlDecoderFacade.getTargetAttr(urltemplate,"zl_list",EnumHeaderStyle.TOP,Constants.A);
-			Date s;
-			Date e;
+			Date s;//开始时间较大
+			Date e;//结束时间较小
 			if(!as.isEmpty()){
 				s=DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
 				e=DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
 				
 				Date targetDay=DateUtils.parseDate(day, DateUtils.pattern_d);
-				int nday=e.compareTo(targetDay);
-				if(nday>0){
-					int TPAGE=(nday/7*5)/this.pageSize;
-					if(TPAGE>0){
-						as=getTargetPage(as,day,TPAGE);
-					}
-				}else{
-					nday=targetDay.compareTo(s);//往前翻
-					if(nday>0){
-						int TPAGE=(nday/7*5)/this.pageSize;
-						if(TPAGE>0){
-							as=getTargetPage(as,day,TPAGE);
-						}
-					}
+				if(e.compareTo(targetDay)>0||targetDay.compareTo(s)>0){
+					as=getTargetPage(as,day,1);
 				}
 			}
 			
@@ -176,7 +163,8 @@ public class Job {
 			e.printStackTrace();
 		}
     	
-    	return "http://www.sge.com.cn/xqzx/mrxq/539598.shtml";
+    	//return "http://www.sge.com.cn/xqzx/mrxq/539598.shtml";
+    	return urltemplate;
     }
     
     private void batchSave(Date day) throws Exception{
