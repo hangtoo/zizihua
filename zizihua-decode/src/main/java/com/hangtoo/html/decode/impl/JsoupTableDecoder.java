@@ -34,4 +34,5 @@ public class JsoupTableDecoder implements IHtmlDecoder{
 		
 		return ret;
 	}
+	
 }

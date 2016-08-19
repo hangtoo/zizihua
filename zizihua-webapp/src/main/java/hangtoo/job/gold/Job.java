@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hangtoo.html.EnumHeaderStyle;
 import com.hangtoo.html.decode.IHtmlDecoderFacade;
 import com.hangtoo.html.decode.impl.HtmlDecoderFacade;
+import com.hangtoo.util.Constants;
 import com.hangtoo.util.DateUtils;
 import com.mysql.jdbc.StringUtils;
 
@@ -27,6 +29,8 @@ public class Job {
 	private TGoldService tGoldService; 
 	IHtmlDecoderFacade htmlDecoderFacade=new HtmlDecoderFacade();
 	String urltemplate="http://www.sge.com.cn/xqzx/mrxq/";
+	String urltemplate_page="http://www.sge.com.cn/xqzx/mrxq/index_#PAGE#.shtml";
+	String domain="http://www.sge.com.cn";
 	Date now;
 	String tableID="page_con";
 	//http://www.sge.com.cn/xqzx/mrxq/
@@ -87,6 +91,42 @@ public class Job {
     }
     
     private String getUrlByDate(String indexUrl,String day){
+    	//urltemplate;
+    	//"zl_list"
+    	try {
+			List<Element> as=htmlDecoderFacade.getTargetAttr(urltemplate,"zl_list",EnumHeaderStyle.TOP,Constants.A);
+			Date s;
+			Date e;
+			if(!as.isEmpty()){
+				s=DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
+				e=DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
+			}
+			for(int i=0;i<as.size();i++){
+				Element a=as.get(i);
+				System.out.println(a.attr(Constants.HREF));
+				///xqzx/mrxq/539858.shtml
+				System.out.println(a.child(0).text());
+				//2016-08-19
+				System.out.println(a.child(1).text());
+				//上海黄金交易所2016年8月3日交易行情
+				
+				if(day.equals(a.child(0).text())){
+					return domain+a.attr(Constants.HREF);
+				}
+				
+			}
+			
+			Date d=DateUtils.parseDate(day, DateUtils.pattern_d);
+			//TODO 对于没找到的这种情况，待处理
+			
+			//urltemplate_page
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     	return "http://www.sge.com.cn/xqzx/mrxq/539598.shtml";
     }
     
