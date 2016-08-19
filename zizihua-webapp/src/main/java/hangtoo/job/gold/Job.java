@@ -136,11 +136,18 @@ public class Job {
 				Date targetDay=DateUtils.parseDate(day, DateUtils.pattern_d);
 				int nday=e.compareTo(targetDay);
 				if(nday>0){
-					int PAGE=(nday/7*5)/this.pageSize;
-					if(PAGE>0){
-						as=getTargetPage(as,day,PAGE);
+					int TPAGE=(nday/7*5)/this.pageSize;
+					if(TPAGE>0){
+						as=getTargetPage(as,day,TPAGE);
 					}
-					as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(PAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+				}else{
+					nday=targetDay.compareTo(s);//往前翻
+					if(nday>0){
+						int TPAGE=(nday/7*5)/this.pageSize;
+						if(TPAGE>0){
+							as=getTargetPage(as,day,TPAGE);
+						}
+					}
 				}
 			}
 			
