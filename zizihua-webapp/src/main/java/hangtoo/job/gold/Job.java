@@ -33,6 +33,7 @@ public class Job {
 	String domain="http://www.sge.com.cn";
 	Date now;
 	String tableID="page_con";
+	int pageSize=15;
 	//http://www.sge.com.cn/xqzx/mrxq/
 	//获取索引页
 	//getUrlByDate 根据翻页规则获取指定日期的页面 ，每页15行，第1页第1行为最近一个工作日，据此计算指定日期的链接，需要分析该标题来确定链接，如果不是则前后找找，找上一条或上一页
@@ -90,6 +91,37 @@ public class Job {
     	return data.replaceAll(",", "");
     }
     
+    private List<Element> getTargetPage(List<Element> as,String day,int CURRENTPAGE) throws Exception{
+		Date s;
+		Date e;
+		if(!as.isEmpty()){
+			s=DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
+			e=DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
+			
+			Date targetDay=DateUtils.parseDate(day, DateUtils.pattern_d);
+			int nday=e.compareTo(targetDay);//往后翻
+			if(nday>0){
+				int TPAGE=(nday/7*5)/this.pageSize;
+				if(TPAGE>0){
+					as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+					as=getTargetPage(as,day,TPAGE);
+				}
+			}else{
+				nday=targetDay.compareTo(s);//往前翻
+				if(nday>0){
+					int TPAGE=(nday/7*5)/this.pageSize;
+					if(TPAGE>0){
+						TPAGE=CURRENTPAGE-TPAGE;
+						as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+						as=getTargetPage(as,day,TPAGE);
+					}
+					
+				}
+			}
+		}
+		return as;
+    }
+    
     private String getUrlByDate(String indexUrl,String day){
     	//urltemplate;
     	//"zl_list"
@@ -100,7 +132,18 @@ public class Job {
 			if(!as.isEmpty()){
 				s=DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
 				e=DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
+				
+				Date targetDay=DateUtils.parseDate(day, DateUtils.pattern_d);
+				int nday=e.compareTo(targetDay);
+				if(nday>0){
+					int PAGE=(nday/7*5)/this.pageSize;
+					if(PAGE>0){
+						as=getTargetPage(as,day,PAGE);
+					}
+					as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(PAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+				}
 			}
+			
 			for(int i=0;i<as.size();i++){
 				Element a=as.get(i);
 				System.out.println(a.attr(Constants.HREF));
@@ -113,7 +156,6 @@ public class Job {
 				if(day.equals(a.child(0).text())){
 					return domain+a.attr(Constants.HREF);
 				}
-				
 			}
 			
 			Date d=DateUtils.parseDate(day, DateUtils.pattern_d);
