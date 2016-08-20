@@ -152,9 +152,6 @@ public class Job {
 				}
 			}
 			
-			Date d=DateUtils.parseDate(day, DateUtils.pattern_d);
-			//TODO 对于没找到的这种情况，待处理
-			
 			//urltemplate_page
 			
 			
@@ -184,7 +181,10 @@ public class Job {
 				
 				tmp=ele.get("合约");
 				if(tmp==null||tmp.equals("")){
-					continue;
+					tmp=ele.get("交易品种");
+					if(tmp==null||tmp.equals("")){
+						continue;
+					}
 				}
 				entity.setP_name(tmp);
 				
@@ -240,6 +240,12 @@ public class Job {
 				if(tmp!=null&&!tmp.equals("")){
 					tmp=formatData(tmp);
 					entity.setP_amount(new BigDecimal(tmp));
+				}else{
+					tmp=ele.get("成交额   (元)");
+					if(tmp!=null&&!tmp.equals("")){
+						tmp=formatData(tmp);
+						entity.setP_amount(new BigDecimal(tmp));
+					}
 				}
 				
 				tmp=ele.get("持仓量");
