@@ -43,6 +43,12 @@ public class HtmlDecoderFacade implements IHtmlDecoderFacade {
 /*		if (StringUtils.isEmpty(src)) {
 			src = Jsoup.connect(url).get().html();
 		}*/
+		
+		if(src==null){
+			System.out.println("get url error:"+url);
+			return null;
+		}
+		
 		List<Element> data = targetAttrDecoder.getData(src, tableID,targetTag);
 
 		return data;

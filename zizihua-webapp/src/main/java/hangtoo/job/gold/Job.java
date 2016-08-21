@@ -137,9 +137,18 @@ public class Job {
     		}
     		
 			List<Element> as=htmlDecoderFacade.getTargetAttr(pageUrl,"zl_list",EnumHeaderStyle.TOP,Constants.A);
+			
+			while(as==null&&TPAGE>0){//TODO
+				TPAGE=TPAGE-1;
+				pageUrl=urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE));
+				
+				Thread.sleep(2000);
+				as=htmlDecoderFacade.getTargetAttr(pageUrl,"zl_list",EnumHeaderStyle.TOP,Constants.A);
+			}
+			
 			Date s;//开始时间较大
 			Date e;//结束时间较小
-			if(!as.isEmpty()){
+			if(as!=null&&!as.isEmpty()){
 				s=DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
 				e=DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
 				
