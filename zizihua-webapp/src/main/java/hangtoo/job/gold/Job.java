@@ -3,6 +3,7 @@ package hangtoo.job.gold;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,10 +37,13 @@ public class Job {
 	int pageSize=15;
 	
 	final int MAXPAGE=128;//http://www.sge.com.cn/xqzx/mrxq/index_128.shtml
+	
+	Map<String,Integer> dayPage=new HashMap<>();
+	
 	//http://www.sge.com.cn/xqzx/mrxq/
 	//获取索引页
-	//getUrlByDate 根据翻页规则获取指定日期的页面 ，每页15行，第1页第1行为最近一个工作日，据此计算指定日期的链接，需要分析该标题来确定链接，如果不是则前后找找，找上一条或上一页
-	//getDatafromUrl 需要适配不同的标题，同一个数据有多个标题
+	//根据翻页规则获取指定日期的页面 ，每页15行，第1页第1行为最近一个工作日，据此计算指定日期的链接，需要分析该标题来确定链接，如果不是则前后找找，找上一条或上一页
+	//需要适配不同的标题，同一个数据有多个标题
 	//storeData 
 	
     public void taskCycle(){
@@ -64,7 +68,7 @@ public class Job {
 			
 			for(;day.before(now);day=DateUtils.addDay(day,0,1)){//||day.equals(now)
 
-				System.out.println(day);
+				System.out.printf("target day:%s",day);
 				if(!DateUtils.isWorkingDay(day)){
 					continue;
 				}
@@ -100,6 +104,10 @@ public class Job {
 			s=as.get(0).child(0).text();//DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
 			e=as.get(as.size()-1).child(0).text();//DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
 			
+		
+			//dayPage.put(s, CURRENTPAGE);
+			
+			
 			int nday=DateUtils.daysBetween(day,e);//往后翻
 			
 			if(nday>0){
@@ -124,6 +132,12 @@ public class Job {
 		return as;
     }
     
+    /**
+     * 根据翻页规则获取指定日期的页面 ，每页15行，第1页第1行为最近一个工作日，据此计算指定日期的链接，
+     * 需要分析该标题来确定链接，如果不是则前后找找，找上一条或上一页
+     * @param day
+     * @return
+     */
     private String getUrlByDate(String day){
     	//urltemplate;
     	//"zl_list"
@@ -140,13 +154,13 @@ public class Job {
     		if(TPAGE>0){
     			pageUrl=urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE));
     		}
-    		
+    		System.out.printf("target url:%s",pageUrl);
 			List<Element> as=htmlDecoderFacade.getTargetAttr(pageUrl,"zl_list",EnumHeaderStyle.TOP,Constants.A);
 			
 			while(as==null&&TPAGE>0){//TODO
 				TPAGE=TPAGE-1;
 				pageUrl=urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE));
-				
+				System.out.printf("current url:%s",pageUrl);
 				Thread.sleep(2000);
 				as=htmlDecoderFacade.getTargetAttr(pageUrl,"zl_list",EnumHeaderStyle.TOP,Constants.A);
 			}
@@ -165,11 +179,11 @@ public class Job {
 			
 			for(int i=0;i<as.size();i++){
 				Element a=as.get(i);
-				System.out.println(a.attr(Constants.HREF));
+				//System.out.println(a.attr(Constants.HREF));
 				///xqzx/mrxq/539858.shtml
-				System.out.println(a.child(0).text());
+				//System.out.println(a.child(0).text());
 				//2016-08-19
-				System.out.println(a.child(1).text());
+				//System.out.println(a.child(1).text());
 				//上海黄金交易所2016年8月3日交易行情
 				
 				if(day.equals(a.child(0).text())){
