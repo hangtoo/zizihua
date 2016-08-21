@@ -32,10 +32,12 @@
 		<mybatis_version>3.2.8</mybatis_version>
 		<mybatis-spring_version>1.2.2</mybatis-spring_version>
 		<spring_version>4.1.6.RELEASE</spring_version>
+		<jstl_version>1.2</jstl_version>
 		<!-- 
 		<tomcat_embed_version>7.0.55</tomcat_embed_version>
 		 -->
 		<tomcat_embed_version>8.0.36</tomcat_embed_version>
+
 		<junit_version>4.11</junit_version>
 	</properties>
 
@@ -174,6 +176,12 @@
 				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-logging-juli</artifactId>
 				<version>${tomcat_embed_version}</version>
+			</dependency>
+
+			<dependency>
+			    <groupId>javax.servlet</groupId>
+			    <artifactId>jstl</artifactId>
+			    <version>${jstl_version}</version>
 			</dependency>
 
 			<dependency>
