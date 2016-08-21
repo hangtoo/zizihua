@@ -92,22 +92,23 @@ public class Job {
     }
     
     private List<Element> getTargetPage(List<Element> as,String day,int CURRENTPAGE) throws Exception{
-		Date s;
-		Date e;
+		String s;
+		String e;
 		if(!as.isEmpty()){
-			s=DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
-			e=DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
+			s=as.get(0).child(0).text();//DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
+			e=as.get(as.size()-1).child(0).text();//DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
 			
-			Date targetDay=DateUtils.parseDate(day, DateUtils.pattern_d);
-			int nday=e.compareTo(targetDay);//往后翻
+			int nday=DateUtils.daysBetween(day,e);//往后翻
+			
 			if(nday>0){
 				int TPAGE=(nday*5/7)/this.pageSize;//考虑周末的情况
 				if(TPAGE>0){
+					TPAGE=TPAGE+CURRENTPAGE;
 					as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
 					as=getTargetPage(as,day,TPAGE);
 				}
 			}else{
-				nday=targetDay.compareTo(s);//往前翻
+				nday=DateUtils.daysBetween(s,day);//往前翻
 				if(nday>0){
 					int TPAGE=(nday*5/7)/this.pageSize;
 					if(TPAGE>0){
@@ -121,11 +122,21 @@ public class Job {
 		return as;
     }
     
-    private String getUrlByDate(String indexUrl,String day){
+    private String getUrlByDate(String day){
     	//urltemplate;
     	//"zl_list"
     	try {
-			List<Element> as=htmlDecoderFacade.getTargetAttr(urltemplate,"zl_list",EnumHeaderStyle.TOP,Constants.A);
+    		
+    		String now=DateUtils.DateToShort(DateUtils.dateNow());
+    		int nday=DateUtils.daysBetween(day, now);
+    		int TPAGE=(nday*5/7)/this.pageSize;
+    		String pageUrl=urltemplate;
+    		
+    		if(TPAGE>0){
+    			pageUrl=urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE));
+    		}
+    		
+			List<Element> as=htmlDecoderFacade.getTargetAttr(pageUrl,"zl_list",EnumHeaderStyle.TOP,Constants.A);
 			Date s;//开始时间较大
 			Date e;//结束时间较小
 			if(!as.isEmpty()){
@@ -161,7 +172,7 @@ public class Job {
 		}
     	
     	//return "http://www.sge.com.cn/xqzx/mrxq/539598.shtml";
-    	return urltemplate;
+    	return null;
     }
     
     private void batchSave(Date day) throws Exception{
@@ -169,8 +180,11 @@ public class Job {
 
 			String shortdate=DateUtils.DateToShort(day);
 			
-			String url=getUrlByDate(urltemplate,shortdate);
-			
+			String url=getUrlByDate(shortdate);
+			System.out.println(url);
+			if(url==null){
+				return;
+			}
 			List<Map<String,String>> data=htmlDecoderFacade.getTableData(url,tableID,EnumHeaderStyle.TOP);
 			
 			TGold entity;

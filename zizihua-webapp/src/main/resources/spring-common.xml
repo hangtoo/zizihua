@@ -36,7 +36,7 @@
     <task:scheduled-tasks>  
 		<!-- 这里表示的是每天20点15执行一次   -->
         <task:scheduled ref="stockjob" method="taskCycle" cron="0 18 6 * * ?" />
-        <task:scheduled ref="goldjob" method="taskCycle" cron="0 55 6 * * ?" />
+        <task:scheduled ref="goldjob" method="taskCycle" cron="0 55 8 * * ?" />
         <!-- <task:scheduled ref="job" method="taskCycle" cron="0/1 * * * * ?" /> -->
     </task:scheduled-tasks> 
 

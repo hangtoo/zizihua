@@ -76,7 +76,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
      */
 	public static Date addDay(Date date, int m, int d) {
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf = new SimpleDateFormat(pattern_d);
 
 			Calendar cd = Calendar.getInstance();
 			cd.setTime(date);
@@ -149,7 +149,21 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 		return true;
     }
 	
-	
+	/**
+	 * 字符串的日期格式的计算
+	 */
+	public static int daysBetween(String smdate, String bdate) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat(pattern_d);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(sdf.parse(smdate));
+		long time1 = cal.getTimeInMillis();
+		cal.setTime(sdf.parse(bdate));
+		long time2 = cal.getTimeInMillis();
+		long between_days = (time2 - time1) / (1000 * 3600 * 24);
+
+		return Integer.parseInt(String.valueOf(between_days));
+	}
+
 	public static void main(String[] args) {
 		/** 此处修改成你的 表名 和 中文注释 ***/
 		try {
