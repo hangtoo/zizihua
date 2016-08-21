@@ -34,6 +34,8 @@ public class Job {
 	Date now;
 	String tableID="page_con";
 	int pageSize=15;
+	
+	final int MAXPAGE=128;//http://www.sge.com.cn/xqzx/mrxq/index_128.shtml
 	//http://www.sge.com.cn/xqzx/mrxq/
 	//获取索引页
 	//getUrlByDate 根据翻页规则获取指定日期的页面 ，每页15行，第1页第1行为最近一个工作日，据此计算指定日期的链接，需要分析该标题来确定链接，如果不是则前后找找，找上一条或上一页
@@ -94,7 +96,7 @@ public class Job {
     private List<Element> getTargetPage(List<Element> as,String day,int CURRENTPAGE) throws Exception{
 		String s;
 		String e;
-		if(!as.isEmpty()){
+		if(as!=null&&!as.isEmpty()){
 			s=as.get(0).child(0).text();//DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
 			e=as.get(as.size()-1).child(0).text();//DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
 			
@@ -130,6 +132,9 @@ public class Job {
     		String now=DateUtils.DateToShort(DateUtils.dateNow());
     		int nday=DateUtils.daysBetween(day, now);
     		int TPAGE=(nday*5/7)/this.pageSize;
+    		if(TPAGE>MAXPAGE){
+    			TPAGE=MAXPAGE;
+    		}
     		String pageUrl=urltemplate;
     		
     		if(TPAGE>0){
@@ -154,7 +159,7 @@ public class Job {
 				
 				Date targetDay=DateUtils.parseDate(day, DateUtils.pattern_d);
 				if(e.compareTo(targetDay)>0||targetDay.compareTo(s)>0){
-					as=getTargetPage(as,day,1);
+					as=getTargetPage(as,day,TPAGE);
 				}
 			}
 			
@@ -203,88 +208,152 @@ public class Job {
 				entity.setP_date(day);
 				
 				tmp=ele.get("合约");
-				if(tmp==null||tmp.equals("")){
-					tmp=ele.get("交易品种");
-					if(tmp==null||tmp.equals("")){
-						continue;
+				
+				if(StringUtils.isNullOrEmpty(tmp)){
+					tmp=ele.get("品种");
+					if(StringUtils.isNullOrEmpty(tmp)){
+						tmp=ele.get("交易品种");
+						if(StringUtils.isNullOrEmpty(tmp)){
+							continue;
+						}
 					}
 				}
 				entity.setP_name(tmp);
 				
 				tmp=ele.get("开盘价");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_opendata(new BigDecimal(tmp));
+					try{
+						entity.setP_opendata(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 
 				tmp=ele.get("最高价");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_highdata(new BigDecimal(tmp));
+					try{
+						entity.setP_highdata(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 				
 				tmp=ele.get("最低价");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_lowdata(new BigDecimal(tmp));
+					try{
+						entity.setP_lowdata(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 				
 				tmp=ele.get("收盘价");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_closedata(new BigDecimal(tmp));
+					try{
+						entity.setP_closedata(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 				
 				tmp=ele.get("涨跌（元）");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_add(new BigDecimal(tmp));
+					try{
+						entity.setP_add(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 				
 				tmp=ele.get("涨跌幅");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_rate(new BigDecimal(tmp));
+					try{
+						entity.setP_rate(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 				
 				tmp=ele.get("加权平均价");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_data(new BigDecimal(tmp));
+					try{
+						entity.setP_data(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 				
 				tmp=ele.get("成交量");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_volume(new BigDecimal(tmp));
+					try{
+						entity.setP_volume(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 				
 				tmp=ele.get("成交金额");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_amount(new BigDecimal(tmp));
+					try{
+						entity.setP_amount(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}else{
 					tmp=ele.get("成交额   (元)");
-					if(tmp!=null&&!tmp.equals("")){
+					if(!StringUtils.isNullOrEmpty(tmp)){
 						tmp=formatData(tmp);
-						entity.setP_amount(new BigDecimal(tmp));
+						try{
+							entity.setP_amount(new BigDecimal(tmp));
+						}catch(Exception e){
+							System.out.println(tmp);
+							log.error(e);
+						}
 					}
 				}
 				
 				tmp=ele.get("持仓量");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_openinterest(new BigDecimal(tmp));
+					try{
+						entity.setP_openinterest(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 				
 				tmp=ele.get("交收量");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
-					entity.setP_settlement(new BigDecimal(tmp));
+					try{
+						entity.setP_settlement(new BigDecimal(tmp));
+					}catch(Exception e){
+						System.out.println(tmp);
+						log.error(e);
+					}
 				}
 				
 				tmp=ele.get("交收方向");
-				if(tmp!=null&&!tmp.equals("")){
+				if(!StringUtils.isNullOrEmpty(tmp)){
 					entity.setP_remark(tmp);
 				}				
 				entity.setP_createtime(now);
