@@ -2,6 +2,7 @@ package hangtoo.job.gold;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,11 @@ public class Job {
 	
 	final int MAXPAGE=128;//http://www.sge.com.cn/xqzx/mrxq/index_128.shtml
 	
-	Map<String,Integer> dayPage=new HashMap<>();
+	final static Map<String,Integer> dayPage=new HashMap<>();//日期 和页码
+	final static List<Integer> mapedPage=new ArrayList<>();//已经取过数据的页面
+	final static List<Integer> mapedFailPage=new ArrayList<>();//已经取过数据的页面,但是没拿到
+	
+	final static Map<String,String> dayUrl=new HashMap<>();//日期 和链接
 	
 	//http://www.sge.com.cn/xqzx/mrxq/
 	//获取索引页
@@ -93,43 +98,43 @@ public class Job {
     	}
     }
     
-    private String formatData(String data){
-    	return data.replaceAll(",", "");
+    /**
+     * 扫描指定页面，并缓存该页面
+     * @param TPAGE
+     * @throws Exception
+     */
+    private void mapIndexPage(Integer TPAGE) throws Exception{
+    	if(mapedPage.contains(TPAGE)){
+    		return;
+    	}
+    	List<Element> as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+    	
+    	if(!as.isEmpty()){
+	    	for(Element a:as){
+	    		dayPage.put(a.child(0).text(), TPAGE);
+	    	}
+    		mapedPage.add(TPAGE);
+    	}else{
+    		mapedFailPage.add(TPAGE);
+    	}
     }
     
-    private List<Element> getTargetPage(List<Element> as,String day,int CURRENTPAGE) throws Exception{
-		String s;
-		String e;
-		if(as!=null&&!as.isEmpty()){
-			s=as.get(0).child(0).text();//DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
-			e=as.get(as.size()-1).child(0).text();//DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
-			
-		
-			//dayPage.put(s, CURRENTPAGE);
-			
-			
-			int nday=DateUtils.daysBetween(day,e);//往后翻
-			
-			if(nday>0){
-				int TPAGE=(nday*5/7)/this.pageSize;//考虑周末的情况
-				if(TPAGE>0){
-					TPAGE=TPAGE+CURRENTPAGE;
-					as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
-					as=getTargetPage(as,day,TPAGE);
-				}
-			}else{
-				nday=DateUtils.daysBetween(s,day);//往前翻
-				if(nday>0){
-					int TPAGE=(nday*5/7)/this.pageSize;
-					if(TPAGE>0){
-						TPAGE=CURRENTPAGE-TPAGE;
-						as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
-						as=getTargetPage(as,day,TPAGE);
-					}
-				}
+    
+    private String getUrlByAs(List<Element> as,String day){
+		for(int i=0;i<as.size();i++){
+			Element a=as.get(i);
+			//System.out.println(a.attr(Constants.HREF));
+			///xqzx/mrxq/539858.shtml
+			//System.out.println(a.child(0).text());
+			//2016-08-19
+			//System.out.println(a.child(1).text());
+			//上海黄金交易所2016年8月3日交易行情
+			dayUrl.put(a.child(0).text(), a.attr(Constants.HREF));//缓存下
+			if(day.equals(a.child(0).text())){
+				return domain+a.attr(Constants.HREF);
 			}
 		}
-		return as;
+		return null;
     }
     
     /**
@@ -143,56 +148,45 @@ public class Job {
     	//"zl_list"
     	try {
     		
-    		String now=DateUtils.DateToShort(DateUtils.dateNow());
-    		int nday=DateUtils.daysBetween(day, now);
-    		int TPAGE=(nday*5/7)/this.pageSize;
-    		if(TPAGE>MAXPAGE){
-    			TPAGE=MAXPAGE;
+    		//直接从缓存中取
+    		String cachurl=dayUrl.get(day);
+    		if(!StringUtils.isNullOrEmpty(cachurl)){
+    			return domain+cachurl;
     		}
-    		String pageUrl=urltemplate;
     		
-    		if(TPAGE>0){
-    			pageUrl=urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE));
+    		List<Element> as=null;
+    		Integer indexPage=dayPage.get(day);
+    		if(indexPage==null){//缓存索引页
+    			for(int i=MAXPAGE;i>1;i--){
+    				mapIndexPage(i);
+    				indexPage=dayPage.get(day);
+    				if(indexPage!=null){
+    					break;
+    				}
+    			}
     		}
-    		System.out.printf("target url:%s",pageUrl);
-			List<Element> as=htmlDecoderFacade.getTargetAttr(pageUrl,"zl_list",EnumHeaderStyle.TOP,Constants.A);
+    		indexPage=dayPage.get(day);
+    		as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(indexPage)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+    		String ret=getUrlByAs(as,day);
+    		if(ret!=null){
+    			return ret;
+    		}
+    		
+			//否则认为索引页缓存失效了
+			mapedPage.remove(indexPage);
+			dayPage.remove(day);
 			
-			while(as==null&&TPAGE>0){//TODO
-				TPAGE=TPAGE-1;
-				pageUrl=urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE));
-				System.out.printf("current url:%s",pageUrl);
-				Thread.sleep(2000);
-				as=htmlDecoderFacade.getTargetAttr(pageUrl,"zl_list",EnumHeaderStyle.TOP,Constants.A);
-			}
-			
-			Date s;//开始时间较大
-			Date e;//结束时间较小
-			if(as!=null&&!as.isEmpty()){
-				s=DateUtils.parseDate(as.get(0).child(0).text(), DateUtils.pattern_d);
-				e=DateUtils.parseDate(as.get(as.size()-1).child(0).text(), DateUtils.pattern_d);
-				
-				Date targetDay=DateUtils.parseDate(day, DateUtils.pattern_d);
-				if(e.compareTo(targetDay)>0||targetDay.compareTo(s)>0){
-					as=getTargetPage(as,day,TPAGE);
+			for(int i=MAXPAGE;i>1;i--){//最新的索引页，如果还不成功就跳过
+				mapIndexPage(i);
+				indexPage=dayPage.get(day);
+				if(indexPage!=null){
+					break;
 				}
 			}
-			
-			for(int i=0;i<as.size();i++){
-				Element a=as.get(i);
-				//System.out.println(a.attr(Constants.HREF));
-				///xqzx/mrxq/539858.shtml
-				//System.out.println(a.child(0).text());
-				//2016-08-19
-				//System.out.println(a.child(1).text());
-				//上海黄金交易所2016年8月3日交易行情
-				
-				if(day.equals(a.child(0).text())){
-					return domain+a.attr(Constants.HREF);
-				}
-			}
+			as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(indexPage)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+			return getUrlByAs(as,day);
 			
 			//urltemplate_page
-			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -379,6 +373,10 @@ public class Job {
 			e.printStackTrace();
 			throw e;
 		}
+    }
+    
+    private String formatData(String data){
+    	return data.replaceAll(",", "");
     }
 
     
