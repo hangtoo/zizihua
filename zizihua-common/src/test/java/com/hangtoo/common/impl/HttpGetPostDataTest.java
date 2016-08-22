@@ -1,5 +1,6 @@
 package com.hangtoo.common.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,8 @@ public class HttpGetPostDataTest {
 
 	@Test
 	public void testGetData() {
-		
+		System.out.println("-0.05%".replaceAll("%", ""));
+		System.out.println(new BigDecimal("-0.05").divide(new BigDecimal(100)));
 		IHttpGetPostData httpGetPostData=HttpClientGetPostData.getInstance();
 		try {
 			String url="http://www.baidu.com";
@@ -24,6 +26,8 @@ public class HttpGetPostDataTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	@Test

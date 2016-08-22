@@ -273,6 +273,9 @@ public class Job {
 				}
 				
 				tmp=ele.get("涨跌（元）");
+				if(StringUtils.isNullOrEmpty(tmp)){
+					tmp=ele.get("涨跌");
+				}
 				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
 					try{
@@ -287,7 +290,13 @@ public class Job {
 				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
 					try{
-						entity.setP_rate(new BigDecimal(tmp));
+						if(tmp.endsWith("%")){
+							tmp=tmp.replace("%", "");
+							entity.setP_rate(new BigDecimal(tmp).divide(new BigDecimal(100)));
+						}else{
+							entity.setP_rate(new BigDecimal(tmp));
+						}
+						
 					}catch(Exception e){
 						System.out.println(tmp);
 						log.error(e);
@@ -317,6 +326,9 @@ public class Job {
 				}
 				
 				tmp=ele.get("成交金额");
+				if(StringUtils.isNullOrEmpty(tmp)){
+					tmp=ele.get("成交额   (元)");
+				}
 				if(!StringUtils.isNullOrEmpty(tmp)){
 					tmp=formatData(tmp);
 					try{
@@ -324,17 +336,6 @@ public class Job {
 					}catch(Exception e){
 						System.out.println(tmp);
 						log.error(e);
-					}
-				}else{
-					tmp=ele.get("成交额   (元)");
-					if(!StringUtils.isNullOrEmpty(tmp)){
-						tmp=formatData(tmp);
-						try{
-							entity.setP_amount(new BigDecimal(tmp));
-						}catch(Exception e){
-							System.out.println(tmp);
-							log.error(e);
-						}
 					}
 				}
 				

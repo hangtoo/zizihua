@@ -18,36 +18,6 @@ jeecg.tGold = function(){
 	   			url:'dataList.do',
 	   			columns:[[
 					{field:'id',checkbox:true},
-					{field:'p_createtime',title:'创建时间',align:'center',sortable:true,
-							formatter:function(value,row,index){
-								return row.p_createtime;
-							}
-						},
-					{field:'p_modifytime',title:'修改时间',align:'center',sortable:true,
-							formatter:function(value,row,index){
-								return row.p_modifytime;
-							}
-						},
-					{field:'p_creator',title:'创建人',align:'center',sortable:true,
-							formatter:function(value,row,index){
-								return row.p_creator;
-							}
-						},
-					{field:'p_modifier',title:'修改人',align:'center',sortable:true,
-							formatter:function(value,row,index){
-								return row.p_modifier;
-							}
-						},
-					{field:'p_remark',title:'备注',align:'center',sortable:true,
-							formatter:function(value,row,index){
-								return row.p_remark;
-							}
-						},
-					{field:'p_deleted',title:'是否删除',align:'center',sortable:true,
-							formatter:function(value,row,index){
-								return row.p_deleted;
-							}
-						},
 					{field:'p_name',title:'合约',align:'center',sortable:true,
 							formatter:function(value,row,index){
 								return row.p_name;

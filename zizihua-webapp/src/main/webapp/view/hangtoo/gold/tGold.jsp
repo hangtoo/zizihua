@@ -29,30 +29,6 @@
      		 <div class="ui-edit">
 		     	   <div class="ftitle">黄金行情</div>
 					<div class="fitem">
-						<label>创建时间</label>
-						<input name="p_createtime" type="text" maxlength="" class="easyui-datetimebox" data-options="" missingMessage="请填写创建时间">
-					</div>
-					<div class="fitem">
-						<label>修改时间</label>
-						<input name="p_modifytime" type="text" maxlength="" class="easyui-datetimebox" data-options="" missingMessage="请填写修改时间">
-					</div>
-					<div class="fitem">
-						<label>创建人</label>
-						<input name="p_creator" type="text" maxlength="255" class="easyui-validatebox" data-options="" missingMessage="请填写创建人">
-					</div>
-					<div class="fitem">
-						<label>修改人</label>
-						<input name="p_modifier" type="text" maxlength="255" class="easyui-validatebox" data-options="" missingMessage="请填写修改人">
-					</div>
-					<div class="fitem">
-						<label>备注</label>
-						<input name="p_remark" type="text" maxlength="255" class="easyui-validatebox" data-options="" missingMessage="请填写备注">
-					</div>
-					<div class="fitem">
-						<label>是否删除</label>
-						<input name="p_deleted" type="text" maxlength="" class="easyui-validatebox" data-options="" missingMessage="请填写是否删除">
-					</div>
-					<div class="fitem">
 						<label>合约</label>
 						<input name="p_name" type="text" maxlength="255" class="easyui-validatebox" data-options="" missingMessage="请填写合约">
 					</div>
