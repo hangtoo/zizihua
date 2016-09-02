@@ -35,9 +35,11 @@ public class Job {
 	String domain="http://www.sge.com.cn";
 	Date now;
 	String tableID="page_con";
+	String indexTableID="zl_list";
+	
 	int pageSize=15;
 	
-	final int MAXPAGE=128;//http://www.sge.com.cn/xqzx/mrxq/index_128.shtml
+	final int MAXPAGE=114;//http://www.sge.com.cn/xqzx/mrxq/index_128.shtml
 	
 	final static Map<String,Integer> dayPage=new HashMap<>();//日期 和页码
 	final static List<Integer> mapedPage=new ArrayList<>();//已经取过数据的页面
@@ -107,7 +109,7 @@ public class Job {
     	if(mapedPage.contains(TPAGE)){
     		return;
     	}
-    	List<Element> as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+    	List<Element> as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(TPAGE)),indexTableID,EnumHeaderStyle.TOP,Constants.A);
     	
     	if(!as.isEmpty()){
 	    	for(Element a:as){
@@ -145,7 +147,7 @@ public class Job {
      */
     private String getUrlByDate(String day){
     	//urltemplate;
-    	//"zl_list"
+    	//indexTableID
     	try {
     		
     		//直接从缓存中取
@@ -166,7 +168,7 @@ public class Job {
     			}
     		}
     		indexPage=dayPage.get(day);
-    		as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(indexPage)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+    		as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(indexPage)),indexTableID,EnumHeaderStyle.TOP,Constants.A);
     		String ret=getUrlByAs(as,day);
     		if(ret!=null){
     			return ret;
@@ -183,7 +185,7 @@ public class Job {
 					break;
 				}
 			}
-			as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(indexPage)),"zl_list",EnumHeaderStyle.TOP,Constants.A);
+			as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(indexPage)),indexTableID,EnumHeaderStyle.TOP,Constants.A);
 			return getUrlByAs(as,day);
 			
 			//urltemplate_page

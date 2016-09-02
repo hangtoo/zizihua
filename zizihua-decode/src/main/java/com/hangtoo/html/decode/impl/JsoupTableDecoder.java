@@ -16,7 +16,7 @@ public class JsoupTableDecoder implements IHtmlDecoder{
 	public Map<Integer,String> getData(String html,String tableID) throws IOException{
 		Map<Integer,String> ret=new HashMap<Integer,String>();
 		Document doc = Jsoup.parse(html);
-		Element reportTable=doc.getElementById(tableID);
+		Element reportTable=getRealTable(doc.getElementById(tableID));
 		Elements trs=reportTable.getElementsByTag(Constants.TR);
 		int maxtdsize=0;
 		for(int i=0;i<trs.size();i++){
@@ -33,6 +33,28 @@ public class JsoupTableDecoder implements IHtmlDecoder{
 		ret.put(Constants.TDSIZETAG, ""+maxtdsize);
 		
 		return ret;
+	}
+	
+	/**
+	 * 处理table里面嵌套table的情况
+	 * 在原有table里面查找table标签，如果有，则以起元素相对较大的table作为真正的表格
+	 */
+	public Element getRealTable(Element reportTable){
+		Elements childTables=reportTable.getElementsByTag(Constants.TABLE);
+		if(childTables.size()<=0){//校验里面是否还有table
+			return reportTable;
+		}
+		int maxelenum=0;
+		int tmpnum;
+		Element ret=null;
+		for(Element ele:childTables){
+			tmpnum=ele.getAllElements().size();
+			if(tmpnum>maxelenum){
+				maxelenum=tmpnum;
+				ret=ele;
+			}
+		}
+		return this.getRealTable(ret);
 	}
 	
 }
