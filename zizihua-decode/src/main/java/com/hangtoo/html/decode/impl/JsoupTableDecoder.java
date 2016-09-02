@@ -41,13 +41,15 @@ public class JsoupTableDecoder implements IHtmlDecoder{
 	 */
 	public Element getRealTable(Element reportTable){
 		Elements childTables=reportTable.getElementsByTag(Constants.TABLE);
-		if(childTables.size()<=0){//校验里面是否还有table
+		if(childTables.size()<=1){//除自己以外，校验里面是否还有table
 			return reportTable;
 		}
 		int maxelenum=0;
 		int tmpnum;
 		Element ret=null;
-		for(Element ele:childTables){
+		Element ele=null;
+		for(int i=1;i<childTables.size();i++){//除去自己
+			ele=childTables.get(i);
 			tmpnum=ele.getAllElements().size();
 			if(tmpnum>maxelenum){
 				maxelenum=tmpnum;
