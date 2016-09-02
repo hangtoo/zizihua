@@ -39,7 +39,7 @@ public class Job {
 	
 	int pageSize=15;
 	
-	final int MAXPAGE=114;//http://www.sge.com.cn/xqzx/mrxq/index_128.shtml
+	final int MAXPAGE=98;//http://www.sge.com.cn/xqzx/mrxq/index_128.shtml
 	
 	final static Map<String,Integer> dayPage=new HashMap<>();//日期 和页码
 	final static List<Integer> mapedPage=new ArrayList<>();//已经取过数据的页面
@@ -168,6 +168,10 @@ public class Job {
     			}
     		}
     		indexPage=dayPage.get(day);
+    		System.out.printf("%s 's index page is %d ",day,indexPage);
+    		if(indexPage==null){
+    			return null;
+    		}
     		as=htmlDecoderFacade.getTargetAttr(urltemplate_page.replace("#PAGE#", String.valueOf(indexPage)),indexTableID,EnumHeaderStyle.TOP,Constants.A);
     		String ret=getUrlByAs(as,day);
     		if(ret!=null){
