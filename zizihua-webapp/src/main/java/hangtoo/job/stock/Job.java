@@ -13,7 +13,6 @@ import com.hangtoo.html.EnumHeaderStyle;
 import com.hangtoo.html.decode.IHtmlDecoderFacade;
 import com.hangtoo.html.decode.impl.HtmlDecoderFacade;
 import com.hangtoo.util.DateUtils;
-import com.hangtoo.util.LunarDateUtil;
 import com.mysql.jdbc.StringUtils;
 
 import hangtoo.entity.stock.TStock;
@@ -21,8 +20,6 @@ import hangtoo.service.stock.TStockService;
 
 
 public class Job {
-	
-	private final static Logger log= Logger.getLogger(Job.class);
 	
 	@Autowired
 	private TStockService tStockService; 
@@ -33,7 +30,7 @@ public class Job {
 	
     public void taskCycle(){
     	//每天执行，接口日使用统计，
-    	System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    	System.out.println("&&&&&&&&&&&&&&&stock job&&&&&&&&&&&&&&&&");
     	
     	now=DateUtils.dateNow();
     	
@@ -53,7 +50,7 @@ public class Job {
 			
 			for(;day.before(now);day=DateUtils.addDay(day,0,1)){//||day.equals(now)
 
-				System.out.println(day);
+				System.out.printf("stock target day:%s",day);
 				if(!DateUtils.isWorkingDay(day)){
 					continue;
 				}

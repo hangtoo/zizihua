@@ -55,7 +55,7 @@ public class Job {
 	
     public void taskCycle(){
     	//每天执行，接口日使用统计，
-    	System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    	System.out.println("&&&&&&&&&&&&&&&gold job&&&&&&&&&&&&&&&&");
     	
     	now=DateUtils.dateNow();
     	
@@ -75,7 +75,7 @@ public class Job {
 			
 			for(;day.before(now);day=DateUtils.addDay(day,0,1)){//||day.equals(now)
 
-				System.out.printf("target day:%s",day);
+				System.out.printf("gold target day:%s",day);
 				if(!DateUtils.isWorkingDay(day)){
 					continue;
 				}
