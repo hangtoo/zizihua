@@ -85,10 +85,10 @@ label.iPhoneCheckLabelOn span {
         <div>
          <ul class="uibutton-group">
           <li>
-           <a class="uibutton normal" href="#" id="but_login">登陆</a>
+           <a class="uibutton normal" href="#" id="but_login">登 陆</a>
           </li>
           <li>
-           <a class="uibutton normal" href="#" id="forgetpass">重置</a>
+           <a class="uibutton normal" href="#" id="forgetpass">重 置</a>
           </li>
          </ul>
         </div>
