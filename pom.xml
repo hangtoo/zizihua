@@ -30,9 +30,12 @@
 		<mysql_connector_version>5.1.39</mysql_connector_version>
 		<druid_version>1.0.20</druid_version>
 		<mybatis_version>3.2.8</mybatis_version>
-		<mybatis-spring_version>1.2.2</mybatis-spring_version>
+		<mybatis_spring_version>1.2.2</mybatis_spring_version>
 		<spring_version>4.1.6.RELEASE</spring_version>
 		<jstl_version>1.2</jstl_version>
+		<fastjson_version>1.2.22</fastjson_version>
+		<fasterxml_version>2.5.0</fasterxml_version>
+		<bcprov_version>1.56</bcprov_version>
 		<!-- 
 		<tomcat_embed_version>7.0.55</tomcat_embed_version>
 		 -->
@@ -130,7 +133,7 @@
 			<dependency>
 				<groupId>org.mybatis</groupId>
 				<artifactId>mybatis-spring</artifactId>
-				<version>${mybatis-spring_version}</version>
+				<version>${mybatis_spring_version}</version>
 			</dependency>
 			
 			<dependency>
@@ -167,6 +170,13 @@
 				<artifactId>lombok</artifactId>
 				<version>${lombok_version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk15on</artifactId>
+				<version>${bcprov_version}</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-core</artifactId>

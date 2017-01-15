@@ -56,6 +56,17 @@ label.iPhoneCheckLabelOn span {
 #login .logo {
 	width: 500px;
 	height: 51px;
+	left:100px;
+}
+.button_bottom{
+	width:360px;
+}
+.button_bottom li a{
+	padding: 10px 64px;
+    border-radius: 6px;
+    color: #fff;
+    background: #1f92ff;
+    outline: none;
 }
 </style>
  </head>
@@ -67,7 +78,7 @@ label.iPhoneCheckLabelOn span {
    <span>登陆成功!请稍后....</span>
   </div>
   <div id="login">
-   <div class="ribbon" style="background-image:url(plug-in/login/images/typelogin.png);"></div>
+   <div class="ribbon" style="background:url(plug-in/login/images/typelogin.png) no-repeat 0 2px;"></div>
    <div class="inner">
     <div class="logo">
      <img src="plug-in/login/images/toplogo.png"/>
@@ -75,20 +86,20 @@ label.iPhoneCheckLabelOn span {
     <div class="formLogin">
      <form name="formLogin" id="formLogin" action="loginController.do?login" check="checkuser.do" method="post">
       <div class="tip">
-       <input class="userName" name="email" type="text" id="email"  value='admin' title="用户名" iscookie="true"  nullmsg="请输入用户名!"/>
+       <input class="userName" name="email" type="text" id="email"  value='' title="用户名" iscookie="true"  nullmsg="请输入用户名!"/>
       </div>
       <div class="tip">
-       <input class="password" name="pwd" type="password"  value='admin' id="pwd" title="密码" nullmsg="请输入密码!"/>
+       <input class="password" name="pwd" type="password"  value='' id="pwd" title="密码" nullmsg="请输入密码!"/>
       </div>
       <div class="loginButton">
-       <div style="float: right; padding: 3px 0; margin-right: -12px;">
+       <div style="padding: 10px 0; margin-right: -12px;">
         <div>
-         <ul class="uibutton-group">
+         <ul class="uibutton-group button_bottom">
           <li>
-           <a class="uibutton normal" href="#" id="but_login">登 陆</a>
+           <a class=" normal" href="#" id="but_login">登 录</a>
           </li>
-          <li>
-           <a class="uibutton normal" href="#" id="forgetpass">重 置</a>
+          <li style="float: right;">
+           <a class=" normal" href="#" id="forgetpass">重 置</a>
           </li>
          </ul>
         </div>
@@ -115,5 +126,129 @@ label.iPhoneCheckLabelOn span {
   <script type="text/javascript" src="plug-in/login/js/jquery.tipsy.js"></script>
   <script type="text/javascript" src="plug-in/login/js/iphone.check.js"></script>
   <script type="text/javascript" src="plug-in/login/js/login.js"></script>
+  
+  <script type="text/javascript" src="js/commons/Barrett.js"></script>
+  <script type="text/javascript" src="js/commons/BigInt.js"></script>
+  <script type="text/javascript" src="js/commons/RSA.js"></script>
+  <Script type="text/javascript" >
+  
+//重置
+  $('#forgetpass').click(function(e) {
+  	$(":input").each(function() {
+  	$('#'+this.name).val("");
+  	});
+  });
+  // 点击登录
+  $('#but_login').click(function(e) {
+  	submit();
+  });
+  //回车登录
+  $(document).keydown(function(e){
+  	if(e.keyCode == 13) {
+  		submit();
+  	}
+  });
+  //表单提交
+  function submit()
+  {
+  	var submit = true;
+  	$("input[nullmsg]").each(function() {
+  		if ($("#" + this.name).val() == "") {
+  			showError($("#" + this.name).attr("nullmsg"), 500);
+  			jrumble();
+  			setTimeout('hideTop()', 3000);
+  			submit = false;
+  			return false;
+  		}
+  	});
+  	if (submit) {
+  		hideTop();
+  		loading('核实中..', 1);
+  		setTimeout("unloading()", 2000);
+  		setTimeout("Login()", 2500);
+  	}
+
+  }
+  //登录处理函数
+  function Login() {
+  	setCookie();
+  	var actionurl=$('form').attr('action');//提交路径
+  	var checkurl=$('form').attr('check');//验证路径
+  	 var formData = new Object();
+  	var data=$(":input").each(function() {
+  		 formData[this.name] =$("#"+this.name ).val();
+  	});
+  	
+  	setMaxDigits(130);//1024位就是130，2048位就是260
+  	var tkey = new RSAKeyPair("${e}","","${n}");	//从服务端获取到的n和e可以得出公钥
+	var encode_content = encodeURIComponent(formData['pwd']);
+	console.log("encodeURIComponent后的值");
+	console.log(encode_content);
+	var encryptData = encryptedString(tkey,encode_content);
+	console.log("客户端公钥加密后的值");
+	console.log(encryptData);
+	formData['pwd']=encryptData;
+	
+  	$.ajax({
+  		async : false,
+  		cache : false,
+  		type : 'POST',
+  		url : checkurl,// 请求的action路径
+  		data : formData,
+  		error : function() {// 请求失败处理函数
+  		  alert('错误');
+  		},
+  		success : function(data) {
+  			if (data.success) {
+  				loginsuccess();
+  				setTimeout("window.location.href='main.shtml'", 100);
+  			} else {
+  				showError(data.msg);
+  			}
+  		}
+  	});
+  }
+  //设置cookie
+  function setCookie()
+  {
+  	if ($('#on_off').val() == '1') {
+  		$("input[iscookie='true']").each(function() {
+  			$.cookie(this.name, $("#"+this.name).val(), "/",24);
+  			$.cookie("COOKIE_NAME","true", "/",24);
+  		});
+  	} else {
+  		$("input[iscookie='true']").each(function() {
+  			$.cookie(this.name,null);
+  			$.cookie("COOKIE_NAME",null);
+  		});
+  	}
+  }
+  
+//验证通过加载动画
+  function loginsuccess()
+  {
+  	$("#login").animate({
+  		opacity : 1,
+  		top : '49%'
+  	}, 200, function() {
+  		$('.userbox').show().animate({
+  			opacity : 1
+  		}, 500);
+  		$("#login").animate({
+  			opacity : 0,
+  			top : '60%'
+  		}, 500, function() {
+  			$(this).fadeOut(200, function() {
+  				$(".text_success").slideDown();
+  				$("#successLogin").animate({
+  					opacity : 1,
+  					height : "200px"
+  				}, 1000);
+  			});
+  		});
+  	});
+  }
+  </Script>
+
  </body>
 </html>

@@ -108,7 +108,7 @@
 	</bean>
 	
 	<!-- 扫描Service -->
-	<context:component-scan base-package="com.hangtoo.auth.service" />
+	<context:component-scan base-package="com.hangtoo.*.service" />
 	<context:component-scan base-package="scott.service.*" />
 	<context:component-scan base-package="hangtoo.service.*" />
 	

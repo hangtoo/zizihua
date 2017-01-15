@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	getCookie();
-	onfocus();
+	//onfocus();
 	$(".on_off_checkbox").iphoneStyle();
 	$('.tip a ').tipsy({
 		gravity : 'sw'
@@ -38,86 +38,7 @@ $('.userload').click(function(e) {
 		$('.userbox').hide();
 	});
 });
-// 重置
-$('#forgetpass').click(function(e) {
-	$(":input").each(function() {
-	$('#'+this.name).val("");
-	});
-});
-// 点击登录
-$('#but_login').click(function(e) {
-	submit();
-});
-//回车登录
-$(document).keydown(function(e){
-	if(e.keyCode == 13) {
-		submit();
-	}
-});
-//表单提交
-function submit()
-{
-	var submit = true;
-	$("input[nullmsg]").each(function() {
-		if ($("#" + this.name).val() == "") {
-			showError($("#" + this.name).attr("nullmsg"), 500);
-			jrumble();
-			setTimeout('hideTop()', 3000);
-			submit = false;
-			return false;
-		}
-	});
-	if (submit) {
-		hideTop();
-		loading('核实中..', 1);
-		setTimeout("unloading()", 2000);
-		setTimeout("Login()", 2500);
-	}
 
-}
-//登录处理函数
-function Login() {
-	setCookie();
-	var actionurl=$('form').attr('action');//提交路径
-	var checkurl=$('form').attr('check');//验证路径
-	 var formData = new Object();
-	var data=$(":input").each(function() {
-		 formData[this.name] =$("#"+this.name ).val();
-	});
-	$.ajax({
-		async : false,
-		cache : false,
-		type : 'POST',
-		url : checkurl,// 请求的action路径
-		data : formData,
-		error : function() {// 请求失败处理函数
-		  alert('错误');
-		},
-		success : function(data) {
-			if (data.success) {
-				loginsuccess();
-				setTimeout("window.location.href='main.shtml'", 100);
-			} else {
-				showError(data.msg);
-			}
-		}
-	});
-}
-//设置cookie
-function setCookie()
-{
-	if ($('#on_off').val() == '1') {
-		$("input[iscookie='true']").each(function() {
-			$.cookie(this.name, $("#"+this.name).val(), "/",24);
-			$.cookie("COOKIE_NAME","true", "/",24);
-		});
-	} else {
-		$("input[iscookie='true']").each(function() {
-			$.cookie(this.name,null);
-			$.cookie("COOKIE_NAME",null);
-		});
-	}
-}
 //读取cookie
 function getCookie()
 {
@@ -145,32 +66,8 @@ function showError(str) {
 		opacity : 1,
 		right : '0'
 	}, 500);
+}
 
-}
-//验证通过加载动画
-function loginsuccess()
-{
-	$("#login").animate({
-		opacity : 1,
-		top : '49%'
-	}, 200, function() {
-		$('.userbox').show().animate({
-			opacity : 1
-		}, 500);
-		$("#login").animate({
-			opacity : 0,
-			top : '60%'
-		}, 500, function() {
-			$(this).fadeOut(200, function() {
-				$(".text_success").slideDown();
-				$("#successLogin").animate({
-					opacity : 1,
-					height : "200px"
-				}, 1000);
-			});
-		});
-	});
-}
 function showSuccess(str) {
 	$('#alertMessage').removeClass('error').html(str).stop(true, true).show().animate({
 		opacity : 1,

@@ -54,10 +54,10 @@
      	<form id="pwdForm" class="ui-form" method="post">  
      		 <input class="hidden" name="id">
      		 <div class="ui-edit">
-	     	   <div class="ftitle">User Information</div>    
+	     	   <div class="ftitle">修改密码</div>    
 	           <div class="fitem">  
 	               <label>邮箱:</label>  
-	               <input class="easyui-validatebox" type="text" readonly="readonly" name="email" data-options="required:true,validType:'email'">
+	               <input class="easyui-validatebox" type="text" readonly="readonly" name="email">
 	           </div>  
 	           <div class="fitem">  
 	              <label>旧密码:</label>  
@@ -73,10 +73,6 @@
 	           </div> 
 	         </div>
      	</form>
-     	 <div id="editPwdbtn" class="dialog-button">  
-            <a href="javascript:void(0)" class="easyui-linkbutton" id="btn-pwd-submit">Submit</a>  
-            <a href="javascript:void(0)" class="easyui-linkbutton" id="btn-pwd-close">Close</a>  
-        </div>
   	 </div> 
 <script type="text/javascript" src="<%=basePath%>/js/ux/sys/sysUser.js"></script>
   </body>

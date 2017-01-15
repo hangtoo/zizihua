@@ -35,6 +35,7 @@ import com.hangtoo.base.util.TreeUtil;
 import com.hangtoo.base.util.URLUtils;
 import com.hangtoo.base.web.BaseAction;
 import com.hangtoo.util.DateUtils;
+import com.hangtoo.util.RSAUtils;
 
 @Controller
 @Component
@@ -69,6 +70,9 @@ public class MainAction extends BaseAction {
 		Map<String,Object>  context = getRootMap();
 		
 		//System.out.println(demoService.sayHello("login:"+System.currentTimeMillis()));
+		//返回n和e到页面上，有这两个值就能得出公钥
+		context.put("n", RSAUtils.getModulus());
+		context.put("e", RSAUtils.getPublicExponent());
 		
 		return forword("login", context);
 	}
@@ -86,7 +90,11 @@ public class MainAction extends BaseAction {
 	@Auth(verifyLogin=false,verifyURL=false)
 	@RequestMapping("/checkuser")
 	public void checkuser(SysUserModel user, HttpServletRequest req,HttpServletResponse response) throws Exception {
-		SysUser u = sysUserService.queryLogin(user.getEmail(), MethodUtil.MD5(user.getPwd()));
+		
+		String decryptpwd = RSAUtils.decryptPrivate(user.getPwd());
+		
+		SysUser u = sysUserService.queryLogin(user.getEmail(), MethodUtil.MD5(decryptpwd));
+		
 		if (u != null) {
 				message = "用户: " + u.getNickName() + "登录成功";
 				//-------------------------------------------------------

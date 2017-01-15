@@ -6,7 +6,8 @@ var YDataGrid = function(config){
 		var Action = {
 			'save': actionUrl.save ||'save.do',
 			'getId': actionUrl.getId||'getId.do',
-			'remove': actionUrl.remove||'delete.do'
+			'remove': actionUrl.remove||'delete.do',
+			'fetch': actionUrl.fetch||'fetch.do'
 		}
 		
 		//Grid DataList
@@ -42,12 +43,10 @@ var YDataGrid = function(config){
 			edit:  function(callback){
 				var record = Utils.getCheckedRows();
 				if (Utils.checkSelectOne(record)){
-					jeecg.progress();
 					var data ={};
 					var idKey = dataGrid.idField || 'id'; //主键名称
  					data[idKey] = (record[0][idKey]);
 					jeecg.getById(Action.getId,data,function(result){
-						jeecg.closeProgress();
 						Form.edit.form('load',result.data);
 						Win.edit.dialog('open'); 
 						
@@ -67,6 +66,20 @@ var YDataGrid = function(config){
 				if(jQuery.isFunction(callback)){
 					callback();
 				}
+			},
+			//同步Grid 数据
+			fetch: function(callback){
+				//TODO
+				console.log('%o',callback);
+				jeecg.fetch(Action.fetch,{},function(result){
+					
+					var param = Form.search.serializeObject();
+					Grid.datagrid('reload',param);
+					//回调函数
+					if(jQuery.isFunction(callback)){
+						callback(result);
+					}
+				});
 			},
 			//删除记录
 			remove: function(callback){
@@ -166,6 +179,8 @@ var YDataGrid = function(config){
 			edit: evt.edit || Handler.edit,
 			//刷新Grid 数据
 			refresh: evt.refresh || Handler.refresh,
+			//获取数据
+			fetch: evt.fetch || Handler.fetch,
 			//删除记录
 			remove: evt.remove || Handler.remove,
 			//保存调用方法
@@ -195,6 +210,12 @@ var YDataGrid = function(config){
 						btnType:'remove',
 						handler:Events.remove
 					   };
+		var bar_fetch = { id:'btnfetch',
+				text:'同步',
+				iconCls:'icon-reload',
+				btnType:'fetch',
+				handler:Events.fetch
+		};
 		var toolbarConfig = [bar_add,bar_edit,bar_remove];
 		var getToolbar = function (){
 			var tbars = [];
@@ -214,6 +235,10 @@ var YDataGrid = function(config){
 					}
 					if(bar.btnType=='remove'){
 						tbars.push({id:bar.id || bar_remove.id,text:bar.text || bar_remove.text ,iconCls: bar.iconCls || bar_remove.iconCls,btnType: bar.btnType || bar_remove.btnType,handler:bar.handler || bar_remove.handler});
+						continue;
+					}
+					if(bar.btnType=='fetch'){
+						tbars.push({id:bar.id || bar_fetch.id,text:bar.text || bar_fetch.text ,iconCls: bar.iconCls || bar_fetch.iconCls,btnType: bar.btnType || bar_fetch.btnType,handler:bar.handler || bar_fetch.handler});
 						continue;
 					}
 					tbars.push({id:bar.id,text:bar.text,iconCls:bar.iconCls,btnType: bar.btnType,handler:bar.handler,disabled:bar.disabled});

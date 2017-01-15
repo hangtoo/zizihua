@@ -3,6 +3,9 @@ jeecg.sysUser = function(){
 	var _box = null;
 	var _this = {
 		updatePwdAction:'updatePwd.do',
+		initForm:function(){
+			
+		},
 		editPwdForm:function(){
 			return $("#pwdForm");
 		},
@@ -10,26 +13,19 @@ jeecg.sysUser = function(){
 			return $("#edit-pwd-win");
 		},
 		savePwd:function(){
-			jeecg.progress();//缓冲条
 			if(_this.editPwdForm().form('validate')){
 				_this.editPwdForm().attr('action',_this.updatePwdAction);
 				jeecg.saveForm(_this.editPwdForm(),function(data){
-					jeecg.closeProgress();//关闭缓冲条
 					_this.editPwdWin().dialog('close');
 				});
 			 }
 		},
-		initForm:function(){
+		closePwd:function(){
 			//修改密码
-			_this.editPwdWin().find("#btn-pwd-submit").click(function(){
-				_this.savePwd();
-			});
-			_this.editPwdWin().find("#btn-pwd-close").click(function(){	
-				$.messager.confirm('Confirm','Are you sure you want close Window?',function(r){  
-				    if (r){  
-				     	_this.editPwdWin().dialog('close');
-				    }  
-				});
+			$.messager.confirm('Confirm','确定关闭该窗口吗?',function(r){  
+			    if (r){  
+			     	_this.editPwdWin().dialog('close');
+			    }  
 			});
 		},
 		config:{
@@ -66,7 +62,22 @@ jeecg.sysUser = function(){
 								_this.editPwdForm().resetForm();
 								_this.editPwdForm().find("input[name='id']").val(selected[0].id);
 								_this.editPwdForm().find("input[name='email']").val(selected[0].email);
-								_this.editPwdWin().window('open'); 
+								_this.editPwdWin().dialog({
+									buttons:[
+										{
+											text:'保存',
+											handler:function(){
+												_this.savePwd();
+											}
+										},{
+											text:'关闭',
+											handler:function(){
+												_this.closePwd();
+											}
+										}
+									]
+								});
+								_this.editPwdWin().dialog('open');
 							}
 						}},
 					{id:'btndelete',text:'删除',btnType:'remove'}
