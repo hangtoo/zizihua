@@ -28,8 +28,9 @@ public class SysUserService extends BaseService<SysUser> {
 	public SysUserDao getDao() {
 		return dao;
 	}
-	
-	public SysUser queryByEmail(String email) throws Exception{
+
+
+	public SysUser queryByEmail(String email) {
 		return getDao().queryByEmail(email);
 	}
 

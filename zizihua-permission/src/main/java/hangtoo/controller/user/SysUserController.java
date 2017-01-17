@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hangtoo.base.annotation.Auth;
@@ -31,7 +32,7 @@ import hangtoo.service.user.SysUserService;
  * <br>
  * <b>功能：</b>SysUserController<br>
  * <b>作者：</b>hlf<br>
- * <b>日期：</b> Tue Jan 17 16:09:01 CST 2017 <br>
+ * <b>日期：</b> Tue Jan 17 17:05:46 CST 2017 <br>
  * <b>版权所有： 2014，hangtoo.com<br>
  */ 
 @Controller
@@ -114,7 +115,9 @@ public class SysUserController extends BaseAction{
 		sysUserService.delete(id);
 		sendSuccessMessage(response, "删除成功");
 	}
+
 	
+	///////////手动添加//////////
 	/**
 	 * 登录页面
 	 * @param url
@@ -122,7 +125,7 @@ public class SysUserController extends BaseAction{
 	 * @return
 	 */
 	@Auth(verifyLogin=false,verifyURL=false)
-	@RequestMapping("/login")
+	@RequestMapping(value = "/login",method = RequestMethod.GET)
 	public ModelAndView  login(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		Map<String,Object>  context = getRootMap();
 		
@@ -130,7 +133,7 @@ public class SysUserController extends BaseAction{
 		context.put("n", RSAUtils.getModulus());
 		context.put("e", RSAUtils.getPublicExponent());
 		
-		return forword("login", context);
+		return forword("hangtoo/user/login", context);
 	}
 
 	
@@ -143,8 +146,8 @@ public class SysUserController extends BaseAction{
 	 * @throws Exception 
 	 */
 	@Auth(verifyLogin=false,verifyURL=false)
-	@RequestMapping("/checkuser")
-	public void checkuser(SysUser user, HttpServletRequest req,HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/login",method = RequestMethod.POST)
+	public void login(SysUser user, HttpServletRequest req,HttpServletResponse response) throws Exception {
 		
 		String decryptpwd = RSAUtils.decryptPrivate(user.getPwd());
 		
@@ -171,4 +174,5 @@ public class SysUserController extends BaseAction{
 			sendFailureMessage(response, "用户名或密码错误!");
 		}
 	}
+	
 }

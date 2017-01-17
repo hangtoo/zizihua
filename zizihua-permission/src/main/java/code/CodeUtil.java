@@ -12,7 +12,7 @@ public class CodeUtil {
 	}
 
 	private static void createDemo(){
-		String tableName = "sys_user"; //
+		String tableName = "sys_menu"; //
 		String codeName = "用户管理";// 中文注释 当然你用英文也是可以的
 		String entityPackage = "user";// 实体包
 		String keyType = FtlDef.KEY_TYPE_02;// 主键生成方式 01:UUID 02:自增
