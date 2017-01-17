@@ -236,6 +236,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.hangtoo</groupId>
+				<artifactId>zizihua-auth</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.hangtoo</groupId>
 				<artifactId>zizihua-base</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
@@ -260,6 +265,7 @@
 		<module>zizihua-stock</module>
 		<module>zizihua-webapp</module>
     <module>zizihua-permission</module>
+    <module>zizihua-auth</module>
   </modules>
 
 </project>

@@ -11,6 +11,9 @@
         <dependent-module archiveName="zizihua-base-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/zizihua-base/zizihua-base">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="zizihua-auth-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/zizihua-auth/zizihua-auth">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="zizihua-decode-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/zizihua-decode/zizihua-decode">
             <dependency-type>uses</dependency-type>
         </dependent-module>

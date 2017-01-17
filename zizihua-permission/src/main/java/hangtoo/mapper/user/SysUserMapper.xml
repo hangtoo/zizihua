@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hangtoo.dao.user.SysUserDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="hangtoo.entity.user.SysUser" >
+<!-- 	<result column="id" property="id"/>
+	<result column="email" property="email"/>
+	<result column="pwd" property="pwd"/>
+	<result column="nickname" property="nickname"/>
+	<result column="state" property="state"/>
+	<result column="logincount" property="logincount"/>
+	<result column="logintime" property="logintime"/>
+	<result column="deleted" property="deleted"/>
+	<result column="createtime" property="createtime"/>
+	<result column="updatetime" property="updatetime"/>
+	<result column="createby" property="createby"/>
+	<result column="updateby" property="updateby"/>
+	<result column="superadmin" property="superadmin"/>
+ -->
+	<id column="id" property="id" jdbcType="CHAR" />
+
+</resultMap>
+       
+<!-- sys_user table all fields -->
+<sql id="Base_Column_List" >
+	 id,email,pwd,nickname,state,logincount,logintime,deleted,createtime,updatetime,createby,updateby,superadmin
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="id != null and id != ''" >
+	    and id =  #{id}
+	</if>
+	<if test="email != null and email != ''" >
+	    and email =  #{email}
+	</if>
+	<if test="pwd != null and pwd != ''" >
+	    and pwd =  #{pwd}
+	</if>
+	<if test="nickname != null and nickname != ''" >
+	    and nickname =  #{nickname}
+	</if>
+	<if test="state != null and state != ''" >
+	    and state =  #{state}
+	</if>
+	<if test="logincount != null and logincount != ''" >
+	    and logincount =  #{logincount}
+	</if>
+	<if test="logintime != null and logintime != ''" >
+	    and logintime =  #{logintime}
+	</if>
+	<if test="deleted != null and deleted != ''" >
+	    and deleted =  #{deleted}
+	</if>
+	<if test="createtime != null and createtime != ''" >
+	    and createtime =  #{createtime}
+	</if>
+	<if test="updatetime != null and updatetime != ''" >
+	    and updatetime =  #{updatetime}
+	</if>
+	<if test="createby != null and createby != ''" >
+	    and createby =  #{createby}
+	</if>
+	<if test="updateby != null and updateby != ''" >
+	    and updateby =  #{updateby}
+	</if>
+	<if test="superadmin != null and superadmin != ''" >
+	    and superadmin =  #{superadmin}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+	SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into sys_user(id,email,pwd,nickname,state,logincount,logintime,deleted,createtime,updatetime,createby,updateby,superadmin)
+ values(#{id},#{email},#{pwd},#{nickname},#{state},#{logincount},#{logintime},#{deleted},#{createtime},#{updatetime},#{createby},#{updateby},#{superadmin})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update sys_user set email=#{email},pwd=#{pwd},nickname=#{nickname},state=#{state},logincount=#{logincount},logintime=#{logintime},deleted=#{deleted},updatetime=now(),createby=#{createby},updateby=#{updateby},superadmin=#{superadmin} where id=#{id}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_user set 
+	<trim  suffixOverrides="," >
+	<if test="email != null  ">
+		email=#{email},
+	</if>
+	<if test="pwd != null  ">
+		pwd=#{pwd},
+	</if>
+	<if test="nickname != null  ">
+		nickname=#{nickname},
+	</if>
+	<if test="state != null  ">
+		state=#{state},
+	</if>
+	<if test="logincount != null  ">
+		logincount=#{logincount},
+	</if>
+	<if test="logintime != null  ">
+		logintime=#{logintime},
+	</if>
+	<if test="deleted != null  ">
+		deleted=#{deleted},
+	</if>
+	<if test="createtime != null  ">
+		createtime=#{createtime},
+	</if>
+	<if test="updatetime != null  ">
+		updatetime=#{updatetime},
+	</if>
+	<if test="createby != null  ">
+		createby=#{createby},
+	</if>
+	<if test="updateby != null  ">
+		updateby=#{updateby},
+	</if>
+	<if test="superadmin != null  ">
+		superadmin=#{superadmin},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from sys_user where id = #{id}
+</delete>
+ 
+<!-- 根据id查询 用户管理 -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from sys_user where id = #{id}
+</select>
+
+<!-- 用户管理 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from sys_user 
+	<include refid="Example_Where_Clause"/>
+</select>
+  	
+<!-- 查询用户管理列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from sys_user 
+	<include refid="Example_Where_Clause"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+  	
+</mapper>   

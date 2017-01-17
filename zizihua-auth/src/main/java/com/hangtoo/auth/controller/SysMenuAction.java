@@ -20,10 +20,10 @@ import com.hangtoo.auth.entity.SysMenuBtn;
 import com.hangtoo.auth.page.SysMenuModel;
 import com.hangtoo.auth.service.SysMenuBtnService;
 import com.hangtoo.auth.service.SysMenuService;
+import com.hangtoo.auth.util.TreeUtil;
 import com.hangtoo.base.entity.BaseEntity.DELETED;
 import com.hangtoo.base.entity.TreeNode;
 import com.hangtoo.base.util.HtmlUtil;
-import com.hangtoo.base.util.TreeUtil;
 import com.hangtoo.base.web.BaseAction;
  
 @Controller

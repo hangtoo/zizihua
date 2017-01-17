@@ -1,4 +1,4 @@
-package com.hangtoo.base.util;
+package com.hangtoo.auth.util;
 
 
 import java.util.List;

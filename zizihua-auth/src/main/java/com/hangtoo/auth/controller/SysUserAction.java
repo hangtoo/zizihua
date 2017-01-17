@@ -18,12 +18,12 @@ import com.hangtoo.auth.entity.SysUser;
 import com.hangtoo.auth.page.SysUserModel;
 import com.hangtoo.auth.service.SysRoleService;
 import com.hangtoo.auth.service.SysUserService;
+import com.hangtoo.auth.util.SessionUtils;
 import com.hangtoo.base.entity.BaseEntity.DELETED;
 import com.hangtoo.base.entity.BaseEntity.STATE;
 import com.hangtoo.base.exception.ServiceException;
 import com.hangtoo.base.util.HtmlUtil;
 import com.hangtoo.base.util.MethodUtil;
-import com.hangtoo.base.util.SessionUtils;
 import com.hangtoo.base.web.BaseAction;
  
 @Controller

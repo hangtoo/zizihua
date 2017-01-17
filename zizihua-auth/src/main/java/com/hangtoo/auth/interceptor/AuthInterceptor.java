@@ -1,4 +1,4 @@
-package com.hangtoo.base.interceptor;
+package com.hangtoo.auth.interceptor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +12,9 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.hangtoo.auth.entity.SysUser;
+import com.hangtoo.auth.util.SessionUtils;
 import com.hangtoo.base.annotation.Auth;
 import com.hangtoo.base.util.HtmlUtil;
-import com.hangtoo.base.util.SessionUtils;
 import com.hangtoo.base.web.BaseAction;
 
 

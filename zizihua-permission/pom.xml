@@ -21,6 +21,10 @@
 			<groupId>com.hangtoo</groupId>
 			<artifactId>zizihua-common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.hangtoo</groupId>
+			<artifactId>zizihua-base</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.hangtoo</groupId>
