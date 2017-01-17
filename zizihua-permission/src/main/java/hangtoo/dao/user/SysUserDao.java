@@ -11,6 +11,8 @@ import hangtoo.entity.user.SysUser;
  * <b>作者：</b>xxxxx<br>
  */ 
 public interface SysUserDao extends BaseDao<SysUser> {
+
+	SysUser queryByEmail(String email);
 	
 	
 }

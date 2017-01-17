@@ -1,4 +1,4 @@
-package com.hangtoo.auth.util;
+package com.hangtoo.base.util;
 
 
 import java.util.List;
@@ -7,9 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-
-import com.hangtoo.auth.entity.SysUser;
-import com.hangtoo.base.util.Constant.SuperAdmin;
 
 /**
  * 
@@ -43,6 +40,15 @@ public final class SessionUtils {
 	 
 	 
 	 /**
+	  * 设置用户信息 到session
+	  * @param request
+	  * @param user
+	  */
+	 public static void setUser(HttpServletRequest request,Object user){
+		 request.getSession(true).setAttribute(SESSION_USER, user);
+	 }
+	 
+	 /**
 	  * 获取session的值
 	  * @param request
 	  * @param key
@@ -59,48 +65,6 @@ public final class SessionUtils {
 	  */
 	 public static void removeAttr(HttpServletRequest request,String key){
 		 request.getSession(true).removeAttribute(key);
-	 }
-	 
-	 /**
-	  * 设置用户信息 到session
-	  * @param request
-	  * @param user
-	  */
-	 public static void setUser(HttpServletRequest request,SysUser user){
-		 request.getSession(true).setAttribute(SESSION_USER, user);
-	 }
-	 
-	 
-	 /**
-	  * 从session中获取用户信息
-	  * @param request
-	  * @return SysUser
-	  */
-	 public static SysUser getUser(HttpServletRequest request){
-		return (SysUser)request.getSession(true).getAttribute(SESSION_USER);
-	 }
-	 
-	 /**
-	  * 从session中获取用户信息
-	  * @param request
-	  * @return SysUser
-	  */
-	 public static Integer getUserId(HttpServletRequest request){
-		 SysUser user = getUser(request);
-		 if(user != null){
-			 return user.getId();
-		 }
-		return null; 
-	 }
-	 
-	 
-	 /**
-	  * 从session中获取用户信息
-	  * @param request
-	  * @return SysUser
-	  */
-	 public static void removeUser(HttpServletRequest request){
-		removeAttr(request, SESSION_USER);
 	 }
 	 
 	 
@@ -131,19 +95,6 @@ public final class SessionUtils {
 	  */
 	 public static void removeValidateCode(HttpServletRequest request){
 		removeAttr(request, SESSION_VALIDATECODE);
-	 }
-	 
-	 /**
-	  * 判断当前登录用户是否超级管理员
-	  * @param request
-	  * @return
-	  */
-	 public static boolean isAdmin(HttpServletRequest request){ //判断登录用户是否超级管理员
-		 SysUser user =  getUser(request);
-		 if(user == null  || user.getSuperAdmin() != SuperAdmin.YES.key){
-			 return false;
-		 }
-		 return true;
 	 }
 	 
 	 

@@ -23,7 +23,7 @@ import com.hangtoo.auth.page.SysUserModel;
 import com.hangtoo.auth.service.SysMenuBtnService;
 import com.hangtoo.auth.service.SysMenuService;
 import com.hangtoo.auth.service.SysUserService;
-import com.hangtoo.auth.util.SessionUtils;
+import com.hangtoo.auth.util.AuthUtils;
 import com.hangtoo.auth.util.TreeUtil;
 import com.hangtoo.base.annotation.Auth;
 import com.hangtoo.base.entity.BaseEntity.DELETED;
@@ -89,7 +89,7 @@ public class MainAction extends BaseAction {
 	 */
 	@Auth(verifyLogin=false,verifyURL=false)
 	@RequestMapping("/checkuser")
-	public void checkuser(SysUserModel user, HttpServletRequest req,HttpServletResponse response) throws Exception {
+	public void checkuser(SysUser user, HttpServletRequest req,HttpServletResponse response) throws Exception {
 		
 		String decryptpwd = RSAUtils.decryptPrivate(user.getPwd());
 		
@@ -107,7 +107,7 @@ public class MainAction extends BaseAction {
 				u.setLoginTime(DateUtils.now());
 				sysUserService.update(u);
 				//设置User到Session
-				SessionUtils.setUser(req,u);
+				AuthUtils.setUser(req,u);
 				//记录成功登录日志
 				log.debug(message);
 				sendSuccessMessage(response,message);
@@ -129,8 +129,8 @@ public class MainAction extends BaseAction {
 	@Auth(verifyLogin=false,verifyURL=false)
 	@RequestMapping("/toLogin")
 	public void  toLogin(String email,String pwd,String verifyCode,HttpServletRequest request,HttpServletResponse response) throws Exception{
-		String vcode  = SessionUtils.getValidateCode(request);
-		SessionUtils.removeValidateCode(request);//清除验证码，确保验证码只能用一次
+		String vcode  = AuthUtils.getValidateCode(request);
+		AuthUtils.removeValidateCode(request);//清除验证码，确保验证码只能用一次
 		if(StringUtils.isBlank(verifyCode)){
 			sendFailureMessage(response, "验证码不能为空.");
 			return;
@@ -169,7 +169,7 @@ public class MainAction extends BaseAction {
 		user.setLoginTime(DateUtils.now());
 		sysUserService.update(user);
 		//设置User到Session
-		SessionUtils.setUser(request,user);
+		AuthUtils.setUser(request,user);
 		//记录成功登录日志
 		log.debug(msg+"["+email+"]"+"登录成功");
 		sendSuccessMessage(response, "登录成功.");
@@ -185,7 +185,7 @@ public class MainAction extends BaseAction {
 	@Auth(verifyLogin=false,verifyURL=false)
 	@RequestMapping("/logout")
 	public void  logout(HttpServletRequest request,HttpServletResponse response) throws Exception{
-		SessionUtils.removeUser(request);
+		AuthUtils.removeUser(request);
 		response.sendRedirect("login.shtml");
 	}
 	
@@ -201,13 +201,13 @@ public class MainAction extends BaseAction {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<String> actionTypes = new ArrayList<String>();
 		//判断是否超级管理员
-		if(SessionUtils.isAdmin(request)){
+		if(AuthUtils.isAdmin(request)){
 			result.put("allType", true);
 		}else{
 			String menuUrl = URLUtils.getReqUri(url);
 			menuUrl = StringUtils.remove(menuUrl,request.getContextPath());
 			//获取权限按钮
-			actionTypes = SessionUtils.getMemuBtnListVal(request, StringUtils.trim(menuUrl));
+			actionTypes = AuthUtils.getMemuBtnListVal(request, StringUtils.trim(menuUrl));
 			result.put("allType", false);
 			result.put("types", actionTypes);
 		}
@@ -225,7 +225,7 @@ public class MainAction extends BaseAction {
 	@Auth(verifyURL=false)
 	@RequestMapping("/modifyPwd")
 	public void modifyPwd(String oldPwd,String newPwd,HttpServletRequest request,HttpServletResponse response) throws Exception{
-		SysUser user = SessionUtils.getUser(request);
+		SysUser user = AuthUtils.getUser(request);
 		if(user == null){
 			sendFailureMessage(response, "对不起,登录超时.");
 			return;
@@ -259,7 +259,7 @@ public class MainAction extends BaseAction {
 	@RequestMapping("/main") 
 	public ModelAndView  main(HttpServletRequest request){
 		Map<String,Object>  context = getRootMap();
-		SysUser user = SessionUtils.getUser(request);
+		SysUser user = AuthUtils.getUser(request);
 		List<SysMenu> rootMenus = null;
 		List<SysMenu> childMenus = null;
 		List<SysMenuBtn> childBtns = null;
@@ -317,7 +317,7 @@ public class MainAction extends BaseAction {
 				
 			}
 		}
-		SessionUtils.setAccessUrl(request, accessUrls);//设置可访问的URL
-		SessionUtils.setMemuBtnMap(request, menuBtnMap); //设置可用的按钮
+		AuthUtils.setAccessUrl(request, accessUrls);//设置可访问的URL
+		AuthUtils.setMemuBtnMap(request, menuBtnMap); //设置可用的按钮
 	}
 }

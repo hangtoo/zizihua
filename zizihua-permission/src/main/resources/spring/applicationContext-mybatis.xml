@@ -84,21 +84,21 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations">
 			 <list>
-			  	<value>classpath:com/sunfintech/*/mapper/*Mapper.xml</value>
-			  	<value>classpath:sunfintech/mapper/*/*Mapper.xml</value>
+			  	<value>classpath:com/hangtoo/*/mapper/*Mapper.xml</value>
+			  	<value>classpath:hangtoo/mapper/*/*Mapper.xml</value>
 			 </list>
 		</property>
 	</bean>
 
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">    
-	    <property name="basePackage" value="com.sunfintech.*.mapper,scott.dao.*,sunfintech.dao.*" />
+	    <property name="basePackage" value="com.hangtoo.*.mapper,scott.dao.*,hangtoo.dao.*" />
 	    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 	</bean>
 	
 	<!-- 扫描Service -->
-	<context:component-scan base-package="com.sunfintech.*.service" />
-	<context:component-scan base-package="sunfintech.service.*" />
+	<context:component-scan base-package="com.hangtoo.*.service" />
+	<context:component-scan base-package="hangtoo.service.*" />
 	
 	<!-- 配置druid监控spring jdbc -->
 	<bean id="druid-stat-interceptor"
@@ -109,8 +109,8 @@
 		scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>com.sunfintech.*.service.*</value>
-				<value>sunfintech.service.*</value>
+				<value>com.hangtoo.*.service.*</value>
+				<value>hangtoo.service.*</value>
 			</list>
 		</property>
 	</bean>

@@ -39,7 +39,7 @@ public class CodeGenerateFactory
 
     String pckPath = srcPath + CodeResourceUtil.bussiPackageUrl + "\\";
 
-    String webPath = projectPath + CodeResourceUtil.web_root_package + "\\view\\" + CodeResourceUtil.bussiPackageUrl + "\\";
+    String webPath = projectPath + CodeResourceUtil.web_root_package + "\\WEB-INF\\views\\" + CodeResourceUtil.bussiPackageUrl + "\\";
 
     String modelPath = "page\\" + entityPackage + "\\" + className + "Page.java";
     String beanPath = "entity\\" + entityPackage + "\\" + className + ".java";

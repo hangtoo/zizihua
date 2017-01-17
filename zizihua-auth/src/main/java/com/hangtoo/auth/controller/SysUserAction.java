@@ -18,7 +18,7 @@ import com.hangtoo.auth.entity.SysUser;
 import com.hangtoo.auth.page.SysUserModel;
 import com.hangtoo.auth.service.SysRoleService;
 import com.hangtoo.auth.service.SysUserService;
-import com.hangtoo.auth.util.SessionUtils;
+import com.hangtoo.auth.util.AuthUtils;
 import com.hangtoo.base.entity.BaseEntity.DELETED;
 import com.hangtoo.base.entity.BaseEntity.STATE;
 import com.hangtoo.base.exception.ServiceException;
@@ -162,7 +162,7 @@ public class SysUserAction extends BaseAction{
 	 */
 	@RequestMapping("/updatePwd")
 	public void updatePwd(Integer id,String oldPwd,String newPwd,HttpServletRequest request,HttpServletResponse response) throws Exception{
-		boolean isAdmin = SessionUtils.isAdmin(request); //是否超级管理员
+		boolean isAdmin = AuthUtils.isAdmin(request); //是否超级管理员
 		SysUser bean  = sysUserService.queryById(id);
 		if(bean.getId() == null || DELETED.YES.key == bean.getDeleted()){
 			sendFailureMessage(response, "Sorry ,User is not exists.");

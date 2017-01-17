@@ -12,7 +12,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.hangtoo.auth.entity.SysUser;
-import com.hangtoo.auth.util.SessionUtils;
+import com.hangtoo.auth.util.AuthUtils;
 import com.hangtoo.base.annotation.Auth;
 import com.hangtoo.base.util.HtmlUtil;
 import com.hangtoo.base.web.BaseAction;
@@ -35,7 +35,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		if( auth == null || auth.verifyLogin()){
 			String baseUri = request.getContextPath();
 			String path = request.getServletPath();
-			SysUser user =SessionUtils.getUser(request);
+			SysUser user =AuthUtils.getUser(request);
 			
 		
 			if(user  == null){
@@ -57,11 +57,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		//验证URL权限
 		if( auth == null || auth.verifyURL()){		
 			//判断是否超级管理员
-			if(!SessionUtils.isAdmin(request)){
+			if(!AuthUtils.isAdmin(request)){
 				String menuUrl = StringUtils.remove( request.getRequestURI(),request.getContextPath());;
-				if(!SessionUtils.isAccessUrl(request, StringUtils.trim(menuUrl))){					
+				if(!AuthUtils.isAccessUrl(request, StringUtils.trim(menuUrl))){					
 					//日志记录
-					String userMail = SessionUtils.getUser(request).getEmail();
+					String userMail = AuthUtils.getUser(request).getEmail();
 					String msg ="URL权限验证不通过:[url="+menuUrl+"][email ="+ userMail+"]" ;
 					log.error(msg);
 					
