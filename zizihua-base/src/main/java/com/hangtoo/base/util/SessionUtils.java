@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  * Cookie 工具类
  *
  */
-public final class SessionUtils {
+public class SessionUtils {
 	
 	protected static final Logger logger = Logger.getLogger(SessionUtils.class);
 	
