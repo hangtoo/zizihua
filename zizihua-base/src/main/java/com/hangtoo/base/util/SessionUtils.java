@@ -47,6 +47,15 @@ public class SessionUtils {
 	 public static void setUser(HttpServletRequest request,Object user){
 		 request.getSession(true).setAttribute(SESSION_USER, user);
 	 }
+
+	 /**
+	  * 设置用户信息 到session
+	  * @param request
+	  * @param user
+	  */
+	 public static Object getUser(HttpServletRequest request){
+		 return request.getSession(true).getAttribute(SESSION_USER);
+	 }
 	 
 	 /**
 	  * 获取session的值

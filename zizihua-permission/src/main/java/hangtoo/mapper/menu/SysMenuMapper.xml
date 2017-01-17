@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hangtoo.dao.menu.SysMenuDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="hangtoo.entity.menu.SysMenu" >
+<!-- 	<result column="id" property="id"/>
+	<result column="name" property="name"/>
+	<result column="url" property="url"/>
+	<result column="parentid" property="parentid"/>
+	<result column="deleted" property="deleted"/>
+	<result column="createtime" property="createtime"/>
+	<result column="updatetime" property="updatetime"/>
+	<result column="rank" property="rank"/>
+	<result column="actions" property="actions"/>
+ -->
+	<id column="id" property="id" jdbcType="CHAR" />
+
+</resultMap>
+       
+<!-- sys_menu table all fields -->
+<sql id="Base_Column_List" >
+	 id,name,url,parentid,deleted,createtime,updatetime,rank,actions
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="id != null and id != ''" >
+	    and id =  #{id}
+	</if>
+	<if test="name != null and name != ''" >
+	    and name =  #{name}
+	</if>
+	<if test="url != null and url != ''" >
+	    and url =  #{url}
+	</if>
+	<if test="parentid != null and parentid != ''" >
+	    and parentid =  #{parentid}
+	</if>
+	<if test="deleted != null and deleted != ''" >
+	    and deleted =  #{deleted}
+	</if>
+	<if test="createtime != null and createtime != ''" >
+	    and createtime =  #{createtime}
+	</if>
+	<if test="updatetime != null and updatetime != ''" >
+	    and updatetime =  #{updatetime}
+	</if>
+	<if test="rank != null and rank != ''" >
+	    and rank =  #{rank}
+	</if>
+	<if test="actions != null and actions != ''" >
+	    and actions =  #{actions}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+	SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into sys_menu(id,name,url,parentid,deleted,createtime,updatetime,rank,actions)
+ values(#{id},#{name},#{url},#{parentid},#{deleted},#{createtime},#{updatetime},#{rank},#{actions})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update sys_menu set name=#{name},url=#{url},parentid=#{parentid},deleted=#{deleted},updatetime=now(),rank=#{rank},actions=#{actions} where id=#{id}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update sys_menu set 
+	<trim  suffixOverrides="," >
+	<if test="name != null  ">
+		name=#{name},
+	</if>
+	<if test="url != null  ">
+		url=#{url},
+	</if>
+	<if test="parentid != null  ">
+		parentid=#{parentid},
+	</if>
+	<if test="deleted != null  ">
+		deleted=#{deleted},
+	</if>
+	<if test="createtime != null  ">
+		createtime=#{createtime},
+	</if>
+	<if test="updatetime != null  ">
+		updatetime=#{updatetime},
+	</if>
+	<if test="rank != null  ">
+		rank=#{rank},
+	</if>
+	<if test="actions != null  ">
+		actions=#{actions},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from sys_menu where id = #{id}
+</delete>
+
+<!-- 查询菜单管理列表 -->
+<select id="queryMenuByUserIdAndParentId" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from sys_menu m where parentid is not null
+	<if test="parentId != null and parentId != ''" >
+	and parentId =#{parentId}
+	</if>
+	<if test="userId != null and userId != ''" >
+	AND EXISTS (
+		 SELECT * FROM sys_role_rel r 
+		 WHERE r.objId = m.id AND r.relType = 0
+		 AND EXISTS ( 
+			SELECT 1 FROM sys_role_rel u WHERE u.roleId = r.roleId  AND u.relType = 1 AND u.objId = #{userId}
+		 )
+	)
+	</if>
+</select>
+<!-- 查询菜单管理列表 -->
+<select id="queryRootMenuByUserId" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from sys_menu m where parentid is null
+	<if test="userId != null and userId != ''" >
+	AND EXISTS (
+		 SELECT * FROM sys_role_rel r 
+		 WHERE r.objId = m.id AND r.relType = 0
+		 AND EXISTS ( 
+			SELECT 1 FROM sys_role_rel u WHERE u.roleId = r.roleId  AND u.relType = 1 AND u.objId = #{userId}
+		 )
+	)
+	</if>
+</select>
+ 
+<!-- 根据id查询 菜单管理 -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from sys_menu where id = #{id}
+</select>
+
+<!-- 菜单管理 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from sys_menu 
+	<include refid="Example_Where_Clause"/>
+</select>
+  	
+<!-- 查询菜单管理列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from sys_menu 
+	<include refid="Example_Where_Clause"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+  	
+</mapper>   
