@@ -133,15 +133,21 @@ where 1=1
 	select 
 	<include refid="Base_Column_List"/>
 	from sys_menu m where parentid is null
-	<if test="userId != null and userId != ''" >
+	<if test="id != null and id != ''" >
 	AND EXISTS (
 		 SELECT * FROM sys_role_rel r 
 		 WHERE r.objId = m.id AND r.relType = 0
 		 AND EXISTS ( 
-			SELECT 1 FROM sys_role_rel u WHERE u.roleId = r.roleId  AND u.relType = 1 AND u.objId = #{userId}
+			SELECT 1 FROM sys_role_rel u WHERE u.roleId = r.roleId  AND u.relType = 1 AND u.objId = #{id}
 		 )
 	)
 	</if>
+</select>
+<!-- 查询菜单管理列表 -->
+<select id="queryRootMenu" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from sys_menu m where parentid is null
 </select>
  
 <!-- 根据id查询 菜单管理 -->

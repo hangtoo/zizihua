@@ -86,10 +86,10 @@ label.iPhoneCheckLabelOn span {
     <div class="formLogin">
      <form name="formLogin" id="formLogin" action="" check="/sysUser/login.do" method="post">
       <div class="tip">
-       <input class="userName" name="email" type="text" id="email"  value='' title="用户名" iscookie="true"  nullmsg="请输入用户名!"/>
+       <input class="userName" name="email" type="text" id="email"  value='admin' title="用户名" iscookie="true"  nullmsg="请输入用户名!"/>
       </div>
       <div class="tip">
-       <input class="password" name="pwd" type="password"  value='' id="pwd" title="密码" nullmsg="请输入密码!"/>
+       <input class="password" name="pwd" type="password"  value='admin' id="pwd" title="密码" nullmsg="请输入密码!"/>
       </div>
       <div class="loginButton">
        <div style="padding: 10px 0; margin-right: -12px;">
@@ -201,7 +201,7 @@ label.iPhoneCheckLabelOn span {
   		success : function(data) {
   			if (data.success) {
   				loginsuccess();
-  				setTimeout("window.location.href='/sysMenu/menu/index.shtml'", 100);
+  				setTimeout("window.location.href='/sysUser/index.shtml'", 100);
   			} else {
   				showError(data.msg);
   			}

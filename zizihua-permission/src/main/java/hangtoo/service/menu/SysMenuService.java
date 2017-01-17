@@ -10,6 +10,7 @@ import com.hangtoo.base.service.BaseService;
 
 import hangtoo.dao.menu.SysMenuDao;
 import hangtoo.entity.menu.SysMenu;
+import hangtoo.entity.user.SysUser;
 
 /**
  * 
@@ -36,8 +37,12 @@ public class SysMenuService extends BaseService<SysMenu> {
 		return getDao().queryMenuByUserIdAndParentId(userId,parentId);
 	}
 	
-	public List<SysMenu> queryRootMenuByUserId(Integer userId){
-		return getDao().queryRootMenuByUserId(userId);
+	public List<SysMenu> queryRootMenuByUserId(SysUser user){
+		return getDao().queryRootMenuByUserId(user);
+	}
+	
+	public List<SysMenu> queryRootMenu(){
+		return getDao().queryRootMenu();
 	}
 	
 

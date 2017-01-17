@@ -112,27 +112,6 @@ public class SysMenuController extends BaseAction{
 		sendSuccessMessage(response, "删除成功");
 	}
 	
-	/**
-	 * index 首页
-	 * @param url
-	 * @param classifyId
-	 * @return
-	 * @throws Exception 
-	 */
-	@RequestMapping("/index") 
-	public ModelAndView  index(HttpServletRequest request) throws Exception{
-		Map<String,Object>  context = getRootMap();
-		
-		Object obj=SessionUtils.getUser(request);
-		if(obj!=null&&obj instanceof SysUser){
-			SysUser user=(SysUser)obj;
-			List<SysMenu> rootMenus = sysMenuService.queryRootMenuByUserId(user.getId());
-			context.put("menuList", rootMenus);
-			return forword("hangtoo/menu/index",context); 
-		}
-		
-		return forword("hangtoo/user/login", context);
-		
-	}
+
 
 }

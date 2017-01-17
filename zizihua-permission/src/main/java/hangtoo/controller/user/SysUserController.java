@@ -23,8 +23,10 @@ import com.hangtoo.base.web.BaseAction;
 import com.hangtoo.util.DateUtils;
 import com.hangtoo.util.RSAUtils;
 
+import hangtoo.entity.menu.SysMenu;
 import hangtoo.entity.user.SysUser;
 import hangtoo.page.user.SysUserPage;
+import hangtoo.service.menu.SysMenuService;
 import hangtoo.service.user.SysUserService;
  
 /**
@@ -44,6 +46,8 @@ public class SysUserController extends BaseAction{
 	@Autowired
 	private SysUserService sysUserService; 
 	
+	@Autowired
+	private SysMenuService sysMenuService; 
 	
 	/**
 	 * 
@@ -173,6 +177,31 @@ public class SysUserController extends BaseAction{
 		} else {
 			sendFailureMessage(response, "用户名或密码错误!");
 		}
+	}
+	
+	
+	/**
+	 * index 首页
+	 * @param url
+	 * @param classifyId
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("/index") 
+	public ModelAndView  index(HttpServletRequest request) throws Exception{
+		Map<String,Object>  context = getRootMap();
+		
+		Object obj=SessionUtils.getUser(request);
+		if(obj!=null&&obj instanceof SysUser){
+			SysUser user=(SysUser)obj;
+			List<SysMenu> rootMenus = sysMenuService.queryRootMenu();
+			context.put("menuList", rootMenus);
+			rootMenus = sysMenuService.queryRootMenuByUserId(user);
+			return forword("hangtoo/menu/index",context); 
+		}
+		
+		return forword("redirect:/sysUser/login.shtml", context);
+		
 	}
 	
 }
