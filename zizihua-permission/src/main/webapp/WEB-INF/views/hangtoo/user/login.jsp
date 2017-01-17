@@ -1,249 +1,254 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/_resource.jsp"%>
+<!DOCTYPE html>
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    <base href="<%=path%>">
-    
-    <meta charset="UTF-8">
-    <title>系统登录</title>
-    <link rel="shortcut icon" type="image/x-icon" href="<%=path%>/favicon.ico" media="screen" /> 
-    <script src="<%=path%>/static/BJUI/js/jquery-1.11.3.min.js"></script>
-    <script src="<%=path%>/static/BJUI/js/jquery.cookie.js"></script>
-    <script src="<%=path%>/static/BJUI/js/sha256.js"></script>
-    <link href="<%=path%>/static/BJUI/themes/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-        * {
-            font-family: "Verdana", "Tahoma", "Lucida Grande", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
-        }
+ <head>
+  <title></title>
+  <link rel="shortcut icon" href="resources/fc/images/icon/favicon.ico">
+  <!--[if lt IE 9]>
+   <script src="plug-in/login/js/html5.js"></script>
+  <![endif]-->
+  <!--[if lt IE 7]>
+  <script src="plug-in/login/js/iepng.js" type="text/javascript"></script>
+  <script type="text/javascript">
+	EvPNG.fix('div, ul, img, li, input'); //EvPNG.fix('包含透明PNG图片的标签'); 多个标签之间用英文逗号隔开。
+</script>
+  <![endif]-->
+  <link href="<%=basePath%>/static/plug-in/login/css/zice.style.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>/static/plug-in/login/css/buttons.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>/static/plug-in/login/css/icon.css" rel="stylesheet" type="text/css" />
+  <link href="<%=basePath%>/static/plug-in/login/css/tipsy.css" rel="stylesheet" type="text/css" media="all" />
+  <style type="text/css">
+html {
+	background-image: none;
+}
 
-        body {
-            background: url(<%=path%>/static/BJUI/images/loginbg_01.jpg) no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-        }
+label.iPhoneCheckLabelOn span {
+	padding-left: 0px
+}
 
-        a:link {
-            color: #285e8e;
-        }
+#versionBar {
+	background-color: #212121;
+	position: fixed;
+	width: 100%;
+	height: 35px;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	line-height: 35px;
+	z-index: 11;
+	-webkit-box-shadow: black 0px 10px 10px -10px inset;
+	-moz-box-shadow: black 0px 10px 10px -10px inset;
+	box-shadow: black 0px 10px 10px -10px inset;
+}
 
-        .main_box {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-top: -260px;
-            margin-left: -300px;
-            padding: 30px;
-            width: 600px;
-            height: 460px;
-            background: #FAFAFA;
-            background: rgba(255,255,255,0.5);
-            border: 1px #DDD solid;
-            border-radius: 5px;
-            -webkit-box-shadow: 1px 5px 8px #888888;
-            -moz-box-shadow: 1px 5px 8px #888888;
-            box-shadow: 1px 5px 8px #888888;
-        }
+.copyright {
+	text-align: center;
+	font-size: 10px;
+	color: #CCC;
+}
 
-            .main_box .setting {
-                position: absolute;
-                top: 5px;
-                right: 10px;
-                width: 10px;
-                height: 10px;
-            }
+.copyright a {
+	color: #A31F1A;
+	text-decoration: none
+}
 
-                .main_box .setting a {
-                    color: #FF6600;
-                }
-
-                    .main_box .setting a:hover {
-                        color: #555;
-                    }
-
-        .login_logo {
-            margin-bottom: 20px;
-            height: 45px;
-            text-align: center;
-        }
-
-            .login_logo img {
-                height: 45px;
-            }
-
-        .login_msg {
-            text-align: center;
-            font-size: 16px;
-        }
-
-        .login_form {
-            padding-top: 20px;
-            font-size: 16px;
-        }
-
-        .login_box .form-control {
-            display: inline-block;
-            *display: inline;
-            zoom: 1;
-            width: auto;
-            font-size: 18px;
-        }
-
-            .login_box .form-control.x319 {
-                width: 319px;
-            }
-
-            .login_box .form-control.x164 {
-                width: 164px;
-            }
-
-        .login_box .form-group {
-            margin-bottom: 20px;
-        }
-
-            .login_box .form-group label.t {
-                width: 120px;
-                text-align: right;
-                cursor: pointer;
-            }
-
-            .login_box .form-group.space {
-                padding-top: 15px;
-                border-top: 1px #FFF dotted;
-            }
-
-            .login_box .form-group img {
-                margin-top: 1px;
-                height: 32px;
-                vertical-align: top;
-            }
-
-        .login_box .m {
-            cursor: pointer;
-        }
-
-        .bottom {
-            text-align: center;
-            font-size: 12px;
-        }
-    </style>
-    <script type="text/javascript">
-        var COOKIE_NAME = 'sys__username';
-        $(function () {
-            choose_bg();
-            //changeCode();
-            if ($.cookie(COOKIE_NAME)) {
-                $("#j_username").val($.cookie(COOKIE_NAME));
-                $("#j_password").focus();
-                $("#j_remember").attr('checked', true);
-            } else {
-                $("#j_username").focus();
-            }
-            /*$("#captcha_img").click(function(){
-                changeCode();
-            });*/
-            $("#login_form").submit(function () {
-                var issubmit = true;
-                var i_index = 0;
-                $(this).find('.in').each(function (i) {  //检测为空
-                    if ($.trim($(this).val()).length == 0) {
-                        $(this).css('border', '1px #ff0000 solid');
-                        issubmit = false;
-                        if (i_index == 0)
-                            i_index = i;
-                    }
-                });
-                if (!issubmit) {
-                    $(this).find('.in').eq(i_index).focus();
-                    return false;
-                }
-                var $remember = $("#j_remember");
-                if ($remember.attr('checked')) {
-                    $.cookie(COOKIE_NAME, $("#j_username").val(), { path: '/', expires: 15 });
-                } else {
-                    $.cookie(COOKIE_NAME, null, { path: '/' });  //删除cookie
-                }
-                $("#login_ok").attr("disabled", true).val('登陆中..');
-                //     window.location.href = '/Home/Index'; /*注意：生产环境时请删除此行*/
-                return true;
-            });
-        });
-        function genTimestamp() {
-            var time = new Date();
-            return time.getTime();
-        }
-        function changeCode() {
-            //$("#captcha_img").attr("src", "/captcha.jpeg?t="+genTimestamp());
-        }
-        function choose_bg() {
-            var bg = Math.floor(Math.random() * 4 + 1);
-            $('body').css('background-image', 'url(<%=path%>/static/BJUI/images/loginbg_0' + bg + '.jpg)');
-        }
-    </script>
-</head>
-<body>
-    <!--[if lte IE 7]>
-    <style type="text/css">
-    #errorie {position: fixed; top: 0; z-index: 100000; height: 30px; background: #FCF8E3;}
-    #errorie div {width: 900px; margin: 0 auto; line-height: 30px; color: orange; font-size: 14px; text-align: center;}
-    #errorie div a {color: #459f79;font-size: 14px;}
-    #errorie div a:hover {text-decoration: underline;}
-    </style>
-    <div id="errorie"><div>您还在使用老掉牙的IE，请升级您的浏览器到 IE8以上版本 <a target="_blank" href="http://windows.microsoft.com/zh-cn/internet-explorer/ie-8-worldwide-languages">点击升级</a>&nbsp;&nbsp;强烈建议您更改换浏览器：<a href="http://down.tech.sina.com.cn/content/40975.html" target="_blank">谷歌 Chrome</a></div></div>
-    <![endif]-->
-    <div class="main_box">
-        <div class="setting">
-            <a href="javascript:;" onclick=" choose_bg(); " title="更换背景">
-                <span class="glyphicon glyphicon-th-large"></span>
-            </a>
-        </div>
-        <div class="login_box">
-            <div class="login_logo">
-                <img src="<%=path%>/static/BJUI/images/logo.png">
-            </div>
-
-		<c:choose>
-		   <c:when test="${response!=null && response.statusCode== '300'}">  
-		       <div class="login_msg">
-                   <font color="red">${response.message}</font>
-                </div>      
-		   </c:when>
-		</c:choose>
-
-            <div class="login_form">
-                <input type="hidden" value="${randomKey }" id="j_randomKey" />
-                <form action="<%=path%>/login/login.do" id="login_form" method="post">
-                    <input type="hidden" name="jfinal_token" value="${jfinal_token }" />
-                    <div class="form-group">
-                        <label for="j_username" class="t">用户名：</label>
-                        <input id="j_username" value="" name="username" type="text" class="form-control x319 in" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="j_password" class="t">密 码：</label>
-                        <input id="j_password" value="" name="password" type="password" class="form-control x319 in">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="t"></label>
-                        <label for="j_remember" class="m"><input id="j_remember" type="checkbox" value="true">&nbsp;记住登陆账号!</label>
-                    </div>
-                    <div class="form-group space">
-                        <label class="t"></label>
-                        <input type="submit" id="login_ok" value="&nbsp;登&nbsp;录&nbsp;" class="btn btn-primary btn-lg">&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="reset" value="&nbsp;重&nbsp;置&nbsp;" class="btn btn-default btn-lg">
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="bottom">Copyright &copy; 2015 <a href="login/loginByDev.do">权限管理系统 - 点击以开发者账号登录</a></div>
+#login .logo {
+	width: 500px;
+	height: 51px;
+	left:100px;
+}
+.button_bottom{
+	width:360px;
+}
+.button_bottom li a{
+	padding: 10px 64px;
+    border-radius: 6px;
+    color: #fff;
+    background: #1f92ff;
+    outline: none;
+}
+</style>
+ </head>
+ <body>
+  <div id="alertMessage"></div>
+  <div id="successLogin"></div>
+  <div class="text_success">
+   <img src="<%=basePath%>/static/plug-in/login/images/loader_green.gif" alt="Please wait" />
+   <span>登陆成功!请稍后....</span>
+  </div>
+  <div id="login">
+   <div class="ribbon" style="background:url(static/plug-in/login/images/type_login.png) no-repeat 0 2px;"></div>
+   <div class="inner">
+    <div class="logo">
+     <img src="<%=basePath%>/static/plug-in/login/images/top_title.png"/>
     </div>
-</body>
+    <div class="formLogin">
+     <form name="formLogin" id="formLogin" action="" check="/sysUser/login.do" method="post">
+      <div class="tip">
+       <input class="userName" name="email" type="text" id="email"  value='' title="用户名" iscookie="true"  nullmsg="请输入用户名!"/>
+      </div>
+      <div class="tip">
+       <input class="password" name="pwd" type="password"  value='' id="pwd" title="密码" nullmsg="请输入密码!"/>
+      </div>
+      <div class="loginButton">
+       <div style="padding: 10px 0; margin-right: -12px;">
+        <div>
+         <ul class="uibutton-group button_bottom">
+          <li>
+           <a class=" normal" href="#" id="but_login">登 录</a>
+          </li>
+          <li style="float: right;">
+           <a class=" normal" href="#" id="forgetpass">重 置</a>
+          </li>
+         </ul>
+        </div>
+       </div>
+       <div class="clear"></div>
+      </div>
+     </form>
+    </div>
+   </div>
+   <div class="shadow"></div>
+  </div>
+  <!--Login div-->
+  <div class="clear"></div>
+  <div id="versionBar">
+   <div class="copyright">
+    &copy; 版权所有
+    <span class="tip"> (推荐使用IE8+,谷歌浏览器可以获得更快,更安全的页面响应速度) </span>
+   </div>
+  </div>
+  <!-- Link JScript-->
+  <script type="text/javascript" src="<%=basePath%>/static/B-JUI/js/jquery-1.11.3.min.js"></script>
+  <script type="text/javascript" src="<%=basePath%>/static/B-JUI/js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="<%=basePath%>/static/plug-in/login/js/jquery-jrumble.js"></script>
+  <script type="text/javascript" src="<%=basePath%>/static/plug-in/login/js/jquery.tipsy.js"></script>
+  <script type="text/javascript" src="<%=basePath%>/static/plug-in/login/js/iphone.check.js"></script>
+  <script type="text/javascript" src="<%=basePath%>/static/plug-in/login/js/login.js"></script>
+  
+  <script type="text/javascript" src="<%=basePath%>/static/commons/Barrett.js"></script>
+  <script type="text/javascript" src="<%=basePath%>/static/commons/BigInt.js"></script>
+  <script type="text/javascript" src="<%=basePath%>/static/commons/RSA.js"></script>
+  <Script type="text/javascript" >
+  
+//重置
+  $('#forgetpass').click(function(e) {
+  	$(":input").each(function() {
+  	$('#'+this.name).val("");
+  	});
+  });
+  // 点击登录
+  $('#but_login').click(function(e) {
+  	submit();
+  });
+  //回车登录
+  $(document).keydown(function(e){
+  	if(e.keyCode == 13) {
+  		submit();
+  	}
+  });
+  //表单提交
+  function submit()
+  {
+  	var submit = true;
+  	$("input[nullmsg]").each(function() {
+  		if ($("#" + this.name).val() == "") {
+  			showError($("#" + this.name).attr("nullmsg"), 500);
+  			jrumble();
+  			setTimeout('hideTop()', 3000);
+  			submit = false;
+  			return false;
+  		}
+  	});
+  	if (submit) {
+  		hideTop();
+  		loading('核实中..', 1);
+  		setTimeout("unloading()", 2000);
+  		setTimeout("Login()", 2500);
+  	}
+
+  }
+  //登录处理函数
+  function Login() {
+  	setCookie();
+  	var actionurl=$('form').attr('action');//提交路径
+  	var checkurl=$('form').attr('check');//验证路径
+  	 var formData = new Object();
+  	var data=$(":input").each(function() {
+  		 formData[this.name] =$("#"+this.name ).val();
+  	});
+  	
+  	setMaxDigits(130);//1024位就是130，2048位就是260
+  	var tkey = new RSAKeyPair("<%=request.getAttribute("e")%>","","<%=request.getAttribute("n")%>");	//从服务端获取到的n和e可以得出公钥
+	var encode_content = encodeURIComponent(formData['pwd']);
+	console.log("encodeURIComponent后的值");
+	console.log(encode_content);
+	var encryptData = encryptedString(tkey,encode_content);
+	console.log("客户端公钥加密后的值");
+	console.log(encryptData);
+	formData['pwd']=encryptData;
+	
+  	$.ajax({
+  		async : false,
+  		cache : false,
+  		type : 'POST',
+  		url : checkurl,// 请求的action路径
+  		data : formData,
+  		error : function() {// 请求失败处理函数
+  		  alert('错误');
+  		},
+  		success : function(data) {
+  			if (data.success) {
+  				loginsuccess();
+  				setTimeout("window.location.href='index.shtml'", 100);
+  			} else {
+  				showError(data.msg);
+  			}
+  		}
+  	});
+  }
+  //设置cookie
+  function setCookie()
+  {
+  	if ($('#on_off').val() == '1') {
+  		$("input[iscookie='true']").each(function() {
+  			$.cookie(this.name, $("#"+this.name).val(), "/",24);
+  			$.cookie("COOKIE_NAME","true", "/",24);
+  		});
+  	} else {
+  		$("input[iscookie='true']").each(function() {
+  			$.cookie(this.name,null);
+  			$.cookie("COOKIE_NAME",null);
+  		});
+  	}
+  }
+  
+//验证通过加载动画
+  function loginsuccess()
+  {
+  	$("#login").animate({
+  		opacity : 1,
+  		top : '49%'
+  	}, 200, function() {
+  		$('.userbox').show().animate({
+  			opacity : 1
+  		}, 500);
+  		$("#login").animate({
+  			opacity : 0,
+  			top : '60%'
+  		}, 500, function() {
+  			$(this).fadeOut(200, function() {
+  				$(".text_success").slideDown();
+  				$("#successLogin").animate({
+  					opacity : 1,
+  					height : "200px"
+  				}, 1000);
+  			});
+  		});
+  	});
+  }
+  </Script>
+
+ </body>
 </html>
