@@ -264,8 +264,8 @@
 		<module>zizihua-decode</module>
 		<module>zizihua-stock</module>
 		<module>zizihua-webapp</module>
-    <module>zizihua-permission</module>
-    <module>zizihua-auth</module>
+	    <module>zizihua-permission</module>
+	    <module>zizihua-auth</module>
   </modules>
 
 </project>

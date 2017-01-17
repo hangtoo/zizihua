@@ -19,8 +19,8 @@
 	<mvc:interceptors>
 		<!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de -->
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-		<bean class="com.hangtoo.base.interceptor.AuthInterceptor" />
 		<bean class="com.hangtoo.base.interceptor.ExceptionInterceptor" />
+		<bean class="com.hangtoo.auth.interceptor.AuthInterceptor" />
 	</mvc:interceptors>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->

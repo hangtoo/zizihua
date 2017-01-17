@@ -36,5 +36,6 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/zizihua-decode"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/zizihua-stock"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/zizihua-auth"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
