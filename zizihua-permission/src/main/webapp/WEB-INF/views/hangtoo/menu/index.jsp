@@ -132,7 +132,7 @@ function bjui_index_exchange() {
 
 					<c:forEach var="node" items="${menuList}" varStatus="status">
 					<li <c:if test="${status.index==0}">class="active"</c:if>>
-						<a href="getChildMenus.do?parentId=${node.id}" data-toggle="sidenav" data-id-key="targetid">${node.name}</a>
+						<a href="/sysMenu/getChildMenus.do?id=${node.id}" data-toggle="sidenav" data-id-key="targetid">${node.name}</a>
 					</li>
 					</c:forEach>
                     

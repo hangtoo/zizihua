@@ -21,6 +21,7 @@ import com.hangtoo.base.web.BaseAction;
 import hangtoo.entity.menu.SysMenu;
 import hangtoo.entity.user.SysUser;
 import hangtoo.page.menu.SysMenuPage;
+import hangtoo.page.user.SysUserPage;
 import hangtoo.service.menu.SysMenuService;
  
 /**
@@ -112,6 +113,33 @@ public class SysMenuController extends BaseAction{
 		sendSuccessMessage(response, "删除成功");
 	}
 	
+	///////////手动添加//////////
+	
+	
+	/**
+	 * getChildMenus
+	 * @param url
+	 * @param classifyId
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("/getChildMenus") 
+	public void  getChildMenus(SysMenuPage page,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		Object obj=SessionUtils.getUser(request);
+		
 
-
+		//设置页面数据
+		Map<String,Object> jsonMap = new HashMap<String,Object>();
+		
+		SysMenu rootMenus=sysMenuService.queryById(page.getId());
+		if(obj!=null&&obj instanceof SysUser){
+			SysUser user=(SysUser)obj;
+			List<SysMenu> childMenus = sysMenuService.queryMenuByUserIdAndParentId(user.getId(),page.getId());
+			jsonMap.put("name", rootMenus.getName());
+			jsonMap.put("children", childMenus);
+		}
+		
+		HtmlUtil.writerJson(response, jsonMap);
+	}
+	
 }
