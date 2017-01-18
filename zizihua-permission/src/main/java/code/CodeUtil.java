@@ -8,7 +8,7 @@ public class CodeUtil {
 	public static void main(String[] args) {
 		/** 此处修改成你的 表名 和 中文注释 ***/
 		
-		//createDemo();
+		createDemo();
 	}
 
 	private static void createDemo(){

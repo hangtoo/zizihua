@@ -129,6 +129,19 @@ public class BaseAction<T>{
 	 * @param message
 	 *
 	 */
+	public void sendFailureStatus(HttpServletResponse response,String message) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("statusCode", -1);
+		result.put(MSG, message);
+		HtmlUtil.writerJson(response, result);
+	}
+	/**
+	 *
+	 * 提示失败信息
+	 *
+	 * @param message
+	 *
+	 */
 	public void sendFailureMessage(HttpServletResponse response,String message) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put(SUCCESS, false);

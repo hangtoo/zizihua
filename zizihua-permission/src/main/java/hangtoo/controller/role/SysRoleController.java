@@ -1,4 +1,4 @@
-package ${bussPackage}.controller.${entityPackage};
+package hangtoo.controller.role;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,26 +18,26 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hangtoo.base.util.HtmlUtil;
 import com.hangtoo.base.web.BaseAction;
 
-import ${bussPackage}.entity.${entityPackage}.${className};
-import ${bussPackage}.page.${entityPackage}.${className}Page;
-import ${bussPackage}.service.${entityPackage}.${className}Service;
+import hangtoo.entity.role.SysRole;
+import hangtoo.page.role.SysRolePage;
+import hangtoo.service.role.SysRoleService;
 
 /**
  *
  * <br>
- * <b>功能：</b>${className}Controller<br>
- * <b>作者：</b>${user}<br>
- * <b>日期：</b> ${time} <br>
- * <b>版权所有： 2014，${organization}<br>
+ * <b>功能：</b>SysRoleController<br>
+ * <b>作者：</b>hlf<br>
+ * <b>日期：</b> Wed Jan 18 16:54:57 CST 2017 <br>
+ * <b>版权所有： 2014，hangtoo.com<br>
  */
 @Controller
-@RequestMapping("/${lowerName}")
-public class ${className}Controller extends BaseAction{
+@RequestMapping("/sysRole")
+public class SysRoleController extends BaseAction{
 
-	private final static Logger log= Logger.getLogger(${className}Controller.class);
+	private final static Logger log= Logger.getLogger(SysRoleController.class);
 
 	@Autowired
-	private ${className}Service ${lowerName}Service;
+	private SysRoleService sysRoleService;
 
 
 	/**
@@ -48,9 +48,9 @@ public class ${className}Controller extends BaseAction{
 	 * @throws Exception
 	 */
 	@RequestMapping("/list")
-	public ModelAndView  list(${className}Page page,HttpServletRequest request) throws Exception{
+	public ModelAndView  list(SysRolePage page,HttpServletRequest request) throws Exception{
 		Map<String,Object>  context = getRootMap();
-		return forword("${bussPackage}/${entityPackage}/list",context);
+		return forword("hangtoo/role/list",context);
 	}
 
 
@@ -62,8 +62,8 @@ public class ${className}Controller extends BaseAction{
 	 * @throws Exception
 	 */
 	@RequestMapping("/dataList")
-	public void  datalist(${className}Page page,HttpServletResponse response) throws Exception{
-		List<${className}> dataList = ${lowerName}Service.queryByList(page);
+	public void  datalist(SysRolePage page,HttpServletResponse response) throws Exception{
+		List<SysRole> dataList = sysRoleService.queryByList(page);
 		HtmlUtil.writerJson(response, dataList);
 	}
 
@@ -77,11 +77,11 @@ public class ${className}Controller extends BaseAction{
 	@RequestMapping("/save")
 	public void save(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		Map<String,Object>  context = new HashMap<String,Object>();
-		${className} entity=(${className}) super.json2Obj(request,${className}.class);
+		SysRole entity=(SysRole) super.json2Obj(request,SysRole.class);
 		if(entity.getId()==null||StringUtils.isBlank(entity.getId().toString())){
-			${lowerName}Service.add(entity);
+			sysRoleService.add(entity);
 		}else{
-			${lowerName}Service.update(entity);
+			sysRoleService.update(entity);
 		}
 		sendSuccessStatus(response, "保存成功~");
 	}
@@ -90,7 +90,7 @@ public class ${className}Controller extends BaseAction{
 	@RequestMapping("/getId")
 	public void getId(String id,HttpServletResponse response) throws Exception{
 		Map<String,Object>  context = new HashMap();
-		${className} entity  = ${lowerName}Service.queryById(id);
+		SysRole entity  = sysRoleService.queryById(id);
 		if(entity  == null){
 			sendFailureStatus(response, "没有找到对应的记录!");
 			return;
@@ -104,8 +104,8 @@ public class ${className}Controller extends BaseAction{
 
 	@RequestMapping("/delete")
 	public void delete(HttpServletRequest request,HttpServletResponse response) throws Exception{
-    ${className} entity=(${className}) super.json2Obj(request,${className}.class);
-		${lowerName}Service.delete(entity.getId());
+    SysRole entity=(SysRole) super.json2Obj(request,SysRole.class);
+		sysRoleService.delete(entity.getId());
 		sendSuccessStatus(response, "删除成功");
 	}
 
