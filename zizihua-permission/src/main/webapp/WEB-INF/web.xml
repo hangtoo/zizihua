@@ -97,7 +97,7 @@
 	</filter-mapping>
 	
 	<welcome-file-list>
-		<welcome-file>sysUser/login.shtml</welcome-file>
+		<welcome-file>login.shtml</welcome-file>
 	</welcome-file-list>
 	
 	<!-- 配置SESSION超时，单位是分钟 -->

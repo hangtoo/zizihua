@@ -84,7 +84,7 @@ label.iPhoneCheckLabelOn span {
      <img src="<%=basePath%>/static/plug-in/login/images/top_title.png"/>
     </div>
     <div class="formLogin">
-     <form name="formLogin" id="formLogin" action="" check="/sysUser/login.do" method="post">
+     <form name="formLogin" id="formLogin" action="" check="/login.do" method="post">
       <div class="tip">
        <input class="userName" name="email" type="text" id="email"  value='admin' title="用户名" iscookie="true"  nullmsg="请输入用户名!"/>
       </div>
@@ -201,7 +201,7 @@ label.iPhoneCheckLabelOn span {
   		success : function(data) {
   			if (data.success) {
   				loginsuccess();
-  				setTimeout("window.location.href='/sysUser/index.shtml'", 100);
+  				setTimeout("window.location.href='/index.shtml'", 100);
   			} else {
   				showError(data.msg);
   			}

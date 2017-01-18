@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hangtoo.base.util.Constant.SuperAdmin;
 import com.hangtoo.base.util.HtmlUtil;
 import com.hangtoo.base.util.SessionUtils;
+import com.hangtoo.base.util.Constant.SuperAdmin;
 import com.hangtoo.base.web.BaseAction;
 
 import hangtoo.entity.menu.SysMenu;
@@ -102,7 +100,7 @@ public class SysMenuController extends BaseAction{
 	
 	@RequestMapping("/getId")
 	public void getId(String id,HttpServletResponse response) throws Exception{
-		Map<String,Object>  context = new HashMap();
+		Map<String,Object>  context = new HashMap<>();
 		SysMenu entity  = sysMenuService.queryById(id);
 		if(entity  == null){
 			sendFailureMessage(response, "没有找到对应的记录!");
@@ -121,9 +119,7 @@ public class SysMenuController extends BaseAction{
 		sysMenuService.delete(sysmenu.getId());
 		sendSuccessStatus(response, "删除成功");
 	}
-	
-	///////////TODO手动添加//////////
-	
+
 	
 	/**
 	 * 获取主页左边的二级树菜单的
