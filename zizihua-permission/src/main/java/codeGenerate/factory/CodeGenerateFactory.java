@@ -49,8 +49,7 @@ public class CodeGenerateFactory
     String sqlMapperPath = "mapper\\" + entityPackage + "\\" + className + "Mapper.xml";
     webPath = webPath + entityPackage + "\\";
 
-    String jspPath = lowerName + ".jsp";
-    String jsPath = "page-" + lowerName + ".js";
+    String jspPath = "list.jsp";
 
     VelocityContext context = new VelocityContext();
     context.put("className", className);
@@ -89,7 +88,6 @@ public class CodeGenerateFactory
     CommonPageParser.WriterPage(context, "ControllerTemplate.ftl", pckPath, controllerPath);
     if(isGenerateJsp){
 	    CommonPageParser.WriterPage(context, "jspTemplate.ftl", webPath, jspPath);
-	    CommonPageParser.WriterPage(context, "jsTemplate.ftl", webPath, jsPath);
     }
 
     log.info("----------------------------代码生成完毕---------------------------");
