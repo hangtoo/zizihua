@@ -59,7 +59,7 @@ public class SysUserController extends BaseAction{
 	@RequestMapping("/list") 
 	public ModelAndView  list(SysUserPage page,HttpServletRequest request) throws Exception{
 		Map<String,Object>  context = getRootMap();
-		return forword("hangtoo/user/sysUser",context); 
+		return forword("hangtoo/user/list",context); 
 	}
 	
 	
@@ -74,10 +74,7 @@ public class SysUserController extends BaseAction{
 	public void  datalist(SysUserPage page,HttpServletResponse response) throws Exception{
 		List<SysUser> dataList = sysUserService.queryByList(page);
 		//设置页面数据
-		Map<String,Object> jsonMap = new HashMap<String,Object>();
-		jsonMap.put("total",page.getPager().getRowCount());
-		jsonMap.put("rows", dataList);
-		HtmlUtil.writerJson(response, jsonMap);
+		HtmlUtil.writerJson(response, dataList);
 	}
 	
 	/**
@@ -88,14 +85,16 @@ public class SysUserController extends BaseAction{
 	 * @throws Exception 
 	 */
 	@RequestMapping("/save")
-	public void save(SysUser entity,Integer[] typeIds,HttpServletResponse response) throws Exception{
+	public void save(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		Map<String,Object>  context = new HashMap<String,Object>();
+		SysUser entity=(SysUser) super.json2Obj(request,SysUser.class);
 		if(entity.getId()==null||StringUtils.isBlank(entity.getId().toString())){
+			entity.setDeleted(0);
 			sysUserService.add(entity);
 		}else{
 			sysUserService.update(entity);
 		}
-		sendSuccessMessage(response, "保存成功~");
+		sendSuccessStatus(response, "保存成功~");
 	}
 	
 	
@@ -115,9 +114,10 @@ public class SysUserController extends BaseAction{
 	
 	
 	@RequestMapping("/delete")
-	public void delete(String[] id,HttpServletResponse response) throws Exception{
-		sysUserService.delete(id);
-		sendSuccessMessage(response, "删除成功");
+	public void delete(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		SysUser entity=(SysUser) super.json2Obj(request,SysUser.class);
+		sysUserService.delete(entity.getId());
+		sendSuccessStatus(response, "删除成功");
 	}
 
 	
