@@ -73,7 +73,7 @@ public class BaseAction<T>{
 		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 		return objectMapper.readValue(json, clazz);
-	}	 
+	}
 	 
 	 /**
 	  * 所有ActionMap 统一从这里获取
