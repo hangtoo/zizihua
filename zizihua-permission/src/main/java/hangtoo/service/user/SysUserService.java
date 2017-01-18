@@ -29,7 +29,7 @@ public class SysUserService extends BaseService<SysUser> {
 		return dao;
 	}
 
-
+	///////////手动添加//////////
 	public SysUser queryByEmail(String email) {
 		return getDao().queryByEmail(email);
 	}

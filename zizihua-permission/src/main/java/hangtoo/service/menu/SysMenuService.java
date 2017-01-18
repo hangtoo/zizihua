@@ -33,6 +33,7 @@ public class SysMenuService extends BaseService<SysMenu> {
 		return dao;
 	}
 	
+	///////////手动添加//////////
 	public List<SysMenu> queryMenuByUserIdAndParentId(Integer userId,Integer parentId){
 		return getDao().queryMenuByUserIdAndParentId(userId,parentId);
 	}

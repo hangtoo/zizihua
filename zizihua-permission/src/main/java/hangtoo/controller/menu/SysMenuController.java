@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hangtoo.base.util.Constant.SuperAdmin;
 import com.hangtoo.base.util.HtmlUtil;
 import com.hangtoo.base.util.SessionUtils;
@@ -54,7 +56,7 @@ public class SysMenuController extends BaseAction{
 	@RequestMapping("/list") 
 	public ModelAndView  list(SysMenuPage page,HttpServletRequest request) throws Exception{
 		Map<String,Object>  context = getRootMap();
-		return forword("hangtoo/menu/sysMenu",context); 
+		return forword("hangtoo/menu/list",context); 
 	}
 	
 	
@@ -75,6 +77,7 @@ public class SysMenuController extends BaseAction{
 		HtmlUtil.writerJson(response, jsonMap);
 	}
 	
+	///TODO被修改过/////
 	/**
 	 * 添加或修改数据
 	 * @param url
@@ -83,14 +86,17 @@ public class SysMenuController extends BaseAction{
 	 * @throws Exception 
 	 */
 	@RequestMapping("/save")
-	public void save(SysMenu entity,Integer[] typeIds,HttpServletResponse response) throws Exception{
+	public void save(HttpServletRequest request,HttpServletResponse response) throws Exception{
 		Map<String,Object>  context = new HashMap<String,Object>();
-		if(entity.getId()==null||StringUtils.isBlank(entity.getId().toString())){
-			sysMenuService.add(entity);
+		SysMenu sysmenu=(SysMenu) super.json2Obj(request,SysMenu.class);
+		
+		if(sysmenu.getId()==null||StringUtils.isBlank(sysmenu.getId().toString())){
+			sysmenu.setDeleted(0);
+			sysMenuService.add(sysmenu);
 		}else{
-			sysMenuService.update(entity);
+			sysMenuService.update(sysmenu);
 		}
-		sendSuccessMessage(response, "保存成功~");
+		sendSuccessStatus(response, "保存成功~");
 	}
 	
 	
@@ -107,21 +113,21 @@ public class SysMenuController extends BaseAction{
 		HtmlUtil.writerJson(response, context);
 	}
 	
-	
+	///TODO被修改过/////
 	
 	@RequestMapping("/delete")
-	public void delete(String[] id,HttpServletResponse response) throws Exception{
-		sysMenuService.delete(id);
-		sendSuccessMessage(response, "删除成功");
+	public void delete(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		SysMenu sysmenu=(SysMenu) super.json2Obj(request,SysMenu.class);
+		sysMenuService.delete(sysmenu.getId());
+		sendSuccessStatus(response, "删除成功");
 	}
 	
-	///////////手动添加//////////
+	///////////TODO手动添加//////////
 	
 	
 	/**
+	 * 获取主页左边的二级树菜单的
 	 * getChildMenus
-	 * @param url
-	 * @param classifyId
 	 * @return
 	 * @throws Exception 
 	 */
@@ -151,6 +157,8 @@ public class SysMenuController extends BaseAction{
 					f.setAccessible(true);
 					json.put(f.getName(), String.valueOf(f.get(sysMenu)));
 				}
+				
+				//根据菜单要求进行属性变更
 				json.put("id","menu_"+sysMenu.getId());
 				json.put("target","navtab");
 
@@ -162,6 +170,18 @@ public class SysMenuController extends BaseAction{
 		}
 		
 		HtmlUtil.writerJson(response, jsonMap);
+	}
+	
+	/**
+	 * 所有需要编辑的树菜单列表
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping("/dataTree") 
+	public void  dataTree(SysMenuPage page,HttpServletResponse response) throws Exception{
+		List<SysMenu> dataList = sysMenuService.queryByList(page);
+		//设置页面数据
+		HtmlUtil.writerJson(response, dataList);
 	}
 	
 }

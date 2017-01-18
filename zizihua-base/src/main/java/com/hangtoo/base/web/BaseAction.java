@@ -13,10 +13,13 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hangtoo.base.util.HtmlUtil;
 import com.hangtoo.base.util.edit.MyEditor;
 
-public class BaseAction{
+public class BaseAction<T>{
 	
 	public final static String SUCCESS ="success";  
 	
@@ -55,6 +58,23 @@ public class BaseAction{
 	}
 
 	 
+	public <T> T json2Obj(HttpServletRequest request,Class<T> clazz) throws Exception {
+
+		String json = request.getParameter("json");
+		
+		if(json.startsWith("[")){
+			json = json.substring(1, json.length()-1);
+		}
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+		return objectMapper.readValue(json, clazz);
+	}	 
+	 
 	 /**
 	  * 所有ActionMap 统一从这里获取
 	  * @return
@@ -85,6 +105,19 @@ public class BaseAction{
 	public void sendSuccessMessage(HttpServletResponse response,  String message) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put(SUCCESS, true);
+		result.put(MSG, message);
+		HtmlUtil.writerJson(response, result);
+	}
+	/**
+	 *
+	 * 提示成功信息
+	 *
+	 * @param message
+	 *
+	 */
+	public void sendSuccessStatus(HttpServletResponse response,  String message) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("statusCode", 200);
 		result.put(MSG, message);
 		HtmlUtil.writerJson(response, result);
 	}
