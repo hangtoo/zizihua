@@ -1,5 +1,7 @@
 package hangtoo.controller.menu;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hangtoo.base.util.Constant.SuperAdmin;
 import com.hangtoo.base.util.HtmlUtil;
 import com.hangtoo.base.util.SessionUtils;
 import com.hangtoo.base.web.BaseAction;
@@ -21,7 +24,6 @@ import com.hangtoo.base.web.BaseAction;
 import hangtoo.entity.menu.SysMenu;
 import hangtoo.entity.user.SysUser;
 import hangtoo.page.menu.SysMenuPage;
-import hangtoo.page.user.SysUserPage;
 import hangtoo.service.menu.SysMenuService;
  
 /**
@@ -134,9 +136,29 @@ public class SysMenuController extends BaseAction{
 		SysMenu rootMenus=sysMenuService.queryById(page.getId());
 		if(obj!=null&&obj instanceof SysUser){
 			SysUser user=(SysUser)obj;
-			List<SysMenu> childMenus = sysMenuService.queryMenuByUserIdAndParentId(user.getId(),page.getId());
-			jsonMap.put("name", rootMenus.getName());
-			jsonMap.put("children", childMenus);
+			List<SysMenu> childMenus =null;
+			if(user.getSuperadmin() != SuperAdmin.YES.key){
+				childMenus = sysMenuService.queryMenuByUserIdAndParentId(user.getId(),page.getId());
+			}else{
+				childMenus = sysMenuService.queryMenuByUserIdAndParentId(null,page.getId());
+			}
+			
+			List<Map<String,String>> ret=new ArrayList();
+			Field[] fields = SysMenu.class.getDeclaredFields();
+			for(SysMenu sysMenu:childMenus){
+				Map<String,String> json=new HashMap<>();
+				for (Field f : fields) {
+					f.setAccessible(true);
+					json.put(f.getName(), String.valueOf(f.get(sysMenu)));
+				}
+				json.put("id","menu_"+sysMenu.getId());
+				json.put("target","navtab");
+
+				ret.add(json);
+			}
+			jsonMap.put("name",rootMenus.getName());
+			jsonMap.put("children", ret);
+		
 		}
 		
 		HtmlUtil.writerJson(response, jsonMap);

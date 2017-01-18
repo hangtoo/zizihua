@@ -27,6 +27,25 @@
 		<async-supported>true</async-supported>
 	</servlet>
 
+	<servlet>
+		<servlet-name>druidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+		<init-param>
+			<param-name>loginUsername</param-name>
+			<param-value>admin</param-value>
+		</init-param>
+		<init-param>
+			<param-name>loginPassword</param-name>
+			<param-value>admin</param-value>
+		</init-param>
+
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>druidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>Spring-Servlet</servlet-name>
 		<url-pattern>*.do</url-pattern>
