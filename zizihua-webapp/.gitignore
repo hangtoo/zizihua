@@ -1,1 +1,8 @@
 /target/
+.tern-project
+.classpath
+.project
+/.idea/
+/.settings/
+/.iml
+.bak

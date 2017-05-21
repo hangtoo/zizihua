@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.lang.*"%>
-<%@ page import="com.hangtoo.auth.util.SessionUtils"%>
+<%@ page import="com.hangtoo.auth.util.AuthUtils"%>
 <%
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-	boolean isadmin=SessionUtils.isAdmin(request);
-	Integer userId=SessionUtils.getUserId(request);
+	boolean isadmin=AuthUtils.isAdmin(request);
+	Integer userId=AuthUtils.getUserId(request);
 	String Jsonapitype="[{'id':'0','text':'api'},{'id':'1','text':'pos'},{'id':'2','text':'cfn'},{'id':'3','text':'status'}]";
 	String Jsonapitypeall="[{'id':'','text':'全部'},{'id':'0','text':'api'},{'id':'1','text':'pos'},{'id':'2','text':'cfn'},{'id':'3','text':'status'}]";
 %>
